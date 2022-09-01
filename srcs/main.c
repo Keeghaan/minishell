@@ -52,6 +52,8 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		signalisation();
 		if (*env)
 			shell->envp = *env;
+		getcwd(shell->cwd, sizeof(shell->cwd));
+		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
