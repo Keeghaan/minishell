@@ -74,7 +74,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			return ;
 		if (shell->pid[0] == 0)
 		{
-			if (shell->cmds->infile > 0)
+			if (shell->infile > 0)
 			{
 				dup2(shell->infile, 0);
 				close(shell->infile);
