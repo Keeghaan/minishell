@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/01 12:50:35 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/01 13:40:07 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,19 @@ int	get_files(t_shell *cmd, t_token **token) //cmd par shell
 
 void	exec_cmd(t_shell *shell, char *path, char **envp)
 {
-//	(void)path;
-	if (shell->pipe)
-	{
+	(void)envp;
+	(void)path;
+//	if (shell->pipe)
+//	{
 		shell->pid = malloc(sizeof(pid_t) * shell->n_cmds);
 		if (!shell->pid)
 			return ;
 		shell->pipe = 1;
 		rewind_cmd(&shell->cmds, 1);
 		pipex(shell);
-	}
-	else if (!shell->pipe && shell->n_cmds)
-	{
+//	}
+/*	else if (!shell->pipe && shell->n_cmds)
+		{
 		get_files(shell, &shell->token);
 		shell->pid = malloc(sizeof(pid_t));
 		if (!shell->pid)
@@ -90,5 +91,5 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 		}
 		wait(NULL);
 		//waitpid(shell->pid[0], NULL, 0);
-	}
+	}*/
 }
