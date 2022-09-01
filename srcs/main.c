@@ -73,6 +73,8 @@ int	main(int argc, char **argv, char **envp)
 
 	check_argv(argc, argv, envp);
 	envp_to_lst(&env, envp);
+	shell.std_in = dup(0);
+	shell.std_out = dup(1);
 	shell.env = envp;
 	run_shell(&env, &shell, envp);
 	if (env)

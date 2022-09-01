@@ -68,6 +68,8 @@ typedef struct	s_shell
 {
 	int	infile;
 	int	outfile;
+	int	std_in;
+	int	std_out;
 	int	n_cmds;
 	int	pipefd[2];
 	int	pipe;

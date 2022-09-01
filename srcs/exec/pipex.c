@@ -110,6 +110,8 @@ void	pipex(t_shell *child)
 		close(child->pipefd[0]);
 	if (child->infile != -1)
 		close(child->infile);
-	signalisation();
+	dup2(child->std_in, 0);
+	dup2(child->std_out, 1);
+//	signalisation();
 }
 
