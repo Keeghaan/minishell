@@ -25,6 +25,10 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 			add_history(buf);
 		if (*buf != '\0' && *buf != '\n')
 		{
+			if (ft_strchr(buf, '|'))
+				shell->pipe = 1;
+			else
+				shell->pipe = 0;
 			if (tokenizer(buf, token, env))
 				ft_putendl_fd("minishell: syntax error", 2);
 			shell->token = *token;

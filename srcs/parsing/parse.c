@@ -37,7 +37,6 @@ void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 
 	i = 0;
 	tmp = *t;
-	shell->pipe = 0;
 	while (tmp)
 	{
 		if (tmp->type == WORD) // && tmp->prev->type != REDIR_IN) //&& ((tmp->prev != NULL && tmp->prev->type != DREDIR_IN) || tmp->prev == NULL))
