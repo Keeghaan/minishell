@@ -64,8 +64,8 @@ void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 			else if (tmp->next == NULL && tmp->prev->type == REDIR_OUT) // il s'agit de outfile, c'est pas une commande
 				break ;
 		}
-		if (tmp->type == PIPE)
-			shell->pipe = 1;
+	//	if (tmp->type == PIPE)
+	//		shell->pipe = 1;
 		if (tmp && tmp->next)
 			tmp = tmp->next;
 		else

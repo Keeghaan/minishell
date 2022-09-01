@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/08/31 19:41:01 by jcourtoi         ###   ########.fr        #
+#    Updated: 2022/09/01 13:06:29 by jcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS = srcs/main.c srcs/envp_utils.c srcs/mini_utils.c srcs/tokens/tokens.c\
 	srcs/parsing/parse.c srcs/parsing/cmds.c srcs/parsing/path_utils.c\
 	srcs/exec/pipex.c srcs/exec/pipex_utils.c srcs/check_args.c \
 	srcs/exec/execve.c srcs/exec/run_cmd.c \
-	builtins/export.c builtins/cd.c builtins/get_cwd.c
+	builtins/exit.c builtins/export.c builtins/cd.c builtins/get_cwd.c \
 
 _RED=	$'\033[1;31m
 _GREEN=	$'\033[1;32m

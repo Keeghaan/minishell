@@ -82,10 +82,10 @@ void	check_export(char *opt_var, t_shell *shell) //var ou autre ?
 void	export_var(t_shell *shell, t_envp *envp)
 {
 (void)envp; //on en aura besoin en cas d'option (export PATH, ou autre)
-	if (shell->cmds->full_cmd[1])
-		check_export(shell->cmds->full_cmd[1], shell);
-	else
-	{
+//	if (shell->cmds->full_cmd[1])
+//		check_export(shell->cmds->full_cmd[1], shell);
+//	else
+//	{
 		while (shell->envp)
 		{
 			printf("export %s=\"%s\"\n", shell->envp->var, shell->envp->values); //declare -x ou export ?
@@ -95,5 +95,5 @@ void	export_var(t_shell *shell, t_envp *envp)
 			else
 				break ;
 		}
-	}
+//	}
 }

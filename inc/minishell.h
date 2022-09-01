@@ -71,6 +71,9 @@ typedef struct	s_shell
 	int	n_cmds;
 	int	pipefd[2];
 	int	pipe;
+	char	*prev_dir;
+	char	*next_dir;
+	char	cwd[250];
 	char	**env;
 	t_cmd	*cmds;
 	t_envp	*envp;
@@ -115,6 +118,8 @@ void	remove_env(t_envp **envp, char *var);
 void	free_split(char **s);
 void	init_shell_struct(t_shell *shell);
 void	free_cmds(t_cmd **cmd);
+void	rewind_token(t_token **token, int back);
+void	rewind_cmd(t_cmd **cmd, int back);
 
 //SIGNALS
 void	signalisation(void);
@@ -148,6 +153,8 @@ char	**get_env(char **envp);
 int	cd_cmd(t_shell *shell, char *action);
 void	export_var(t_shell *shell, t_envp *envp);
 int	get_cwd(t_shell *shell);
+int	get_prev_dir(t_shell *shell, int back);
+int	get_next_dir(t_shell *shell, char *dir);
 //EXEC
 void	run_cmd(t_shell *shell, char **envp);
 void	exec_cmd(t_shell *shell, char *path, char **envp);
@@ -158,5 +165,8 @@ void	get_nbr_cmds(t_shell *shell);
 void	path_and_cmd(t_shell *child, int index);
 void	cmd_not_found(char **cmd, char *path, t_shell *child);
 void	execute(char **cmd, char *path, t_shell *child);
+
+//EXIT
+void	handle_exit(t_shell *shell, char *buf);
 
 #endif

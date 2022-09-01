@@ -13,14 +13,25 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 	}
 	else
 	{
+		if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5) //a optimiser
+			handle_exit(shell, buf);
+		if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
+		{
+			shell->is_running = 0;
+			ft_putendl_fd("exit", 1);
+			return (free(buf));
+		}
 		if (ft_strlen(buf) > 0)
 			add_history(buf);
-		if (tokenizer(buf, token, env))
-			ft_putendl_fd("minishell: syntax error", 2);
-		shell->token = *token;
-		parse(token, shell);
-		init_shell_struct(shell);
-		run_cmd(shell, envp);
+		if (*buf != '\0' && *buf != '\n')
+		{
+			if (tokenizer(buf, token, env))
+				ft_putendl_fd("minishell: syntax error", 2);
+			shell->token = *token;
+			parse(token, shell);
+			init_shell_struct(shell);
+			run_cmd(shell, envp);
+		}
 	//	pipex(shell);
 		if (buf)
 			free(buf);
@@ -51,11 +62,10 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
 	t_envp	*env;
 	t_shell	shell;
 
+	check_argv(argc, argv, envp);
 	envp_to_lst(&env, envp);
 	shell.env = envp;
 	run_shell(&env, &shell, envp);

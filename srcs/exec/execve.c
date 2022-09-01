@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/08/31 19:27:01 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/01 12:50:35 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 		if (!shell->pid)
 			return ;
 		shell->pipe = 1;
-	//	rewind_cmd(&shell->cmds, 1);
+		rewind_cmd(&shell->cmds, 1);
 		pipex(shell);
 	}
 	else if (!shell->pipe && shell->n_cmds)

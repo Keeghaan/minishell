@@ -36,3 +36,51 @@ void	free_cmds(t_cmd **cmd)
 		free(tmp);
 	}
 }
+
+void	rewind_cmd(t_cmd **cmd, int back)
+{
+	if (back)
+	{
+		while (*cmd)
+		{
+			if ((*cmd)->prev)
+				*cmd = (*cmd)->prev;
+			else
+				break ;
+		}
+	}
+	else
+	{
+		while (*cmd)
+		{
+			if ((*cmd)->next)
+				*cmd = (*cmd)->next;
+			else
+				break ;
+		}
+	}
+}
+
+void	rewind_token(t_token **token, int back)
+{
+	if (back)
+	{
+		while (*token)
+		{
+			if ((*token)->prev)
+				*token = (*token)->prev;
+			else
+				break ;
+		}
+	}
+	else
+	{
+		while (*token)
+		{
+			if ((*token)->next)
+				*token = (*token)->next;
+			else
+				break ;
+		}
+	}
+}
