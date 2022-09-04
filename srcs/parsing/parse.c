@@ -51,6 +51,7 @@ void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 			{
 				if (*cmd)
 				{
+					//printf("LOL\n");
 					add_new_cmd(cmd, &tmp, shell);
 				}
 				else

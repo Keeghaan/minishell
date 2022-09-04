@@ -25,12 +25,20 @@ void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell)
 
 void	get_infile(t_token **tmp, t_cmd **new)
 {
-	if ((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
+	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE) && (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin"; //par defaut
-	else if ((*tmp)->prev->prev->type == REDIR_IN && (*tmp)->prev->prev->prev == NULL)
+	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
+	{
+		//printf("LALA\n");
+		(*new)->infile = "/dev/stdin";
+	}
+	else if ((*tmp)->next && (*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
+	{
+		(*new)->infile = ft_strdup((*tmp)->next->next->value);		
+	}
+	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && (*tmp)->prev->prev->prev == NULL)
 		(*new)->infile = ft_strdup((*tmp)->prev->value);
-	else if ((*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
-		(*new)->infile = ft_strdup((*tmp)->prev->value);
+	//(*new)->infile = ft_strdup((*tmp)->prev->value);
 }
 
 void	get_outfile(t_token **tmp, t_cmd **new)
@@ -58,6 +66,8 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		return (NULL);
 	get_infile(tmp, &new);
 	get_outfile(tmp, &new);
+	//printf("%s\n", new->infile);
+	//printf("%d\n", new->outfile);
 	new->full_cmd = (char **)malloc(sizeof(char *) * 100); // car curieusement i + i au lieu de 100 ne voulait pas 
 	i = 0;
 	while (*tmp && (*tmp)->type == WORD)
@@ -73,6 +83,5 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		new->full_path = NULL; //dans l'executeur, on va faire appel a la fonction correspondante au lieu de execve
 	new->next = NULL;
 	new->prev = NULL;
-	//printf("%s\n", new->full_path);
 	return (new);
 }
