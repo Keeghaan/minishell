@@ -27,11 +27,10 @@ void	get_infile(t_token **tmp, t_cmd **new)
 {
 	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE) && (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin"; //par defaut
-	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
-	{
-		//printf("LALA\n");
+	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
 		(*new)->infile = "/dev/stdin";
-	}
+	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
+		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->next && (*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
 	{
 		(*new)->infile = ft_strdup((*tmp)->next->next->value);		
