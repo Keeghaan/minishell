@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/04 17:21:33 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/05 15:37:28 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	else if (!shell->pipe && shell->n_cmds)
 		{
 		//get_files(shell, &shell->token);
-		shell->infile = 0;
-		shell->outfile = 1;
+		//shell->infile = 0;
+		//shell->outfile = 1;
 		shell->pid = malloc(sizeof(pid_t));
 		if (!shell->pid)
 			return ;

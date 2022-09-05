@@ -44,6 +44,8 @@ void	get_outfile(t_token **tmp, t_cmd **new)
 {
 	if ((*tmp)->next != NULL && (*tmp)->next->type == REDIR_OUT)
 		(*new)->outfile = open((*tmp)->next->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
+		(*new)->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if ((*tmp)->next != NULL && (*tmp)->next->type == DREDIR_OUT)
 		(*new)->outfile = open((*tmp)->next->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if ((*tmp)->next == NULL || (*tmp)->next->type == PIPE)
@@ -65,8 +67,8 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		return (NULL);
 	get_infile(tmp, &new);
 	get_outfile(tmp, &new);
-	//printf("%s\n", new->infile);
-	//printf("%d\n", new->outfile);
+	printf("%s\n", new->infile);
+	printf("%d\n", new->outfile);
 	new->full_cmd = (char **)malloc(sizeof(char *) * 100); // car curieusement i + i au lieu de 100 ne voulait pas 
 	i = 0;
 	while (*tmp && (*tmp)->type == WORD)
