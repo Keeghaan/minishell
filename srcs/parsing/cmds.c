@@ -48,9 +48,9 @@ void	get_outfile(t_token **tmp, t_cmd **new)
 	else if ((*tmp)->next != NULL && (*tmp)->next->type == DREDIR_OUT)
 		(*new)->outfile = open((*tmp)->next->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if ((*tmp)->next == NULL || (*tmp)->next->type == PIPE)
-		(*new)->outfile = 1; //par defaut
+		(*new)->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC, 0644); //par defaut
 	else
-		(*new)->outfile = 1;
+		(*new)->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 }
 
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
