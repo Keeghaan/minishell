@@ -27,7 +27,7 @@ void	get_infile(t_token **tmp, t_cmd **new)
 {
 	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE) && (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin"; //par defaut
-	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
+	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL || (*tmp)->next->type == PIPE))
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
 		(*new)->infile = "/dev/stdin";
@@ -67,8 +67,8 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		return (NULL);
 	get_infile(tmp, &new);
 	get_outfile(tmp, &new);
-	printf("%s\n", new->infile);
-	printf("%d\n", new->outfile);
+	//printf("%s\n", new->infile);
+	//printf("%d\n", new->outfile);
 	new->full_cmd = (char **)malloc(sizeof(char *) * 100); // car curieusement i + i au lieu de 100 ne voulait pas 
 	i = 0;
 	while (*tmp && (*tmp)->type == WORD)
