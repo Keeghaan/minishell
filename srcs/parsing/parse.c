@@ -41,7 +41,8 @@ void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 	{
 		if (tmp->type == WORD) // && tmp->prev->type != REDIR_IN) //&& ((tmp->prev != NULL && tmp->prev->type != DREDIR_IN) || tmp->prev == NULL))
 		{
-			if (i == 0 && tmp->next && (tmp->next->type == WORD || tmp->next->type == REDIR_IN))
+			if (i == 0 && tmp->next && (tmp->next->type == WORD || tmp->next->type == REDIR_IN
+				|| tmp->next->type == PIPE))
 			{
 				*cmd = make_new_cmd(&tmp, shell);
 			}
