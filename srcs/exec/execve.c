@@ -6,7 +6,11 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/09/06 13:48:18 by jcourtoi         ###   ########.fr       */
+=======
+/*   Updated: 2022/09/06 14:04:15 by nboratko         ###   ########.fr       */
+>>>>>>> no more double free
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +78,15 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	}
 	else if (!shell->pipe && shell->n_cmds)
 		{
+<<<<<<< HEAD
 		get_files(shell);
 		//shell->infile = 0;
 		//shell->outfile = 1;
+=======
+		//get_files(shell, &shell->token);
+		shell->infile = open("/dev/stdin", O_RDONLY);
+		shell->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC);
+>>>>>>> no more double free
 		shell->pid = malloc(sizeof(pid_t));
 		if (!shell->pid)
 			return ;
@@ -85,8 +95,13 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			return ;
 		if (shell->pid[0] == 0)
 		{
+<<<<<<< HEAD
 			sigaction(SIGQUIT, &s, NULL);
 			if (shell->infile > -1)
+=======
+			sigaction(SIGINT, &s, NULL);
+			if (shell->cmds->infile > 0)
+>>>>>>> no more double free
 			{
 				dup2(shell->infile, 0);
 				close(shell->infile);
@@ -96,7 +111,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 				dup2(shell->outfile, 1);
 				close(shell->outfile);
 			}
-			signalisation();
+			//signalisation();
 			execve(path, shell->cmds->full_cmd, envp);
 			//signalisation();
 			printf("failed ?"); //
