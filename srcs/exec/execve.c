@@ -6,15 +6,22 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 13:30:41 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/06 13:48:18 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	get_files(t_shell *cmd, t_token **token) //cmd par shell
+void	get_files(t_shell *shell) //cmd par shell
 {
-	t_token *tmp;
+	shell->infile = open(shell->cmds->infile, O_RDONLY);
+	if (shell->infile != -1)
+	{
+		if (dup2(shell->infile, STDIN_FILENO) == -1)
+			printf("%s: %s: %s\n", SH, shell->cmds->infile, strerror(errno));
+		close(shell->infile);
+	}
+	/*t_token *tmp;
 	int		ret;
 
 	tmp = *token;
@@ -47,13 +54,11 @@ int	get_files(t_shell *cmd, t_token **token) //cmd par shell
 		else
 			break ;
 	}
-	return (ret);
+	return (ret);*/
 }
 
 void	exec_cmd(t_shell *shell, char *path, char **envp)
 {
-	(void)envp;
-	(void)path;
 	struct sigaction	s;
 
 	ft_memset(&s, 0, sizeof(s));
@@ -69,7 +74,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	}
 	else if (!shell->pipe && shell->n_cmds)
 		{
-		//get_files(shell, &shell->token);
+		get_files(shell);
 		//shell->infile = 0;
 		//shell->outfile = 1;
 		shell->pid = malloc(sizeof(pid_t));
@@ -81,12 +86,12 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 		if (shell->pid[0] == 0)
 		{
 			sigaction(SIGQUIT, &s, NULL);
-			if (shell->cmds->infile > 0)
+			if (shell->infile > -1)
 			{
 				dup2(shell->infile, 0);
 				close(shell->infile);
 			}
-			if (shell->outfile > 1)
+			if (shell->outfile > -1)
 			{
 				dup2(shell->outfile, 1);
 				close(shell->outfile);

@@ -26,13 +26,13 @@ void	free_cmds(t_cmd **cmd)
 		i = 0;
 		tmp = *cmd;
 		*cmd = (*cmd)->next;
+		free(tmp->full_path);
 		while (tmp->full_cmd[i])
 		{
 			free(tmp->full_cmd[i]);
 			i++;
 		}
 		free(tmp->full_cmd);
-		free(tmp->full_path);
 		free(tmp);
 	}
 }
