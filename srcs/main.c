@@ -41,11 +41,6 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 	//	pipex(shell);
 		if (buf)
 			free(buf);
-<<<<<<< HEAD
-=======
-		if (*token)
-			free_token(&shell->token);
->>>>>>> no more double free
 		//free_cmds(&shell->cmds);
 	}
 }
