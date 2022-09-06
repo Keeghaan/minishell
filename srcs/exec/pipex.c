@@ -28,11 +28,6 @@ static void	child_process(t_shell *child, int index)
 
 static void	pipex_loop2(t_shell *child, int i)
 {
-	//struct sigaction	s;
-
-	//s.sa_handler = SIG_DFL;
-	//sigaction(SIGQUIT, &s, NULL);
-	signal(SIGQUIT, SIG_DFL);
 	close(child->pipefd[0]);
 	if (i == 0)
 	{
@@ -81,7 +76,9 @@ void	get_nbr_cmds(t_shell *shell)
 		else
 			break ;
 	}
-	shell->pid = malloc(sizeof(int) * 2);
+	shell->pid = malloc(sizeof(int) * shell->n_cmds);
+	if (!shell->pid)
+		return ;
 	i = -1;
 	while (++i < shell->n_cmds)
 		shell->pid[i] = -2;
@@ -95,7 +92,9 @@ void	pipex(t_shell *child)
 	i = -1;
 	//if (!child->here_doc)
 	child->infile = open(child->cmds->infile, O_RDONLY);
-	if (child->infile != -1)
+	if (child->infile < 0)
+		printf("%s: %s\n", child->cmds->infile, strerror(errno));
+	else
 	{
 		if (dup2(child->infile, STDIN_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));
@@ -111,6 +110,7 @@ void	pipex(t_shell *child)
 	i = -1;
 	while (++i < child->n_cmds)
 		waitpid(child->pid[i], &status, 0);
+	free(child->pid);
 	if (child->pipefd[0] != -1)
 		close(child->pipefd[0]);
 	if (child->infile != -1)

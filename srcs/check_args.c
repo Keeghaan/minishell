@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 11:35:22 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 14:01:09 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:59:11 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	**get_env(char **envp)
 static char	*check_path_cmd(int i, char *cmd)
 {
 	char	**split;
+	char	*ret;
 (void)i;
 	
 	split = ft_split(cmd, ' ');
@@ -51,10 +52,12 @@ static char	*check_path_cmd(int i, char *cmd)
 	if (ft_strchr(split[0], '/'))
 	{
 		if (access(split[0], F_OK | X_OK | R_OK) == 0)
-			return (NULL);
-		return (NULL);
+			return (free_split(split), NULL); //j'ai  note NULL je sais pas pourquoi 
+		return (free_split(split), NULL);
 	}
-	return (split[0]);
+	ret = ft_strdup(split[0]);
+	free_split(split);
+	return (ret);
 }
 
 static char	*ret_path(int i, char *cmd, char **en)
@@ -66,7 +69,10 @@ static char	*ret_path(int i, char *cmd, char **en)
 	cmd_path = NULL;
 	cmd_path = check_path_cmd(0, cmd);
 	if (!cmd_path)
+	{
+		printf("ret path check args cmd %s\n", cmd); // pck je comprends pas mon check path cmd)
 		cmd_path = ft_strdup(cmd);
+	}
 	else
 	{
 		tmp = ft_strjoin(en[i], "/");
@@ -91,33 +97,34 @@ static char	*get_path_cmd(char **en, char *cmd)
 		cmd_path = ret_path(i, cmd, en);
 		if (cmd_path != NULL)
 			return (cmd_path);
+		free(cmd_path);
 		i++;
 	}
-	return (cmd_path);
+	return (NULL);
 }
 
 int	check_argv(int ac, char **av, char **en)
 {
-	int	j;
 	char	*tmp;
 	char	**envp;
-	
-	j = 1;
+
+	tmp = NULL;	
 	envp = get_env(en);
 	if (!envp)
 		return (3);
 	if (ac > 1)
 	{
-		while (av[j])
+		if (av[1])
 		{
-			tmp = get_path_cmd(envp, av[j]);
-			if (access(tmp, F_OK | R_OK | X_OK) == 0)
-				return (printf("%s: cannot execute binary file\n", tmp), 1);
-			else
-				return (printf("%s: %s\n", av[j], strerror(2)), 2);
-			j++;
+			tmp = get_path_cmd(envp, av[1]);
+			if (!tmp)
+				printf("%s: %s\n", av[1], strerror(2));
+			else if (access(tmp, F_OK | R_OK | X_OK) == 0)
+				printf("%s: cannot execute binary file\n", tmp);
 		}
 	}
+	if (tmp)
+		free(tmp);
 	free_split(envp);
 	return (0);
 }

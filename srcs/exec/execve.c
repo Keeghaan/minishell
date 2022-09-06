@@ -15,7 +15,9 @@
 void	get_files(t_shell *shell) //cmd par shell
 {
 	shell->infile = open(shell->cmds->infile, O_RDONLY);
-	if (shell->infile != -1)
+	if (shell->infile < 0)
+		printf("%s: %s: %s\n", SH, shell->cmds->infile, strerror(errno));
+	else
 	{
 		if (dup2(shell->infile, STDIN_FILENO) == -1)
 			printf("%s: %s: %s\n", SH, shell->cmds->infile, strerror(errno));
@@ -65,15 +67,12 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	s.sa_handler = SIG_DFL;
 	if (shell->pipe)
 	{
-		shell->pid = malloc(sizeof(pid_t) * shell->n_cmds);
-		if (!shell->pid)
-			return ;
 		shell->pipe = 1;
 		rewind_cmd(&shell->cmds, 1);
 		pipex(shell);
 	}
 	else if (!shell->pipe && shell->n_cmds)
-		{
+	{
 		get_files(shell);
 		//shell->infile = 0;
 		//shell->outfile = 1;
@@ -98,10 +97,11 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			}
 			//signalisation();
 			execve(path, shell->cmds->full_cmd, envp);
-			//signalisation();
+			signalisation();
 			printf("failed ?"); //
 		}
-		wait(NULL);
-		//waitpid(shell->pid[0], NULL, 0);
+		//wait(NULL);
+		waitpid(shell->pid[0], NULL, 0);
+		free(shell->pid);
 	}
 }
