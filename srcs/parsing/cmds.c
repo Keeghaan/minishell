@@ -27,7 +27,7 @@ void	get_infile(t_token **tmp, t_cmd **new)
 {
 	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE) && (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin"; //par defaut
-	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
+	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL || (*tmp)->next->type == PIPE))
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
 		(*new)->infile = "/dev/stdin"; //a voir si on dup (c'est pour les doubles free
@@ -86,6 +86,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
 //	else
 //		new->full_path = NULL; //dans l'executeur, on va faire appel a la fonction correspondante au lieu de execve
+	printf("%s\n", new->full_cmd[0]);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
