@@ -62,7 +62,7 @@ void	execute(char **cmd, char *path, t_shell *child)
 	close(STDOUT_FILENO);
 	close(child->pipefd[0]);
 	close(child->outfile);
-	//exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 void	path_and_cmd(t_shell *child, int index)

@@ -11,7 +11,7 @@ void	handle_sigint(int sig)
 
 void	signalisation(void)
 {
-	struct sigaction	si;
+	/*struct sigaction	si;
 	struct sigaction	sq;
 
 	ft_memset(&si, 0, sizeof(si));
@@ -21,6 +21,7 @@ void	signalisation(void)
 	si.sa_flags = SA_RESTART;
 	sq.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &si, NULL);
-	sigaction(SIGQUIT, &sq, NULL);
-	
+	sigaction(SIGQUIT, &sq, NULL);*/
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
 }
