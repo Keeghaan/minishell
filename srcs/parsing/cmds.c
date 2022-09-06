@@ -30,13 +30,13 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
-		(*new)->infile = "/dev/stdin";
+		(*new)->infile = "/dev/stdin"; //a voir si on dup (c'est pour les doubles free
 	else if ((*tmp)->next && (*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
 	{
-		(*new)->infile = ft_strdup((*tmp)->next->next->value);		
+		(*new)->infile = (*tmp)->next->next->value;		
 	}
 	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && (*tmp)->prev->prev->prev == NULL)
-		(*new)->infile = ft_strdup((*tmp)->prev->value);
+		(*new)->infile = (*tmp)->prev->value;
 	//(*new)->infile = ft_strdup((*tmp)->prev->value);
 }
 

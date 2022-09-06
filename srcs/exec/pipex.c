@@ -28,10 +28,6 @@ static void	child_process(t_shell *child, int index)
 
 static void	pipex_loop2(t_shell *child, int i)
 {
-	struct sigaction	s;
-
-	s.sa_handler = SIG_DFL;
-	sigaction(SIGQUIT, &s, NULL);
 	close(child->pipefd[0]);
 	if (i == 0)
 	{
@@ -96,7 +92,9 @@ void	pipex(t_shell *child)
 	i = -1;
 	//if (!child->here_doc)
 	child->infile = open(child->cmds->infile, O_RDONLY);
-	if (child->infile != -1)
+	if (child->infile < 0)
+		printf("%s: %s\n", child->cmds->infile, strerror(errno));
+	else
 	{
 		if (dup2(child->infile, STDIN_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));
