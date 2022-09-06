@@ -3,9 +3,14 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
+	
 	write(1, "\n", 1);
-	rl_on_new_line();
+	rl_on_new_line();	
 	rl_replace_line("", 0);
+//	rl_redisplay();
+//	if (sig)
+//		write(1, "\n", 1); //
+	//bon ca marcherait mais ca fait des newline des quon sigint
 	rl_redisplay();
 }
 
@@ -22,5 +27,5 @@ void	signalisation(void)
 	sq.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &si, NULL);
 	sigaction(SIGQUIT, &sq, NULL);
-	
+
 }

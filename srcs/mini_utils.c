@@ -21,20 +21,20 @@ void	free_cmds(t_cmd **cmd)
 	t_cmd	*tmp;
 	int	i;
 
-	while (*cmd)
-	{
+//	while (*cmd)
+//	{
 		i = 0;
 		tmp = *cmd;
-		*cmd = (*cmd)->next;
-		free(tmp->full_path);
+	//	*cmd = (*cmd)->next;
 		while (tmp->full_cmd[i])
 		{
 			free(tmp->full_cmd[i]);
 			i++;
 		}
 		free(tmp->full_cmd);
-		free(tmp);
-	}
+		free(tmp->full_path);
+	//	free(tmp);//
+//	}
 }
 
 void	rewind_cmd(t_cmd **cmd, int back)

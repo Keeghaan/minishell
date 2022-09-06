@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 15:38:08 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 17:27:38 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	struct sigaction	s;
 
 	ft_memset(&s, 0, sizeof(s));
-	s.sa_handler = SIG_DFL;
+//	s.sa_handler = SIG_DFL;
+	s.sa_handler = &handle_sigint; //test
 	if (shell->pipe)
 	{
 		shell->pipe = 1;
@@ -84,7 +85,9 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			return ;
 		if (shell->pid[0] == 0)
 		{
-			sigaction(SIGQUIT, &s, NULL);
+
+		//	signalisation();
+			sigaction(SIGINT, &s, NULL);
 			if (shell->infile > -1)
 			{
 				dup2(shell->infile, 0);
@@ -95,14 +98,13 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 				dup2(shell->outfile, 1);
 				close(shell->outfile);
 			}
-			//signalisation();
 			execve(path, shell->cmds->full_cmd, envp);
 			signalisation();
 			printf("failed ?"); //
 		}
 	//	free(shell->pid);
-		//wait(NULL);
-		waitpid(shell->pid[0], NULL, 0);
+		wait(NULL);
+		//waitpid(shell->pid[0], NULL, 0);
 		free(shell->pid);
 	}
 }

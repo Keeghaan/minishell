@@ -5,7 +5,8 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 {
 	char	*buf;
 
-	buf = readline("<3  ");
+//printf("hello"); //
+	buf = readline("\033[1;31m<3\033[0m  ");
 	if (!buf) //pour ctrl+D ou exit, mais exit, on va devoir faire un builin finalement car dans la correction ils demandent un comportement different s'il y a des arguments apres exit (comme dans le vrai shell)
 	{
 		shell->is_running = 0;
@@ -36,7 +37,11 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 			init_shell_struct(shell);
 			run_cmd(shell, envp);
 			free_token(&shell->token);
+		
 		}
+	//	signalisation();
+		
+	//	write(1, "\n", 1);
 	//	pipex(shell);
 		if (buf)
 			free(buf);
@@ -59,9 +64,11 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		getcwd(shell->cwd, sizeof(shell->cwd));
 		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
-		if (shell->cmds)
-			free_cmds(&shell->cmds);
-		signalisation();
+		/*if (shell->cmds)
+			free_cmds(&shell->cmds);*/
+	//	signalisation();
+//		if (shell->cmds)
+//			free_cmds(&shell->cmds);
 	}
 	rl_clear_history();
 }
