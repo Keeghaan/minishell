@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:25:11 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/22 17:22:51 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:19:01 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_sigint_chld(int sig)
 
 void	signalisation(int child)
 {
-	struct sigaction	si;
+	/*struct sigaction	si;
 	struct sigaction	sq;
 
 	ft_memset(&si, 0, sizeof(si));
@@ -67,4 +67,7 @@ void	handle_mister_here(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	write(1, "\n", 1);
+	sigaction(SIGQUIT, &sq, NULL);*/
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
 }
