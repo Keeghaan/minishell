@@ -161,6 +161,10 @@ int	get_next_dir(t_shell *shell, char *dir);
 void	run_cmd(t_shell *shell, char **envp);
 void	exec_cmd(t_shell *shell, char *path, char **envp);
 
+//EXEC UTILS
+int	is_valid_cmd(char *cmd, char **envp);
+int	check_path_cmd2(char *cmd);
+
 //PIPEX
 void	pipex(t_shell *child);
 void	get_nbr_cmds(t_shell *shell);

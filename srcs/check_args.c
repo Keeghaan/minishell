@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 11:35:22 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/08/16 16:27:59 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:01:09 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	**get_env(char **envp)
 	char	*tmp;
 
 	i = 0;
+	tmp = NULL;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -28,8 +29,13 @@ char	**get_env(char **envp)
 		}
 		i++;
 	}
-	en = ft_split(tmp, ':');
-	if (!en)
+	if (tmp)
+	{
+		en = ft_split(tmp, ':');
+		if (!en)
+			return (NULL);
+	}
+	else
 		return (NULL);
 	return (en);
 }

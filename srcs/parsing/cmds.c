@@ -78,10 +78,10 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		*tmp = (*tmp)->next;
 	}
 	new->full_cmd[i] = NULL;
-	if (!is_builtin(&curr))
+//	if (!is_builtin(&curr))
 		new->full_path = get_full_path(shell, new->full_cmd[0]);
-	else
-		new->full_path = NULL; //dans l'executeur, on va faire appel a la fonction correspondante au lieu de execve
+//	else
+//		new->full_path = NULL; //dans l'executeur, on va faire appel a la fonction correspondante au lieu de execve
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

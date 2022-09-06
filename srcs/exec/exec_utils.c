@@ -6,11 +6,11 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/08/31 17:20:05 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:12:19 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 //Est ce une variable d'environnement ??
 int	is_env_var(t_envp *envp, char *var)

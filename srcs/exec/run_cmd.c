@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/08/31 19:38:47 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:14:43 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_path_cmd2(char *cmd)
 	}
 	return (2);
 }
-
+/*
 int	is_cmd(t_shell *shell, char *cmd, char **envp)
 {
 	int		j;
@@ -49,7 +49,7 @@ int	is_cmd(t_shell *shell, char *cmd, char **envp)
 		shell->cmds->full_path = ft_strdup(cmd);
 		if (access(shell->cmds->full_path, R_OK | X_OK) == 0)
 			return (1);
-		return (0);
+		return (free(shell->cmds->full_path), 0);
 	}
 	else
 	{
@@ -58,14 +58,15 @@ int	is_cmd(t_shell *shell, char *cmd, char **envp)
 		{
 			tmp = ft_strjoin(en[j], "/");//a proteger
 			shell->cmds->full_path = ft_strjoin(tmp, cmd);//a protger
-			
+			free(tmp);
 			if (access(shell->cmds->full_path, R_OK | X_OK) == 0)
 				return (1);
+			free(shell->cmds->full_path);
 			j++;
 		}
 	}
 	return (0);
-}
+}*/
 
 int	get_cmd_nbr(t_shell *shell, char **envp)
 {
@@ -75,7 +76,7 @@ int	get_cmd_nbr(t_shell *shell, char **envp)
 	while (shell->token)
 	{
 	//	printf("get cmd nbr %s\n", shell->token->value);
-		if (is_cmd(shell, shell->token->value, envp))
+		if (is_valid_cmd(shell->token->value, envp))
 			n++;
 		if (shell->token->next)
 			shell->token = shell->token->next;
@@ -153,7 +154,13 @@ void	run_cmd(t_shell *shell, char **envp)
 	while (shell->cmds)
 	{
 		is_it_builtin(shell, shell->cmds);
-		if (is_cmd(shell, shell->cmds->full_cmd[0], envp))
+	//	if (!shell->cmds->full_path)
+	//	{
+	//		if (is_cmd(shell, shell->cmds->full_cmd[0], envp))
+	//			cmd++;
+	//	}
+	//	else
+		if (is_valid_cmd(shell->cmds->full_cmd[0], envp))
 			cmd++;
 		if (shell->cmds->next)
 			shell->cmds = shell->cmds->next;
