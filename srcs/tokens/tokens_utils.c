@@ -30,15 +30,16 @@ void	add_new_token(t_token **token, char *line, int i, int j, int quotes)
 void	free_token(t_token **token)
 {
 	t_token	*tmp;
-	t_token	*alst;
 
-	alst = *token;
-	while (alst)
+	tmp = *token;
+	while (tmp)
 	{
-		tmp = alst;
-		alst = alst->next;
-		free(tmp->value);
-		free(tmp);
+		*token = (*token)->next;
+		if (tmp->value)
+			free(tmp->value);
+		if (tmp)
+			free(tmp);
+		tmp = *token;
 	}
 }
 

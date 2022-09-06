@@ -28,10 +28,11 @@ static void	child_process(t_shell *child, int index)
 
 static void	pipex_loop2(t_shell *child, int i)
 {
-	struct sigaction	s;
+	//struct sigaction	s;
 
-	s.sa_handler = SIG_DFL;
-	sigaction(SIGQUIT, &s, NULL);
+	//s.sa_handler = SIG_DFL;
+	//sigaction(SIGQUIT, &s, NULL);
+	signal(SIGQUIT, SIG_DFL);
 	close(child->pipefd[0]);
 	if (i == 0)
 	{
