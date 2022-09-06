@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 15:38:08 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 15:47:39 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 		if (shell->pid[0] == 0)
 		{
 			sigaction(SIGQUIT, &s, NULL);
-			if (shell->infile > -1)
+			if (shell->infile > 0)
 			{
 				dup2(shell->infile, 0);
 				close(shell->infile);
@@ -100,7 +100,6 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			signalisation();
 			printf("failed ?"); //
 		}
-	//	free(shell->pid);
 		//wait(NULL);
 		waitpid(shell->pid[0], NULL, 0);
 		free(shell->pid);
