@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 13:48:18 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:18:32 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 		pipex(shell);
 	}
 	else if (!shell->pipe && shell->n_cmds)
-		{
+	{
 		get_files(shell);
 		//shell->infile = 0;
 		//shell->outfile = 1;
@@ -96,12 +96,12 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 				dup2(shell->outfile, 1);
 				close(shell->outfile);
 			}
-			signalisation();
-			execve(path, shell->cmds->full_cmd, envp);
 			//signalisation();
+			execve(path, shell->cmds->full_cmd, envp);
+			signalisation();
 			printf("failed ?"); //
 		}
-		wait(NULL);
-		//waitpid(shell->pid[0], NULL, 0);
+		//wait(NULL);
+		waitpid(shell->pid[0], NULL, 0);
 	}
 }
