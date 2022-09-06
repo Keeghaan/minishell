@@ -82,6 +82,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		new->full_path = get_full_path(shell, new->full_cmd[0]);
 //	else
 //		new->full_path = NULL; //dans l'executeur, on va faire appel a la fonction correspondante au lieu de execve
+	printf("%s\n", new->full_cmd[0]);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
