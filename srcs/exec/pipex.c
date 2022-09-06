@@ -80,7 +80,9 @@ void	get_nbr_cmds(t_shell *shell)
 		else
 			break ;
 	}
-	shell->pid = malloc(sizeof(int) * 2);
+	shell->pid = malloc(sizeof(int) * shell->n_cmds);
+	if (!shell->pid)
+		return ;
 	i = -1;
 	while (++i < shell->n_cmds)
 		shell->pid[i] = -2;
@@ -110,6 +112,7 @@ void	pipex(t_shell *child)
 	i = -1;
 	while (++i < child->n_cmds)
 		waitpid(child->pid[i], &status, 0);
+	free(child->pid);
 	if (child->pipefd[0] != -1)
 		close(child->pipefd[0]);
 	if (child->infile != -1)

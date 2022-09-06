@@ -67,8 +67,8 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		return (NULL);
 	get_infile(tmp, &new);
 	get_outfile(tmp, &new);
-	printf("%s\n", new->infile);
-	printf("%d\n", new->outfile);
+	printf("make new cmd INFILE : %s\n", new->infile);
+	printf("make new cmd OUTFILE :%d\n", new->outfile);
 	new->full_cmd = (char **)malloc(sizeof(char *) * 100); // car curieusement i + i au lieu de 100 ne voulait pas 
 	i = 0;
 	while (*tmp && (*tmp)->type == WORD)
@@ -79,7 +79,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	}
 	new->full_cmd[i] = NULL;
 //	if (!is_builtin(&curr))
-		new->full_path = get_full_path(shell, new->full_cmd[0]);
+	new->full_path = get_full_path(shell, new->full_cmd[0]);
 //	else
 //		new->full_path = NULL; //dans l'executeur, on va faire appel a la fonction correspondante au lieu de execve
 	new->next = NULL;

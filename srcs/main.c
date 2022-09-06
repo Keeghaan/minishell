@@ -35,7 +35,7 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 			parse(token, shell);
 			init_shell_struct(shell);
 			run_cmd(shell, envp);
-			free(shell->pid);
+			free(shell->cmds->infile);
 			free_token(&shell->token);
 		}
 	//	pipex(shell);

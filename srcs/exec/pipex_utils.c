@@ -52,10 +52,10 @@ void	cmd_not_found(char **cmd, char *path, t_shell *child)
 void	execute(char **cmd, char *path, t_shell *child)
 {
 	execve(path, cmd, child->env);
-	write(2, "minishell: ", 11);
+/*	write(2, "minishell: ", 11);
 	write(2, cmd[0], ft_strlen(cmd[0]));
 	write(2, ": Permission denied", 19);
-	write(2, "\n", 1);
+	write(2, "\n", 1); *///Ca si ca se lance on aura des msg d'erreur en double 
 	free_split(cmd);
 	free(child->pid);
 	close(STDIN_FILENO);

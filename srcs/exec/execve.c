@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 14:18:32 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/06 15:23:36 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	get_files(t_shell *shell) //cmd par shell
 {
 	shell->infile = open(shell->cmds->infile, O_RDONLY);
-	if (shell->infile != -1)
+	if (shell->infile < 0)
+		printf("%s: %s: %s\n", SH, shell->cmds->infile, strerror(errno));
+	else
 	{
 		if (dup2(shell->infile, STDIN_FILENO) == -1)
 			printf("%s: %s: %s\n", SH, shell->cmds->infile, strerror(errno));
@@ -65,9 +67,6 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	s.sa_handler = SIG_DFL;
 	if (shell->pipe)
 	{
-		shell->pid = malloc(sizeof(pid_t) * shell->n_cmds);
-		if (!shell->pid)
-			return ;
 		shell->pipe = 1;
 		rewind_cmd(&shell->cmds, 1);
 		pipex(shell);
@@ -101,7 +100,9 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			signalisation();
 			printf("failed ?"); //
 		}
+	//	free(shell->pid);
 		//wait(NULL);
 		waitpid(shell->pid[0], NULL, 0);
+		free(shell->pid);
 	}
 }
