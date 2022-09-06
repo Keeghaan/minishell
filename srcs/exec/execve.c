@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/05 15:37:28 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/06 13:30:41 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 {
 	(void)envp;
 	(void)path;
+	struct sigaction	s;
+
+	ft_memset(&s, 0, sizeof(s));
+	s.sa_handler = SIG_DFL;
 	if (shell->pipe)
 	{
 		shell->pid = malloc(sizeof(pid_t) * shell->n_cmds);
@@ -76,6 +80,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			return ;
 		if (shell->pid[0] == 0)
 		{
+			sigaction(SIGQUIT, &s, NULL);
 			if (shell->cmds->infile > 0)
 			{
 				dup2(shell->infile, 0);
