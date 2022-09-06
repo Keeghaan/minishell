@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 13:30:41 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/06 14:04:15 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	else if (!shell->pipe && shell->n_cmds)
 		{
 		//get_files(shell, &shell->token);
-		//shell->infile = 0;
-		//shell->outfile = 1;
+		shell->infile = open("/dev/stdin", O_RDONLY);
+		shell->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC);
 		shell->pid = malloc(sizeof(pid_t));
 		if (!shell->pid)
 			return ;
@@ -80,7 +80,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			return ;
 		if (shell->pid[0] == 0)
 		{
-			sigaction(SIGQUIT, &s, NULL);
+			sigaction(SIGINT, &s, NULL);
 			if (shell->cmds->infile > 0)
 			{
 				dup2(shell->infile, 0);
@@ -91,7 +91,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 				dup2(shell->outfile, 1);
 				close(shell->outfile);
 			}
-			signalisation();
+			//signalisation();
 			execve(path, shell->cmds->full_cmd, envp);
 			//signalisation();
 			printf("failed ?"); //
