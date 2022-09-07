@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 11:35:22 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 13:54:02 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 16:16:29 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ char	**get_env(char **envp)
 		}
 		i++;
 	}
-//	if (tmp)
-//	{
+	if (tmp)
+	{
 		en = ft_split(tmp, ':');
 		if (!en)
 			return (NULL);
-//	}
-//	else
-//		return (NULL);
+	}
+	else
+		return (NULL);
 	return (en);
 }
 

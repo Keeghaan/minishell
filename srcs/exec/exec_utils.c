@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 15:41:53 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 16:43:06 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,36 @@ int	is_option(char *option)
 	return (0);
 }
 
-int	is_valid_cmd(char *cmd, char **envp)
+static int	is_valid_ter(char *cmd, char **envp, int j, char *path)
 {
-	int		j;
 	char	**en;
 	char	*tmp;
-	char	*path;
+	
+	en = get_env(envp);
+		if (!en)
+			return (0);
+	while (en[++j])
+	{
+		if (en[j])
+		{
+			tmp = ft_strjoin(en[j], "/");
+			if (!tmp)
+				return (free_split(en), 0);
+			path = ft_strjoin(tmp, cmd);
+			if (!path)
+					return (free(tmp), free_split(en), 0);
+			free(tmp);
+			if (access(path, R_OK | X_OK) == 0)
+				return (free(path), free_split(en), 1);
+			free(path);
+			}
+	}
+	return (free_split(en), 0);
+}
+
+static	int	valid_cmd_bis(char *cmd)
+{
+	int	j;
 
 	j = 0;
 	while (cmd[j])
@@ -51,38 +75,41 @@ int	is_valid_cmd(char *cmd, char **envp)
 		if (cmd[j++] == '.')
 			return (0);
 	}
+	return (1);
+}
+
+int	is_valid_cmd(char *cmd, char **envp)
+{
+	int		j;
+	char	*path;
+
+	j = -1;
+	path = NULL;
+	if (!valid_cmd_bis(cmd))
+		return (0);
 	if (!check_path_cmd2(cmd))
 	{
-		path = cmd;
+		path = ft_strdup(cmd);
 		if (access(path, R_OK | X_OK) == 0)
 			return (1);
-		return (0);
+		return (free(path), 0);
 	}
 	else
 	{
-		if (!ft_isalpha(cmd[0]))
-			return (0);
-		en = get_env(envp);
-		if (!en)
-			return (0);
+	/*	en = get_env(envp);
 		while (en[j])
 		{
-			if (en[j])
-			{
-				tmp = ft_strjoin(en[j], "/");
-				if (!tmp)
-					return (free_split(en), 0);
-				path = ft_strjoin(tmp, cmd);
-				if (!path)
-					return (free(tmp), free_split(en), 0);
-				free(tmp);
-				if (access(path, R_OK | X_OK) == 0)
-					return (free(path), free_split(en), 1);
-				free(path);
-			}
+			tmp = ft_strjoin(en[j], "/");//a proteger
+			path = ft_strjoin(tmp, cmd);//a protger
+			free(tmp);
+			if (access(path, R_OK | X_OK) == 0)
+				return (free(path), free_split(en), 1);
+			free(path);
 			j++;
 		}
-		free_split(en);
+		free_split(en);*/
+		if (is_valid_ter(cmd, envp, j, path))
+			return (1);
 	}
 	return (0);
 }
