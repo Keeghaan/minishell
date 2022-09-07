@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 16:43:06 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:15:47 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,24 @@ int	is_env_var(t_envp *envp, char *var)
 	return (0);
 }
 
-//est ce une option ? (en vrai on peut juste verifier qu'il y ai un tiret ("-") donc a optimiser;
-int	is_option(char *option)
+static int	join_path(char *tmp, char *path, char **en, char *cmd)
 {
-	printf("option %c%c\n", option[0], option[1]);
-	if ((option[0] == '-' && ft_strlen(option) > 1)
-		|| (option[0] == '-' && option[1] == '-' && ft_strlen(option) > 3))
-		return (1); //a voir comment ca fait avec des options inexistantes
-	return (0);
+	if (!tmp)
+		return (free_split(en), 0);
+	path = ft_strjoin(tmp, cmd);
+	if (!path)
+		return (free(tmp), free_split(en), 0);
+	free(tmp);
+	return (1);
 }
 
-static int	is_valid_ter(char *cmd, char **envp, int j, char *path)
+static int	is_valid_ter(char *cmd, char **envp, char *path)
 {
 	char	**en;
 	char	*tmp;
-	
+	int		j;
+
+	j = -1;
 	en = get_env(envp);
 		if (!en)
 			return (0);
@@ -51,16 +54,12 @@ static int	is_valid_ter(char *cmd, char **envp, int j, char *path)
 		if (en[j])
 		{
 			tmp = ft_strjoin(en[j], "/");
-			if (!tmp)
-				return (free_split(en), 0);
-			path = ft_strjoin(tmp, cmd);
-			if (!path)
-					return (free(tmp), free_split(en), 0);
-			free(tmp);
+			if (!join_path(tmp, path, en, cmd))
+				return (-1);
 			if (access(path, R_OK | X_OK) == 0)
 				return (free(path), free_split(en), 1);
 			free(path);
-			}
+		}
 	}
 	return (free_split(en), 0);
 }
@@ -80,10 +79,8 @@ static	int	valid_cmd_bis(char *cmd)
 
 int	is_valid_cmd(char *cmd, char **envp)
 {
-	int		j;
 	char	*path;
 
-	j = -1;
 	path = NULL;
 	if (!valid_cmd_bis(cmd))
 		return (0);
@@ -96,19 +93,7 @@ int	is_valid_cmd(char *cmd, char **envp)
 	}
 	else
 	{
-	/*	en = get_env(envp);
-		while (en[j])
-		{
-			tmp = ft_strjoin(en[j], "/");//a proteger
-			path = ft_strjoin(tmp, cmd);//a protger
-			free(tmp);
-			if (access(path, R_OK | X_OK) == 0)
-				return (free(path), free_split(en), 1);
-			free(path);
-			j++;
-		}
-		free_split(en);*/
-		if (is_valid_ter(cmd, envp, j, path))
+		if (!is_valid_ter(cmd, envp, path))
 			return (1);
 	}
 	return (0);
