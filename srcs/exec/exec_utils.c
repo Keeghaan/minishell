@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 14:03:20 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:29:41 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	is_valid_cmd(char *cmd, char **envp)
 	if (!check_path_cmd2(cmd))
 	{
 		path = ft_strdup(cmd);
+		if (!path)
+			return (0);
 		if (access(path, R_OK | X_OK) == 0)
 			return (1);
 		return (free(path), 0);
@@ -67,11 +69,14 @@ int	is_valid_cmd(char *cmd, char **envp)
 			return (0);
 		while (en[j])
 		{
-			printf("is valid cmd %s %s\n", en[j], cmd);
 			if (en[j])
 			{
-				tmp = ft_strjoin(en[j], "/");//a proteger
-				path = ft_strjoin(tmp, cmd);//a protger
+				tmp = ft_strjoin(en[j], "/");
+				if (!tmp)
+					return (free_split(en), 0);
+				path = ft_strjoin(tmp, cmd);
+				if (!path)
+					return (free(tmp), free_split(en), 0);
 				free(tmp);
 				if (access(path, R_OK | X_OK) == 0)
 					return (free(path), free_split(en), 1);

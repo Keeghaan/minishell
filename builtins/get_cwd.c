@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:00:56 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/01 13:27:18 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:40:03 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_next_dir(t_shell *shell, char *dir)
 	tmp2 = ft_strjoin(tmp, dir);
 	if (!tmp2)
 		return (free(tmp), 2);
-	shell->next_dir = ft_strdup(tmp2);
+	shell->next_dir = tmp2;
 	free(tmp2);
 	free(tmp);
 	return (0);
@@ -37,7 +37,7 @@ static int	back_func(t_shell *shell, char *del, int size, int back)
 	char	*tmp2;
 
 	tmp = malloc(sizeof(char) * size + 1);
-	tmp2 = ft_strdup(shell->cwd);
+	tmp2 = shell->cwd;
 	if (back)
 	{
 		while (--back >= 0)
@@ -46,15 +46,15 @@ static int	back_func(t_shell *shell, char *del, int size, int back)
 			if (!back)
 			{
 				if (chdir(tmp) != 0)
-					return (printf("%s: %s\n", tmp, strerror(errno)), free(tmp), 1);
+					return (printf("%s: %s\n", tmp,
+							strerror(errno)), free(tmp), 1);
 				getcwd(shell->cwd, sizeof(shell->cwd));
 				size = ft_strlen(tmp) - ft_strlen(del);
 			}
-			free(tmp2);
-			tmp2 = ft_strdup(tmp);
+			tmp2 = tmp;
 			del = ft_strrchr(tmp, '/');
 			if (!del)
-				return (free(tmp), 1);	
+				return (free(tmp), 1);
 		}
 	}
 	return (free(tmp), 0);
@@ -86,6 +86,6 @@ int	get_cwd(t_shell *shell)
 	if (get_prev_dir(shell, 0))
 		return (3);
 	if (get_next_dir(shell, NULL))
-		return (4);
+		return (free(shell->prev_dir), 4);
 	return (0);
 }

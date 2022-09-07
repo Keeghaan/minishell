@@ -64,12 +64,14 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		getcwd(shell->cwd, sizeof(shell->cwd));
 		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
+	
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
 	//	signalisation();
 //		if (shell->cmds)
 //			free_cmds(&shell->cmds);
 	}
+	free(shell->prev_dir);
 	rl_clear_history();
 }
 

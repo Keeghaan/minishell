@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/01 13:27:44 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:27:12 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	move_back(char *action)
 {
-	int	back;
+	int		back;
+	int		j;
 	char	**tmp;
-	int	j;
-	
+
 	back = 0;
 	j = 0;
 	tmp = ft_split(action, '/');
@@ -39,7 +39,7 @@ int	move_back(char *action)
 
 int	possibilities(t_shell *shell, char *action)
 {
-	int	back;
+	int		back;
 	char	*user;
 	char	*home;
 
@@ -54,19 +54,22 @@ int	possibilities(t_shell *shell, char *action)
 		return (free(home), 2);
 	}	
 	if ((ft_strlen(action) == 2 && ft_strnstr(action, "./", 2))
-			|| (ft_strlen(action) == 1 && *action == '.'))
-		return (1);	
+		|| (ft_strlen(action) == 1 && *action == '.'))
+		return (1);
 	if (ft_strnstr(action, "..", ft_strlen(action)))
 	{
 		back = move_back(action);
 		get_prev_dir(shell, back);
 		if (access(shell->prev_dir, F_OK | X_OK) != 0)
-			return (printf("%s: %s: %s: %s\n", SH, "cd", shell->prev_dir, strerror(errno)), 0);
+			return (printf("%s: %s: %s: %s\n", SH, "cd",
+					shell->prev_dir, strerror(errno)),
+					free(shell->prev_dir), 0);
 		return (3);
 	}
 	get_next_dir(shell, action);
 	if (access(shell->next_dir, F_OK | X_OK) != 0)
-		return (printf("%s: %s: %s: %s\n", SH, "cd", shell->next_dir, strerror(errno)), 0);
+		return (printf("%s: %s: %s: %s\n", SH, "cd",
+				shell->next_dir, strerror(errno)), 0);
 	return (4);
 }
 
@@ -87,8 +90,7 @@ int	cd_cmd(t_shell *shell, char *action)
 		if (chdir(shell->next_dir) != 0)
 			return (3);
 	}
-//	free(shell->prev_dir);
 	get_cwd(shell);
-	printf("cd %s\n", shell->cwd); //verif si on est bien dans le bon dossier
+	printf("cd cmd cwd : %s\n", shell->cwd);
 	return (0);
 }
