@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 14:12:19 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:03:20 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,23 @@ int	is_valid_cmd(char *cmd, char **envp)
 	}
 	else
 	{
+		if (!ft_isalpha(cmd[0]))
+			return (0);
 		en = get_env(envp);
+		if (!en)
+			return (0);
 		while (en[j])
 		{
-			tmp = ft_strjoin(en[j], "/");//a proteger
-			path = ft_strjoin(tmp, cmd);//a protger
-			free(tmp);
-			if (access(path, R_OK | X_OK) == 0)
-				return (free(path), free_split(en), 1);
-			free(path);
+			printf("is valid cmd %s %s\n", en[j], cmd);
+			if (en[j])
+			{
+				tmp = ft_strjoin(en[j], "/");//a proteger
+				path = ft_strjoin(tmp, cmd);//a protger
+				free(tmp);
+				if (access(path, R_OK | X_OK) == 0)
+					return (free(path), free_split(en), 1);
+				free(path);
+			}
 			j++;
 		}
 		free_split(en);
