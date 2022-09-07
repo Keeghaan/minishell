@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 15:45:57 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:57:43 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,26 @@ int	move_back(char *action)
 	return (back);
 }
 
+static int	possibilities_bis(t_shell *shell, char *action)
+{
+	int	back;
+
+	back = 0;
+	if (ft_strnstr(action, "..", ft_strlen(action)))
+	{
+		back = move_back(action);
+		get_prev_dir(shell, back);
+		if (access(shell->prev_dir, F_OK | X_OK) != 0)
+			return (printf("%s: %s: %s: %s\n", SH, "cd",
+					shell->prev_dir, strerror(errno)),
+				free(shell->prev_dir), 0);
+		return (3);
+	}
+	return (0);
+}
+
 int	possibilities(t_shell *shell, char *action)
 {
-	int		back;
 	char	*user;
 	char	*home;
 
@@ -56,16 +73,10 @@ int	possibilities(t_shell *shell, char *action)
 	if ((ft_strlen(action) == 2 && ft_strnstr(action, "./", 2))
 		|| (ft_strlen(action) == 1 && *action == '.'))
 		return (1);
-	if (ft_strnstr(action, "..", ft_strlen(action)))
-	{
-		back = move_back(action);
-		get_prev_dir(shell, back);
-		if (access(shell->prev_dir, F_OK | X_OK) != 0)
-			return (printf("%s: %s: %s: %s\n", SH, "cd",
-					shell->prev_dir, strerror(errno)),
-					free(shell->prev_dir), 0);
+	if (possibilities_bis(shell, action))
 		return (3);
-	}
+	else
+		return (0);
 	get_next_dir(shell, action);
 	if (access(shell->next_dir, F_OK | X_OK) != 0)
 		return (printf("%s: %s: %s: %s\n", SH, "cd",
