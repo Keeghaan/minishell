@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 13:42:02 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 17:40:34 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 //	s.sa_handler = SIG_DFL;
 //	s.sa_handler = &handle_sigint; //test
 	signalisation(1);
+	error_msg(shell->cmds, envp);
 	if (shell->pipe)
 	{
 		shell->pipe = 1;

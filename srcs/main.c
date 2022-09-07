@@ -35,7 +35,6 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 			shell->token = *token;
 			parse(token, shell);
 			init_shell_struct(shell);
-			error_msg(shell->cmds);
 			run_cmd(shell, envp);
 			free_token(&shell->token);
 		

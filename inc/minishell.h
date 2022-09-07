@@ -164,7 +164,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp);
 //EXEC UTILS
 int	is_valid_cmd(char *cmd, char **envp);
 int	check_path_cmd2(char *cmd);
-void	error_msg(t_cmd *cmd);
+void	error_msg(t_cmd *cmd, char **envmp);
 //PIPEX
 void	pipex(t_shell *child);
 void	get_nbr_cmds(t_shell *shell);
