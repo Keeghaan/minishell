@@ -58,7 +58,7 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 	shell->is_running = 1;
 	while (shell->is_running)
 	{
-		signalisation();
+		signalisation(0);
 		if (*env)
 			shell->envp = *env;
 		getcwd(shell->cwd, sizeof(shell->cwd));

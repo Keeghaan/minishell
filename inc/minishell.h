@@ -124,7 +124,7 @@ void	rewind_token(t_token **token, int back);
 void	rewind_cmd(t_cmd **cmd, int back);
 
 //SIGNALS
-void	signalisation(void);
+void	signalisation(int child);
 void	handle_sigint(int sig);
 
 // MAIN
