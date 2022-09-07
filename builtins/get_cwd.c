@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:00:56 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 15:40:03 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:46:54 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ int	get_next_dir(t_shell *shell, char *dir)
 	char	*tmp;
 	char	*tmp2;
 
-	if (shell->next_dir)
-		free(shell->next_dir);
 	tmp = ft_strjoin(shell->cwd, "/");
 	if (!tmp)
 		return (1);
 	tmp2 = ft_strjoin(tmp, dir);
 	if (!tmp2)
 		return (free(tmp), 2);
-	shell->next_dir = tmp2;
+	shell->next_dir = ft_strdup(tmp2);
+	if (!shell->next_dir)
+		return (free(tmp2), free(tmp), 2);
 	free(tmp2);
 	free(tmp);
 	return (0);

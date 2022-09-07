@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 14:29:41 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:41:53 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,10 @@ int	is_valid_cmd(char *cmd, char **envp)
 	}
 	if (!check_path_cmd2(cmd))
 	{
-		path = ft_strdup(cmd);
-		if (!path)
-			return (0);
+		path = cmd;
 		if (access(path, R_OK | X_OK) == 0)
 			return (1);
-		return (free(path), 0);
+		return (0);
 	}
 	else
 	{

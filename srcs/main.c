@@ -72,6 +72,7 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 //			free_cmds(&shell->cmds);
 	}
 	free(shell->prev_dir);
+	free(shell->next_dir);
 	rl_clear_history();
 }
 
