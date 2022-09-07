@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/06 14:14:43 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 18:05:04 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void	run_cmd(t_shell *shell, char **envp)
 		else
 			break ;
 	}
+	rewind_cmd(&shell->cmds, 1);
+	error_msg(shell->cmds, envp);
 	if (cmd)
 		exec_cmd(shell, shell->cmds->full_path, envp);
 }

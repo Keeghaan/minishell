@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 17:44:47 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/07 18:04:47 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ static int	check_errno(char *cmd, char **en)
 	return (0);
 }
 
+int	cmd_not_fnd(char *path, char **en)
+{
+	(void)en;
+	char	*cmd;
+	int		found;
+
+	found = 0;
+	if (access(path, F_OK | X_OK | R_OK) == 0)
+		found++;
+	cmd = ft_strrchr(path, '/');
+	if (!found)
+		return (printf("%s: command not found\n", cmd), 1);
+	return (0);
+}
+
 void	error_msg(t_cmd *cmd, char **envp)
 {
 	char	**en;
@@ -64,7 +79,7 @@ void	error_msg(t_cmd *cmd, char **envp)
 	{
 		err = check_errno(cmd->full_cmd[0], en);
 		if (err)
-			printf("%s: %s: %s\n", SH, cmd->full_cmd[0], strerror(errno));
+			printf("%s: command not found\n", cmd->full_cmd[0]);	
 		if (cmd->next)
 			cmd = cmd->next;
 		else

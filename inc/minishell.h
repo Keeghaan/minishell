@@ -165,6 +165,8 @@ void	exec_cmd(t_shell *shell, char *path, char **envp);
 int	is_valid_cmd(char *cmd, char **envp);
 int	check_path_cmd2(char *cmd);
 void	error_msg(t_cmd *cmd, char **envmp);
+int	cmd_not_fnd(char *path, char **en);
+
 //PIPEX
 void	pipex(t_shell *child);
 void	get_nbr_cmds(t_shell *shell);
