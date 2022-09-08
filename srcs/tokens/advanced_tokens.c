@@ -8,8 +8,8 @@ int	ft_iscrochet(char *s, int i)
 	{
 		if (s[i] == '<' || s[i] == '>')
 		{
-			if (s[i + 1] == s[i] && s[i - 1] != s[i] && ft_strlen(s) > 2) //au cas ou qqn fait <<< par ex
-				return (2);
+			//if (s[i + 1] == s[i] && s[i - 1] != s[i] && ft_strlen(s) > 2) //au cas ou qqn fait <<< par ex
+				//return (2);
 			if (s[i + 1] != s[i] && s[i -1] != s[i])
 				return (1);
 		}

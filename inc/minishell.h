@@ -19,6 +19,8 @@
 
 //STRUCTURE ENVP LISTE CHAINEE
 
+extern int	g_return;
+
 typedef struct s_envp
 {
 	int			exported;
@@ -91,6 +93,7 @@ void	expander(t_token **token, t_envp **env);
 void	support_expander(t_token **token, t_envp **env);
 char	*expand_env_var(char *val, t_envp **env, int i);
 void	final_expansion(t_token **token, int i, char *val);
+void	get_global_return(t_token **token);
 
 // TOKENS
 
@@ -176,5 +179,8 @@ void	execute(char **cmd, char *path, t_shell *child);
 
 //EXIT
 void	handle_exit(t_shell *shell, char *buf);
+
+//HERE_DOC
+void	get_here_doc(t_token **token, t_cmd **new);
 
 #endif

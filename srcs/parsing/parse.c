@@ -17,7 +17,7 @@ char	*check_tokens(t_token **t)
 			return ("newline");
 		if ((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
 			|| tmp->type == DREDIR_IN || tmp->type == DREDIR_OUT
-			|| tmp->type == PIPE) && tmp->next->type != WORD)
+			|| tmp->type == PIPE) && tmp->next->type != WORD && tmp->next->type != HERE_DOC)
 			return (tmp->next->value);
 		i++;
 		tmp = tmp->next;	
@@ -48,7 +48,8 @@ void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 			}
 			else if ( i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
 				*cmd = make_new_cmd(&tmp, shell);
-			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN && tmp->prev->type != REDIR_OUT) //une commande ne peut jamais suivre une redirection
+			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN && tmp->prev->type != REDIR_OUT
+					&& tmp->prev->type != DREDIR_OUT) //une commande ne peut jamais suivre une redirection
 			{
 				if (*cmd)
 				{
@@ -62,8 +63,8 @@ void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 			}
 			else if (i == 0 && tmp->next == NULL) //une seule commande, par exemple env
 				*cmd = make_new_cmd(&tmp, shell);
-			else if (tmp->next == NULL && tmp->prev->type == REDIR_OUT) // il s'agit de outfile, c'est pas une commande
-				break ;
+			/*else if (tmp->next == NULL && (tmp->prev->type == REDIR_OUT || tmp->prev->type == DREDIR_OUT)) // il s'agit de outfile, c'est pas une commande
+				break ;*/
 		}
 	//	if (tmp->type == PIPE)
 	//		shell->pipe = 1;

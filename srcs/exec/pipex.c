@@ -119,4 +119,3 @@ void	pipex(t_shell *child)
 	dup2(child->std_out, 1);
 //	signalisation();
 }
-
