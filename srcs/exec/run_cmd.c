@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 18:05:04 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 13:03:54 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,28 +94,42 @@ int	get_cmd_nbr(t_shell *shell, char **envp)
 	return (n);
 }
 
-//cette fonction ne m'a pas l'air si utile (a par pour le cd);
-int	is_it_builtin(t_shell *shell, t_cmd *cmd)
+int	path_builtins(t_shell *shell, t_cmd *cmd, int active)
 {
 	if (!ft_strncmp(cmd->full_cmd[0], "cd", ft_strlen(cmd->full_cmd[0])))
 	{
-		if (!cmd->full_cmd[1])
-			return (cd_cmd(shell, NULL), 1);
-		return (cd_cmd(shell, cmd->full_cmd[1]), 1);
+		if (active)
+		{
+			if (!cmd->full_cmd[1])
+				return (cd_cmd(shell, NULL), 1);
+			return (cd_cmd(shell, cmd->full_cmd[1]), 1);
+		}
+		return (1);
 	}
 	if (!ft_strncmp(cmd->full_cmd[0], "export", ft_strlen(cmd->full_cmd[0])))
-		return (export_var(shell, shell->envp), 2);
+	{
+		if (active)
+			export_var(shell, shell->envp);
+		return (2);
+	}
 	if (!ft_strncmp(cmd->full_cmd[0], "unset", ft_strlen(cmd->full_cmd[0])))
 		return (3);
-	if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
-		return (4);
-	if (!ft_strncmp(cmd->full_cmd[0], "pwd", ft_strlen(cmd->full_cmd[0])))
-		return (5);
-	if (!ft_strncmp(cmd->full_cmd[0], "echo", ft_strlen(cmd->full_cmd[0])))
+	return (0);
+}
+	
+//cette fonction ne m'a pas l'air si utile (a par pour le cd);
+int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
+{
+	if (path_builtins(shell, cmd, active))
+		return (1);
+	else
 	{
-	//	if (!ft_strncmp(cmd->full_cmd[j + 1], "-n", ft_strlen(cmd->full_cmd[j])))
-	//		return (6); //pas forcement utile
-		return (7);
+		if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
+			return (2);
+		if (!ft_strncmp(cmd->full_cmd[0], "pwd", ft_strlen(cmd->full_cmd[0])))
+			return (2);
+		if (!ft_strncmp(cmd->full_cmd[0], "echo", ft_strlen(cmd->full_cmd[0])))
+			return (2);
 	}
 	return (0);
 }
@@ -153,7 +167,7 @@ void	run_cmd(t_shell *shell, char **envp)
 	shell->n_cmds = get_cmd_nbr(shell, envp);
 	while (shell->cmds)
 	{
-		is_it_builtin(shell, shell->cmds);
+		is_it_builtin(shell, shell->cmds, 1);
 	//	if (!shell->cmds->full_path)
 	//	{
 	//		if (is_cmd(shell, shell->cmds->full_cmd[0], envp))
@@ -168,7 +182,7 @@ void	run_cmd(t_shell *shell, char **envp)
 			break ;
 	}
 	rewind_cmd(&shell->cmds, 1);
-	error_msg(shell->cmds, envp);
+	error_msg(shell, shell->cmds, envp);
 	if (cmd)
 		exec_cmd(shell, shell->cmds->full_path, envp);
 }

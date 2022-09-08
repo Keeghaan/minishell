@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 18:04:47 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 13:08:32 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	cmd_not_fnd(char *path, char **en)
 	return (0);
 }
 
-void	error_msg(t_cmd *cmd, char **envp)
+void	error_msg(t_shell *shell, t_cmd *cmd, char **envp)
 {
 	char	**en;
 	int		err;
@@ -78,7 +78,7 @@ void	error_msg(t_cmd *cmd, char **envp)
 	while (cmd)
 	{
 		err = check_errno(cmd->full_cmd[0], en);
-		if (err)
+		if (err && !(is_it_builtin(shell, cmd, 0) == 1)) // a verfier
 			printf("%s: command not found\n", cmd->full_cmd[0]);	
 		if (cmd->next)
 			cmd = cmd->next;

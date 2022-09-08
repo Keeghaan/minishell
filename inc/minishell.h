@@ -160,6 +160,8 @@ void	export_var(t_shell *shell, t_envp *envp);
 int	get_cwd(t_shell *shell);
 int	get_prev_dir(t_shell *shell, int back);
 int	get_next_dir(t_shell *shell, char *dir);
+int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active);
+
 //EXEC
 void	run_cmd(t_shell *shell, char **envp);
 void	exec_cmd(t_shell *shell, char *path, char **envp);
@@ -167,7 +169,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp);
 //EXEC UTILS
 int	is_valid_cmd(char *cmd, char **envp);
 int	check_path_cmd2(char *cmd);
-void	error_msg(t_cmd *cmd, char **envmp);
+void	error_msg(t_shell *shell, t_cmd *cmd, char **envmp);
 int	cmd_not_fnd(char *path, char **en);
 
 //PIPEX
