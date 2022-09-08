@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 17:15:47 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 12:44:11 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ static int	is_valid_ter(char *cmd, char **envp, char *path)
 	int		j;
 
 	j = -1;
+	if (!ft_isalpha(*cmd)) /// a verifier
+		return (0);
 	en = get_env(envp);
-		if (!en)
-			return (0);
+	if (!en)
+		return (0);
 	while (en[++j])
 	{
 		if (en[j])
