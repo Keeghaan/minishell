@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 18:00:11 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 14:33:52 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ void	get_files(t_shell *shell) //cmd par shell
 {
 	shell->infile = open(shell->cmds->infile, O_RDONLY);
 	if (shell->infile < 0)
+	{
 		printf("%s: %s: %s\n", SH, shell->cmds->infile, strerror(errno));
+		//if (!error_msg(shell, shell->cmds, shell->env, 0))
+		//	g_return = 1;
+	}
 	else
 	{
 		if (dup2(shell->infile, STDIN_FILENO) == -1)

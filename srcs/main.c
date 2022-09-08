@@ -32,15 +32,16 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 				shell->pipe = 1;
 			else
 				shell->pipe = 0;
+			g_return = shell->ret;
+			printf("%d\n", g_return);
 			if (tokenizer(buf, token, env))
 				ft_putendl_fd("minishell: syntax error", 2);
 			shell->token = *token;
 			parse(token, shell);
 			init_shell_struct(shell);
-			//error_msg(shell->cmds, envp);
 			run_cmd(shell, envp);
 			free_token(&shell->token);
-		
+			error_msg(shell, shell->cmds, envp, 0);
 		}
 	//	signalisation();
 		
@@ -67,7 +68,6 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		getcwd(shell->cwd, sizeof(shell->cwd));
 		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
-	
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
 	//	signalisation();
@@ -84,7 +84,8 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*env;
 	t_shell	shell;
 
-	//g_return = 125;
+	//g_return = 125;	
+	shell.ret = 0;
 	check_argv(argc, argv, envp);
 	envp_to_lst(&env, envp);
 	shell.std_in = dup(0);

@@ -84,7 +84,7 @@ typedef struct	s_shell
 	t_token	*token;
 	pid_t	*pid;
 	int	is_running;
-	
+	int	ret;
 }	t_shell;
 
 // EXPANDER
@@ -167,10 +167,10 @@ void	run_cmd(t_shell *shell, char **envp);
 void	exec_cmd(t_shell *shell, char *path, char **envp);
 
 //EXEC UTILS
-int	is_valid_cmd(char *cmd, char **envp);
-int	check_path_cmd2(char *cmd);
-void	error_msg(t_shell *shell, t_cmd *cmd, char **envmp);
-int	cmd_not_fnd(char *path, char **en);
+int		is_valid_cmd(char *cmd, char **envp);
+int		check_path_cmd2(char *cmd);
+int		error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg);
+int		cmd_not_fnd(char *path, char **en);
 
 //PIPEX
 void	pipex(t_shell *child);
