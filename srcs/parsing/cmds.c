@@ -30,14 +30,13 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL || (*tmp)->next->type == PIPE))
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
-		(*new)->infile = "/dev/stdin"; //a voir si on dup (c'est pour les doubles free
+		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->next && (*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
 	{
 		(*new)->infile = (*tmp)->next->next->value;		
 	}
 	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && (*tmp)->prev->prev->prev == NULL)
 		(*new)->infile = (*tmp)->prev->value;
-	//(*new)->infile = ft_strdup((*tmp)->prev->value);
 }
 
 void	get_outfile(t_token **tmp, t_cmd **new)
@@ -65,7 +64,10 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
-	get_infile(tmp, &new);
+	if ((*tmp)->next && (*tmp)->next->type == DREDIR_IN)
+		get_here_doc(tmp, &new);
+	else
+		get_infile(tmp, &new);
 	get_outfile(tmp, &new);
 	printf("make new cmd INFILE : %s\n", new->infile);
 	printf("make new cmd OUTFILE :%d\n", new->outfile);
@@ -82,10 +84,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		*tmp = (*tmp)->next;
 	}
 	new->full_cmd[i] = NULL;
-//	if (!is_builtin(&curr))
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
-//	else
-//		new->full_path = NULL; //dans l'executeur, on va faire appel a la fonction correspondante au lieu de execve
 	printf("%s\n", new->full_cmd[0]);
 	new->next = NULL;
 	new->prev = NULL;

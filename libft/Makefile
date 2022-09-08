@@ -6,14 +6,14 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 12:58:51 by nboratko          #+#    #+#              #
-#    Updated: 2022/06/27 14:01:19 by nboratko         ###   ########.fr        #
+#    Updated: 2022/09/07 16:41:55 by nboratko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
 SRCS =	ft_isdigit.c ft_memset.c ft_strjoin.c ft_strtrim.c ft_isprint.c\
-	ft_putchar_fd.c ft_strlcat.c ft_substr.c ft_atoi.c ft_itoa.c\
+	ft_putchar_fd.c ft_strlcat.c ft_substr.c ft_atoi.c\
 	ft_putendl_fd.c ft_strlcpy.c ft_tolower.c ft_bzero.c ft_putnbr_fd.c\
 	ft_strlen.c ft_toupper.c ft_calloc.c ft_memchr.c ft_putstr_fd.c\
 	ft_strmapi.c ft_isalnum.c ft_memcmp.c ft_split.c ft_strncmp.c\

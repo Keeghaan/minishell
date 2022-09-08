@@ -71,6 +71,13 @@ void	handle_home(t_token **token, char *user)  // ~/something
 	free(user);
 }
 
+void	get_global_return(t_token **token)
+{
+	free((*token)->value);
+	(*token)->value = ft_itoa(g_return);
+	//printf("%s\n", (*token)->value);
+}
+
 void	support_expander(t_token **token, t_envp **env)
 {
 	char	*check;
@@ -81,11 +88,16 @@ void	support_expander(t_token **token, t_envp **env)
 	{
 		if ((*token)->value[i] == '$')
 		{
-			check = expand_env_var((*token)->value, env, i + 1);
-			final_expansion(token, i, check);
-			if (check)
-				free(check);
-			i = 0;
+			if ((*token)->value[i + 1] == '?' && ft_strlen((*token)->value) == 2)
+				get_global_return(token);
+			else
+			{
+				check = expand_env_var((*token)->value, env, i + 1);
+				final_expansion(token, i, check);
+				if (check)
+					free(check);
+				i = 0;
+			}
 		}
 		if (i == 0 && (*token)->value[i] == '~')
 		{

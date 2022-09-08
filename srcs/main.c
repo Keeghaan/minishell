@@ -1,6 +1,8 @@
 #include "../inc/minishell.h"
 #include <fcntl.h>
 
+int	g_return;
+
 void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 {
 	char	*buf;
@@ -82,6 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*env;
 	t_shell	shell;
 
+	//g_return = 125;
 	check_argv(argc, argv, envp);
 	envp_to_lst(&env, envp);
 	shell.std_in = dup(0);
