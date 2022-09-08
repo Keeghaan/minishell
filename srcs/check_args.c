@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 11:35:22 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 17:44:07 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 17:31:40 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,13 @@ char	**get_env(char **envp)
 
 static char	*check_path_cmd(int i, char *cmd)
 {
-	char	**split;
-	char	*ret;
 (void)i;
-	
-	split = ft_split(cmd, ' ');
-	if (!split)
-		return (NULL);
-	if (ft_strchr(split[0], '/'))
+	if (ft_strchr(cmd, '/'))
 	{
-		if (access(split[0], F_OK | X_OK | R_OK) == 0)
-			return (free_split(split), NULL); //j'ai  note NULL je sais pas pourquoi 
-		return (free_split(split), NULL);
+		if (access(cmd, F_OK | X_OK | R_OK) == 0)
+			return (cmd); 
 	}
-	ret = ft_strdup(split[0]);
-	free_split(split);
-	return (ret);
+	return (NULL);
 }
 
 static char	*ret_path(int i, char *cmd, char **en)
@@ -67,22 +58,21 @@ static char	*ret_path(int i, char *cmd, char **en)
 
 	tmp = NULL;
 	cmd_path = NULL;
-	cmd_path = check_path_cmd(0, cmd);
-	if (!cmd_path)
-	{
-		printf("ret path check args cmd %s\n", cmd); // pck je comprends pas mon check path cmd)
-		cmd_path = ft_strdup(cmd);
-	}
+	if (check_path_cmd(0, cmd))
+		cmd_path = ft_strdup(cmd); //juste pour le malloc pour le free du bas
 	else
 	{
 		tmp = ft_strjoin(en[i], "/");
-		cmd_path = ft_strjoin(tmp, cmd_path);
+		if (!tmp)
+			return (NULL);
+		cmd_path = ft_strjoin(tmp, cmd);
 		free(tmp);
+		if (!cmd_path)
+			return (NULL);
 	}
 	if (access(cmd_path, F_OK | R_OK | X_OK) == 0)
 		return (cmd_path);
-	free(cmd_path);
-	return (NULL);
+	return (free(cmd_path), NULL);
 }
 
 static char	*get_path_cmd(char **en, char *cmd)
@@ -120,7 +110,7 @@ int	check_argv(int ac, char **av, char **en)
 			if (!tmp)
 				printf("%s: %s\n", av[1], strerror(2));
 			else if (access(tmp, F_OK | R_OK | X_OK) == 0)
-				printf("%s: cannot execute binary file\n", tmp);
+				printf("%s: %s: cannot execute binary file\n", tmp, tmp); //a voir si on l'affiche deux fois omme bash
 		}
 	}
 	if (tmp)
