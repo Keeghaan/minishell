@@ -25,7 +25,10 @@ void	free_cmds(t_cmd **cmd)
 	{
 		i = 0;
 		tmp = *cmd;
-		*cmd = (*cmd)->next;
+		if ((*cmd)->next)
+		       *cmd = (*cmd)->next;
+		else
+			break ;
 		while (tmp->full_cmd[i])
 		{
 			free(tmp->full_cmd[i]);
@@ -33,7 +36,7 @@ void	free_cmds(t_cmd **cmd)
 		}
 		free(tmp->full_cmd);
 		free(tmp->full_path);
-		free(tmp);//
+		free(tmp);
 	}
 }
 

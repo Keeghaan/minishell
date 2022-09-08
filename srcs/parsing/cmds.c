@@ -58,7 +58,9 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	t_cmd	*new;
 	t_token	*curr;
 	int	i;
+	int	count;
 
+	count = 0;
 	i = 0;
 	curr = *tmp;
 	new = malloc(sizeof(t_cmd));
@@ -71,13 +73,22 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	get_outfile(tmp, &new);
 	printf("make new cmd INFILE : %s\n", new->infile);
 	printf("make new cmd OUTFILE :%d\n", new->outfile);
-	new->full_cmd = (char **)malloc(sizeof(char *) * 100);
+	while (curr)
+	{
+		count += ft_strlen(curr->value) + 1;
+		if (curr->next)
+			curr = curr->next;
+		else
+			break ;
+	}
+	printf("make new cmd %d size\n", count + 1);
+	new->full_cmd = (char **)malloc(sizeof(char *) * count);
 	if (!new->full_cmd)
 		return (NULL);// car curieusement i + i au lieu de 100 ne voulait pas 
 	i = 0;
 	while (*tmp && (*tmp)->type == WORD)
 	{
-		new->full_cmd[i] = ft_strdup((*tmp)->value);
+		new->full_cmd[i] = ft_strdup(((*tmp)->value));
 		if (!new->full_cmd[i])
 			return (free_split(new->full_cmd), NULL); //a verifier 
 		i++;

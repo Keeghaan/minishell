@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 16:16:23 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 16:54:25 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,12 @@ static int	check_errno(char *cmd, char **en)
 		if (!tmp)
 			return (-1);
 		path = ft_strjoin(tmp, cmd);
+		free(tmp);
 		if (!path)
 			return (-2);
 		if (access(path, F_OK | X_OK | R_OK) == 0)
 			found++;
+		free(path);
 	}
 	if (!found)
 		return (errno);

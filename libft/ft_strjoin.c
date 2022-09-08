@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 19:18:02 by nboratko          #+#    #+#             */
-/*   Updated: 2022/08/02 14:27:43 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/08 16:51:33 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,21 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		len1;
-	int		len2;
+	int		dup;
 	char	*s3;
 
-	if (!s1)
-		s1 = ft_strdup("");
+	dup = 0;
 	if (!s2)
 		return (NULL);
+	if (!s1)
+	{
+		dup = 1;
+		s1 = ft_strdup("");
+	}
 	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	s3 = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (dup)
+		free(s1);
+	s3 = (char *)malloc(sizeof(char) * (len1 + ft_strlen(s2) + 1));
 	if (s3 == NULL)
 		return (NULL);
 	i = -1;
