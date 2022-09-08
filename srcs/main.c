@@ -74,8 +74,10 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 //		if (shell->cmds)
 //			free_cmds(&shell->cmds);
 	}
-	free(shell->prev_dir);
-	free(shell->next_dir);
+	if (shell->prev_dir)
+		free(shell->prev_dir);
+	if (shell->next_dir)
+		free(shell->next_dir);
 	rl_clear_history();
 }
 
@@ -85,9 +87,9 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	shell;
 
 	//g_return = 125;	
-	shell.ret = 0;
 	check_argv(argc, argv, envp);
 	envp_to_lst(&env, envp);
+	init_shell(&shell);
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
 	shell.env = envp;

@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 14:34:58 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:10:40 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,10 @@ void	ret_value(int err, int ret, t_shell *shell, int msg)
 	{
 		if (err && ret == 1)
 			shell->ret = 127;
-		else 
-		shell->ret = 0;
+		else if (!err && shell->infile < 2)
+		       shell->ret = 1; //a verfiier
+		else	
+			shell->ret = 0;
 	}
 }
 
@@ -110,7 +112,6 @@ int	error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg)
 			cmd = cmd->next;
 		else
 		{
-			printf("%d err %d  ret \n", err, ret);
 			ret_value(err, ret, shell, msg);
 			break ;
 		}

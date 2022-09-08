@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 12:48:58 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:07:46 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ int	is_env_var(t_envp *envp, char *var)
 static int	join_path(char *tmp, char *path, char **en, char *cmd)
 {
 	if (!tmp)
-		return (free_split(en), 0);
+		return (free_split(en), -1);
 	path = ft_strjoin(tmp, cmd);
 	if (!path)
-		return (free(tmp), free_split(en), 0);
+		return (free(tmp), free_split(en), -2);
 	free(tmp);
-	return (1);
+	if (access(path, R_OK | X_OK) == 0)
+		return (free(path), free_split(en), 1);
+	return (0);
 }
 
 static int	is_valid_ter(char *cmd, char **envp, char *path)
@@ -44,10 +46,9 @@ static int	is_valid_ter(char *cmd, char **envp, char *path)
 	char	**en;
 	char	*tmp;
 	int		j;
+	int		ret;
 
 	j = -1;
-	if (!ft_isalpha(*cmd)) /// a verifier
-		return (0);
 	en = get_env(envp);
 	if (!en)
 		return (0);
@@ -56,11 +57,13 @@ static int	is_valid_ter(char *cmd, char **envp, char *path)
 		if (en[j])
 		{
 			tmp = ft_strjoin(en[j], "/");
-			if (!join_path(tmp, path, en, cmd))
-				return (-1);
-			if (access(path, R_OK | X_OK) == 0)
-				return (free(path), free_split(en), 1);
-			free(path);
+			ret = join_path(tmp, path, en, cmd);
+			if (ret < 0)
+				return ( 0);
+			else if (ret == 0)
+				j++;
+			else if (ret)
+				return (1);
 		}
 	}
 	return (free_split(en), 0);
@@ -71,6 +74,10 @@ static	int	valid_cmd_bis(char *cmd)
 	int	j;
 
 	j = 0;
+	if (!cmd)
+		return (0);
+	if (!ft_isalpha(*cmd)) /// a verifier
+		return (0);
 	while (cmd[j])
 	{
 		if (cmd[j++] == '.')
@@ -95,7 +102,7 @@ int	is_valid_cmd(char *cmd, char **envp)
 	}
 	else
 	{
-		if (!is_valid_ter(cmd, envp, path))
+		if (is_valid_ter(cmd, envp, path))
 			return (1);
 	}
 	return (0);

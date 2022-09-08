@@ -125,7 +125,7 @@ void	init_shell_struct(t_shell *shell);
 void	free_cmds(t_cmd **cmd);
 void	rewind_token(t_token **token, int back);
 void	rewind_cmd(t_cmd **cmd, int back);
-
+void	init_shell(t_shell *shell);
 //SIGNALS
 void	signalisation(int child);
 void	handle_sigint(int sig);
