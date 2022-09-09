@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 15:07:46 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/08 16:44:15 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	join_path(char *tmp, char *path, char **en, char *cmd)
 	free(tmp);
 	if (access(path, R_OK | X_OK) == 0)
 		return (free(path), free_split(en), 1);
-	return (0);
+	return (free(path), 0);
 }
 
 static int	is_valid_ter(char *cmd, char **envp, char *path)
@@ -95,10 +95,9 @@ int	is_valid_cmd(char *cmd, char **envp)
 		return (0);
 	if (!check_path_cmd2(cmd))
 	{
-		path = ft_strdup(cmd);
-		if (access(path, R_OK | X_OK) == 0)
+		if (access(cmd, R_OK | X_OK) == 0)
 			return (1);
-		return (free(path), 0);
+		return (0);
 	}
 	else
 	{

@@ -33,7 +33,6 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 			else
 				shell->pipe = 0;
 			g_return = shell->ret;
-			printf("%d\n", g_return);
 			if (tokenizer(buf, token, env))
 				ft_putendl_fd("minishell: syntax error", 2);
 			shell->token = *token;
