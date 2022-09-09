@@ -13,7 +13,7 @@ void	init_shell_struct(t_shell *shell)
 		else
 			break ;
 	}
-	shell->outfile = tmp->outfile;
+	shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 }
 
 void	free_cmds(t_cmd **cmd)

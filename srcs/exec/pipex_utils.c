@@ -91,7 +91,7 @@ void	path_and_cmd(t_shell *child, int index)
 	}
 	cmd = tmp->full_cmd;
 	path = tmp->full_path;
-	close(tmp->outfile);
+	//close(tmp->outfile);
 	if (cmd[0] && path)
 	{
 		execute(cmd, path, child);

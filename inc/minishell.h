@@ -61,7 +61,7 @@ typedef struct	s_cmd
 	char	**full_cmd;
 	char	*full_path;
 	char	*infile;
-	int	outfile;
+	char	*outfile;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;

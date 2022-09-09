@@ -96,5 +96,7 @@ int	main(int argc, char **argv, char **envp)
 	run_shell(&env, &shell, envp);
 	if (env)
 		free_envp(&env);
+	//close(shell.std_in);
+	//close(shell.std_out);
 	return (0);
 }
