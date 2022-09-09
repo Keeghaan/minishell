@@ -62,6 +62,7 @@ typedef struct	s_cmd
 	char	*full_path;
 	char	*infile;
 	char	*outfile;
+	int	redir;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
@@ -134,6 +135,7 @@ void	handle_sigint(int sig);
 int	main(int argc, char **argv, char **envp);
 void	run_shell(t_envp **env, t_shell *shell, char **envp);
 void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp);
+void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp, t_envp **env);
 int	check_argv(int ac, char **av, char **en);
 
 //PARSING
@@ -141,7 +143,7 @@ int	check_argv(int ac, char **av, char **en);
 char	*check_tokens(t_token **t);
 int	parse(t_token **token, t_shell *shell);
 int	file_or_command(t_token **t);
-void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
+int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
 
 //CMDS
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell);

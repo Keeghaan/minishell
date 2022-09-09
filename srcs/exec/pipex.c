@@ -24,8 +24,11 @@ static void	child_process(t_shell *child, int index)
 	if (index == child->n_cmds - 1 || ft_strncmp(tmp->outfile, "/dev/stdout", ft_strlen(tmp->outfile)))
 	{
 		close(child->outfile);
-		dup2(child->std_out, 1);	
-		child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		dup2(child->std_out, 1);
+		if (tmp->redir == 1)	
+			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (tmp->redir == 2)
+			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (dup2(child->outfile, STDOUT_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));
 		close(child->outfile);

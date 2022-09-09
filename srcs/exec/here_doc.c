@@ -49,16 +49,12 @@ void	get_here_doc(t_token **token, t_cmd **new)
 	int	file;
 	static int	i;
 
-//	i = 0;
-//	printf("HERE_DOC ::: %d\n", i);
 	if (i != 1)
 	{
-		printf("LOL\n");
 		file = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		write_in_file(&file, token);
 		(*new)->infile = ".here_doc";
 		i = 1;
-		printf("APRES ::: %d\n", i);
 	}
 	else
 	{

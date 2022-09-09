@@ -30,7 +30,7 @@ char	*check_tokens(t_token **t)
    cat << lol | wc -l > out
    cat Makefile */
 
-void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
+int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 {
 	int	i;
 	t_token	*tmp;
@@ -74,6 +74,9 @@ void	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 			break ;
 		i++;
 	}
+	if (*cmd)
+		return (1);
+	return (0);
 }
 
 //will return 0 if all went well and 1 if an error occured
@@ -84,10 +87,8 @@ int	parse(t_token **token, t_shell *shell)
 
 	check = check_tokens(token);
 	if (check)
-	{
 		ft_printf("minishell: syntax error near unexpected token `%s'\n", check);
+	if (get_cmds(token, &shell->cmds, shell))
 		return (1);
-	}
-	get_cmds(token, &shell->cmds, shell);
 	return (0);
 }

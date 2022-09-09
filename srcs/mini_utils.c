@@ -13,7 +13,10 @@ void	init_shell_struct(t_shell *shell)
 		else
 			break ;
 	}
-	shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (tmp->redir == 1)
+		shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (tmp->redir == 2)
+		shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
 void	free_cmds(t_cmd **cmd)
@@ -21,22 +24,22 @@ void	free_cmds(t_cmd **cmd)
 	t_cmd	*tmp;
 	int	i;
 
-	while (*cmd)
+	tmp = *cmd;
+	while (tmp)
 	{
 		i = 0;
-		tmp = *cmd;
-		if ((*cmd)->next)
-		       *cmd = (*cmd)->next;
-		else
-			break ;
+		*cmd = (*cmd)->next;
+		if (tmp->full_path)
+			free(tmp->full_path);
 		while (tmp->full_cmd[i])
 		{
 			free(tmp->full_cmd[i]);
 			i++;
 		}
 		free(tmp->full_cmd);
-		free(tmp->full_path);
-		free(tmp);
+		if (tmp)
+			free(tmp);
+		tmp = *cmd;
 	}
 }
 

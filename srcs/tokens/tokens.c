@@ -62,6 +62,8 @@ int	tokenizer(char *line, t_token **token, t_envp **env)
 	{
 		while ((line[i] >= 9 && line[i] <= 13) || line[i] == ' ')
 			i++;
+		if (!line[i])
+			return (0);
 		if (line[i] == '"')
 		{
 			if (double_quotes_tokens(token, i + 1, &j, k, line))

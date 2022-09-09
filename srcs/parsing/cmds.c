@@ -40,34 +40,29 @@ void	get_infile(t_token **tmp, t_cmd **new)
 }
 
 void	get_outfile(t_token **tmp, t_cmd **new)
-{
-	if ((*tmp)->next != NULL && (*tmp)->next->type == REDIR_OUT)
+{	
+	if ((*tmp)->type == REDIR_OUT)
+		(*new)->outfile = (*tmp)->next->value;
+	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
+		(*new)->outfile = "/dev/stdout";
+	else if ((*tmp)->type == PIPE)
+		(*new)->outfile = "/dev/stdout"; //par defaut
+	else if ((*tmp)->type == DREDIR_IN)
 	{
-		(*new)->outfile = ft_strdup((*tmp)->next->next->value);
+		if ((*tmp)->next->next && (*tmp)->next->next->type == PIPE)
+			(*new)->outfile = "/dev/stdout";
+		else if ((*tmp)->next->next && (*tmp)->next->next->next && (*tmp)->next->next->type == REDIR_OUT)
+			(*new)->outfile = (*tmp)->next->next->next->value;
 	}
-	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
-		(*new)->outfile = ft_strdup("/dev/stdout");
-	else if ((*tmp)->next != NULL && (*tmp)->next->type == DREDIR_OUT)
-		(*new)->outfile = ft_strdup((*tmp)->next->next->value);
-	else if ((*tmp)->next == NULL || (*tmp)->next->type == PIPE)
-		(*new)->outfile = ft_strdup("/dev/stdout"); //par defaut
 	else
-		(*new)->outfile = ft_strdup("/dev/stdout");
+		(*new)->outfile = "/dev/stdout";
+	(*new)->redir = 1;
+	if ((*tmp)->type == DREDIR_OUT)
+	{
+		(*new)->outfile = (*tmp)->next->value;
+		(*new)->redir = 2;
+	}
 }
-
-/*void	get_outfile(t_token **tmp, t_cmd **new)
-{
-	if ((*tmp)->next != NULL && (*tmp)->next->type == REDIR_OUT)
-		(*new)->outfile = open((*tmp)->next->next->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
-		(*new)->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if ((*tmp)->next != NULL && (*tmp)->next->type == DREDIR_OUT)
-		(*new)->outfile = open((*tmp)->next->next->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if ((*tmp)->next == NULL || (*tmp)->next->type == PIPE)
-		(*new)->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC, 0644); //par defaut
-	else
-		(*new)->outfile = open("/dev/stdout", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-}*/
 
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 {
@@ -86,9 +81,6 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		get_here_doc(tmp, &new);
 	else
 		get_infile(tmp, &new);
-	get_outfile(tmp, &new);
-	printf("make new cmd INFILE : %s\n", new->infile);
-	printf("make new cmd OUTFILE :%d\n", new->outfile);
 	while (curr)
 	{
 		count += ft_strlen(curr->value) + 1;
@@ -97,10 +89,11 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		else
 			break ;
 	}
-	printf("make new cmd %d size\n", count + 1);
+	//printf("make new cmd %d size\n", count + 1);
+	new->redir = 0;
 	new->full_cmd = (char **)malloc(sizeof(char *) * count);
 	if (!new->full_cmd)
-		return (NULL);// car curieusement i + i au lieu de 100 ne voulait pas 
+		return (NULL); 
 	i = 0;
 	while (*tmp && (*tmp)->type == WORD)
 	{
@@ -108,8 +101,13 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		if (!new->full_cmd[i])
 			return (free_split(new->full_cmd), NULL); //a verifier 
 		i++;
-		*tmp = (*tmp)->next;
+		if ((*tmp)->next)
+			*tmp = (*tmp)->next;
+		else
+			break ;
 	}
+	get_outfile(tmp, &new);
+	//printf("%s\n");
 	new->full_cmd[i] = NULL;
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
 	new->next = NULL;
