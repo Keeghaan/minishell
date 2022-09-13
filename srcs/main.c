@@ -39,7 +39,7 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		parse(token, shell);
 		if (shell->cmds)
 		{
-			printf("shell loop 2 test\n");
+			printf("shell loop cmds 2 test\n");
 			init_shell_struct(shell);
 			run_cmd(shell, envp);
 		}
@@ -147,10 +147,12 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
 		{
-			printf("test run shell\n");
+			printf("free cmds ? (test run shell)\n");
 			free_cmds(&shell->cmds);
 		}
 	}
+//	if (shell->cmds)
+//		free_cmds(&shell->cmds); //????pour les leaks d'exit
 	if (shell->prev_dir)
 		free(shell->prev_dir);
 	if (shell->next_dir)
@@ -173,6 +175,7 @@ int	main(int argc, char **argv, char **envp)
 	run_shell(&env, &shell, envp);
 	if (env)
 		free_envp(&env);
+//	free_cmds(&shell.cmds);
 	free_split(shell.env);
 	//close(shell.std_in);
 	//close(shell.std_out);

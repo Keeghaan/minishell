@@ -46,7 +46,7 @@ static void	child_process(t_shell *child, int index)
 		if (dup2(child->pipefd[1], STDOUT_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));
 	}
-	close(child->pipefd[1]);	
+	close(child->pipefd[1]);
 	path_and_cmd(child, index);
 }
 

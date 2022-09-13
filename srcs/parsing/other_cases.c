@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/13 14:46:42 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/13 15:09:27 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	check_symbol(char *token)
 		return (1);
 	return (0);
 }
-/*
-static int	check_cmd(char *token, char **envp)
+
+int	check_cmd(char *token, char **envp)
 {
 	int		j;
 	char	*tmp;
@@ -45,7 +45,7 @@ static int	check_cmd(char *token, char **envp)
 		free(path);
 	}
 	return (free_split(envp), 0);
-}*/
+}
 
 static int	check_file(char *token)
 {
