@@ -136,7 +136,7 @@ int	main(int argc, char **argv, char **envp);
 void	run_shell(t_envp **env, t_shell *shell, char **envp);
 void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp);
 void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp, t_envp **env);
-int	check_argv(int ac, char **av, char **en);
+int	check_argv(t_shell *shell,int ac, char **av, char **en);
 
 //PARSING
 //int	count_tokens(t_token **token);
@@ -145,6 +145,8 @@ int	parse(t_token **token, t_shell *shell);
 int	file_or_command(t_token **t);
 int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
 int	which_case(t_token **token, char **envp);
+int	check_cmd(char *token, char **envp); // ca c'est pas pour le parsing finalement
+
 //CMDS
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell);
 void	get_outfile(t_token **tmp, t_cmd **new);

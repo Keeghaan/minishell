@@ -51,8 +51,8 @@ void	cmd_not_found(char **cmd, char *path, t_shell *child)
 
 void	execute(char **cmd, char *path, t_shell *child)
 {
-	if (cmd_not_fnd(path, child->env))
-		return ;
+//	if (cmd_not_fnd(path, child->env))
+//		return ;
 	execve(path, cmd, child->env);
 /*	write(2, "minishell: ", 11);
 	write(2, cmd[0], ft_strlen(cmd[0]));
@@ -60,7 +60,7 @@ void	execute(char **cmd, char *path, t_shell *child)
 	write(2, "\n", 1); *///Ca si ca se lance on aura des msg d'erreur en double 
 	free_split(cmd);
 	free(child->pid);
-	close(STDIN_FILENO);
+	close(STDIN_FILENO); //faut verifier si c'est utile comme y a le cmd not found ?
 	close(STDOUT_FILENO);
 	close(child->pipefd[0]);
 	close(child->outfile);
@@ -92,10 +92,8 @@ void	path_and_cmd(t_shell *child, int index)
 	cmd = tmp->full_cmd;
 	path = tmp->full_path;
 	//close(tmp->outfile);
-	if (cmd[0] && path)
-	{
+	if (cmd[0] && path && check_cmd(cmd[0], child->env))
 		execute(cmd, path, child);
-	}
 	else
 		cmd_not_found(cmd, path, child);
 }

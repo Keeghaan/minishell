@@ -34,11 +34,12 @@ void	free_cmds(t_cmd **cmd)
 			if (tmp->full_path &&
 				ft_strncmp(tmp->full_path, tmp->full_cmd[i], ft_strlen(tmp->full_path)))
 				free(tmp->full_cmd[i]);
+			if (!tmp->full_path)
+				free(tmp->full_cmd[i]);
 			i++;
 		}
 		if (tmp->full_path)
 			free(tmp->full_path);
-
 		free(tmp->full_cmd);
 		if (tmp)
 			free(tmp);

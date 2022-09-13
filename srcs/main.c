@@ -6,7 +6,7 @@ int	g_return;
 void	no_cmd(t_shell *shell, t_token **token, char **envp)
 {
 	(void)shell;
-	int	cases;
+	int	cases; //fonction en cours mais en fait j'ai l'impression qu'elle ne servira a rien et qu'il faudra juste utiliser which_case xD je sais pu pourquoi jai fait cette fonction intermediaire a la base
 
 	cases = which_case(token, envp);
 	if (cases == 1)
@@ -42,8 +42,8 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 			init_shell_struct(shell);
 			run_cmd(shell, envp);
 		}
-//		else
-//			no_cmd(shell, token, envp);
+		else
+			no_cmd(shell, token, envp);
 	}
 	free_token(&shell->token);
 	error_msg(shell, shell->cmds, envp, 0);
@@ -61,7 +61,7 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 	}
 	else
 	{
-			if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
+		if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
 		{
 			shell->is_running = 0;
 			ft_putendl_fd("exit", 1);
@@ -145,8 +145,13 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
+		{
+			printf("free cmds ? (test run shell)\n");
 			free_cmds(&shell->cmds);
+		}
 	}
+//	if (shell->cmds)
+//		free_cmds(&shell->cmds); //????pour les leaks d'exit
 	if (shell->prev_dir)
 		free(shell->prev_dir);
 	if (shell->next_dir)
@@ -159,16 +164,18 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*env;
 	t_shell	shell;
 
-	//g_return = 125;	
-	check_argv(argc, argv, envp);
+	//g_return = 125;
+	check_argv(&shell, argc, argv, envp);
 	envp_to_lst(&env, envp);
 	init_shell(&shell);
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
-	shell.env = envp;
+//	shell.env = envp;
 	run_shell(&env, &shell, envp);
 	if (env)
 		free_envp(&env);
+//	free_cmds(&shell.cmds);
+	free_split(shell.env);
 	//close(shell.std_in);
 	//close(shell.std_out);
 	return (0);

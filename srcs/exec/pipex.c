@@ -29,6 +29,8 @@ static void	child_process(t_shell *child, int index)
 			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (tmp->redir == 2)
 			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644); //test pour si y a pas de redir
 		if (dup2(child->outfile, STDOUT_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));
 		close(child->outfile);
@@ -46,7 +48,7 @@ static void	child_process(t_shell *child, int index)
 		if (dup2(child->pipefd[1], STDOUT_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));
 	}
-	close(child->pipefd[1]);	
+	close(child->pipefd[1]);
 	path_and_cmd(child, index);
 }
 

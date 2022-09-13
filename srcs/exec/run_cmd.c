@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 16:29:05 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/13 16:07:40 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,42 +31,6 @@ int	check_path_cmd2(char *cmd)
 	}
 	return (2);
 }
-/*
-int	is_cmd(t_shell *shell, char *cmd, char **envp)
-{
-	int		j;
-	char	**en;
-	char	*tmp;
-
-	j = 0;
-	while (cmd[j])
-	{
-		if (cmd[j++] == '.')
-			return (0);
-	}
-	if (!check_path_cmd2(cmd))
-	{
-		shell->cmds->full_path = ft_strdup(cmd);
-		if (access(shell->cmds->full_path, R_OK | X_OK) == 0)
-			return (1);
-		return (free(shell->cmds->full_path), 0);
-	}
-	else
-	{
-		en = get_env(envp);
-		while (en[j])
-		{
-			tmp = ft_strjoin(en[j], "/");//a proteger
-			shell->cmds->full_path = ft_strjoin(tmp, cmd);//a protger
-			free(tmp);
-			if (access(shell->cmds->full_path, R_OK | X_OK) == 0)
-				return (1);
-			free(shell->cmds->full_path);
-			j++;
-		}
-	}
-	return (0);
-}*/
 
 int	get_cmd_nbr(t_shell *shell, char **envp)
 {
@@ -143,31 +107,6 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 	}
 	return (0);
 }
-/*
-int	what_is_it(t_shell *shell, t_cmd **cmds)
-{
-	int	j;
-	int	result;
-
-	j = 0;
-	printf("what is it %s full cmd\n", (*cmds)->full_cmd[0]);
-	rewind_cmd(cmds, 1);
-	printf("what is it %s full cmd\n", (*cmds)->full_cmd[0]);
-	while (*cmds)
-	{
-		result = is_it_builtin(shell, *cmds, j);
-		if (result)
-			return (2);//	result = run_builtin(result);
-		else
-			printf("%s not builtin\n", (*cmds)->full_cmd[0]);//result = 	//verifier si ce sont des files
-		if ((*cmds)->next)
-			(*cmds) = (*cmds)->next;
-		else
-			break ;
-		j++;
-	}
-	return (result);
-}*/
 
 void	run_cmd(t_shell *shell, char **envp)
 {	
@@ -178,12 +117,6 @@ void	run_cmd(t_shell *shell, char **envp)
 	while (shell->cmds)
 	{
 		is_it_builtin(shell, shell->cmds, 1);
-	//	if (!shell->cmds->full_path)
-	//	{
-	//		if (is_cmd(shell, shell->cmds->full_cmd[0], envp))
-	//			cmd++;
-	//	}
-	//	else
 		if (is_valid_cmd(shell->cmds->full_cmd[0], envp))
 			cmd++;
 		if (shell->cmds->next)
@@ -192,7 +125,11 @@ void	run_cmd(t_shell *shell, char **envp)
 			break ;
 	}
 	rewind_cmd(&shell->cmds, 1);
+//	if (error_msg(shell, shell->cmds, envp, 1) && !cmd)
+//		return ;
 	error_msg(shell, shell->cmds, envp, 1);
 	if (cmd)
 		exec_cmd(shell, shell->cmds->full_path, envp);
+	else
+		return ;
 }

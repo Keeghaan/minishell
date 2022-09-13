@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 15:57:43 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/13 16:05:33 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	possibilities(t_shell *shell, char *action)
 		return (1);
 	if (possibilities_bis(shell, action))
 		return (3);
-	else
-		return (0);
 	get_next_dir(shell, action);
 	if (access(shell->next_dir, F_OK | X_OK) != 0)
 		return (printf("%s: %s: %s: %s\n", SH, "cd",
@@ -98,6 +96,7 @@ int	cd_cmd(t_shell *shell, char *action)
 	}
 	if (move == 4)
 	{
+		printf("test");
 		if (chdir(shell->next_dir) != 0)
 			return (3);
 	}

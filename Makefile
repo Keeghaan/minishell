@@ -6,11 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2022/09/13 13:44:10 by jcourtoi         ###   ########.fr        #
-=======
-#    Updated: 2022/09/13 13:47:04 by nboratko         ###   ########.fr        #
->>>>>>> added builtins export and unset
+#    Updated: 2022/09/13 16:28:09 by jcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
