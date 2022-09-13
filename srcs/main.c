@@ -42,8 +42,8 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 			init_shell_struct(shell);
 			run_cmd(shell, envp);
 		}
-//		else
-//			no_cmd(shell, token, envp);
+		else
+			no_cmd(shell, token, envp);
 	}
 	free_token(&shell->token);
 	error_msg(shell, shell->cmds, envp, 0);
