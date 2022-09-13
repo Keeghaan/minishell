@@ -45,7 +45,7 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		else
 			no_cmd(shell, token, envp);
 	}
-	free_token(&shell->token);
+	//free_token(&shell->token);
 	error_msg(shell, shell->cmds, envp, 0);
 }
 
@@ -145,10 +145,10 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
-		{
-			printf("free cmds ? (test run shell)\n");
 			free_cmds(&shell->cmds);
-		}
+		if (token)
+			free_token(&token);
+			
 	}
 //	if (shell->cmds)
 //		free_cmds(&shell->cmds); //????pour les leaks d'exit

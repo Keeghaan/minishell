@@ -111,6 +111,6 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
 	new->next = NULL;
 	new->prev = NULL;
-	printf("cmds.c %s\n", new->full_cmd[0]);
+//	printf("cmds.c %s\n", new->full_cmd[0]);
 	return (new);
 }
