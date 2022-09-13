@@ -169,6 +169,7 @@ int	get_prev_dir(t_shell *shell, int back);
 int	get_next_dir(t_shell *shell, char *dir);
 int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active);
 void	print_envp(t_envp *envp);
+void	display_pwd(t_shell *shell);
 
 //EXEC
 void	run_cmd(t_shell *shell, char **envp);
