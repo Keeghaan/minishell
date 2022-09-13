@@ -113,7 +113,11 @@ int	path_builtins(t_shell *shell, t_cmd *cmd, int active)
 		return (2);
 	}
 	if (!ft_strncmp(cmd->full_cmd[0], "unset", ft_strlen(cmd->full_cmd[0])))
+	{
+		if (active)
+			unset_envp(shell, cmd->full_cmd[1]);
 		return (3);
+	}
 	if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
 	{
 		if (active)

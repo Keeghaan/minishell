@@ -9,10 +9,11 @@ char	*get_var(char *argv)
 	while (argv[i] != '=')
 		i++;
 	var = ft_substr(argv, 0, i);
+	printf("%s\n", var);
 	return (var);
 }
 
-char	*get_values(char *argv)
+char	*get_values(char *argv, t_shell *shell)
 {
 	int	i;
 	int	j;
@@ -23,7 +24,12 @@ char	*get_values(char *argv)
 	while (argv[i] != '=')
 		i++;
 	i++;
-	values = ft_substr(argv, i, ft_strlen(argv));
+	//printf("%s\n", shell->token->next->next->value);
+	if (!argv[i] && shell->token->next->next && (shell->token->next->next->quotes == 2 
+		|| shell->token->next->next->quotes == 3))
+		values = ft_strdup(shell->token->next->next->value);
+	else
+		values = ft_substr(argv, i, ft_strlen(argv));
 	return (values);
 }
 
@@ -32,7 +38,6 @@ void	add_exported(t_envp **envp, t_envp *new)
 	t_envp	*tmp;
 
 	tmp = *envp;
-	printf("%s\n", tmp->var);
 	while (tmp)
 	{
 		if (tmp->next)
@@ -41,17 +46,16 @@ void	add_exported(t_envp **envp, t_envp *new)
 			break ;
 	}
 	tmp->next = new;
-	printf("%s\n", tmp->next->var);
 }
 
-t_envp	*make_exported(char *argv)
+t_envp	*make_exported(char *argv, t_shell *shell)
 {
 	t_envp	*new;
 	char	*var;
 	char	*values;
 	
 	var = get_var(argv);
-	values = get_values(argv);
+	values = get_values(argv, shell);
 	new = malloc(sizeof(t_envp));
 	if (!new)
 		return (NULL);
@@ -126,7 +130,7 @@ void	export_var(t_shell *shell, t_envp *envp)
 	}
 	else if (ft_strchr(shell->cmds->full_cmd[1], '='))
 	{
-		new = make_exported(shell->cmds->full_cmd[1]);
+		new = make_exported(shell->cmds->full_cmd[1], shell);
 		add_exported(&envp, new);
 	}
 }

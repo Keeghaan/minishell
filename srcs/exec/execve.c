@@ -90,6 +90,8 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			return ;
 		if (shell->pid[0] == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			//sigaction(SIGQUIT, &s, NULL);
 			if (shell->infile > 0)
 			{
