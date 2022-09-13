@@ -114,6 +114,12 @@ int	path_builtins(t_shell *shell, t_cmd *cmd, int active)
 	}
 	if (!ft_strncmp(cmd->full_cmd[0], "unset", ft_strlen(cmd->full_cmd[0])))
 		return (3);
+	if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
+	{
+		if (active)
+			print_envp(shell->envp);
+		return (4);
+	}
 	return (0);
 }
 	
@@ -124,8 +130,8 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 		return (1);
 	else
 	{
-		if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
-			return (2);
+		//if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
+		//	return (2);
 		if (!ft_strncmp(cmd->full_cmd[0], "pwd", ft_strlen(cmd->full_cmd[0])))
 			return (2);
 		if (!ft_strncmp(cmd->full_cmd[0], "echo", ft_strlen(cmd->full_cmd[0])))

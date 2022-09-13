@@ -159,10 +159,14 @@ char	**get_env(char **envp);
 //BUILTINS
 int	cd_cmd(t_shell *shell, char *action);
 void	export_var(t_shell *shell, t_envp *envp);
+void	check_export(char *opt_var, t_shell *shell);
+t_envp	*make_exported(char *argv);
+void	add_exported(t_envp **envp, t_envp *new);
 int	get_cwd(t_shell *shell);
 int	get_prev_dir(t_shell *shell, int back);
 int	get_next_dir(t_shell *shell, char *dir);
 int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active);
+void	print_envp(t_envp *envp);
 
 //EXEC
 void	run_cmd(t_shell *shell, char **envp);

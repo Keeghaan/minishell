@@ -103,8 +103,9 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 			}
 			if (cmd_not_fnd(path, envp))
 				return ;
-			execve(path, shell->cmds->full_cmd, envp);
-			printf("failed ?"); //
+			if (ft_strncmp(shell->cmds->full_cmd[0], "env", ft_strlen(shell->cmds->full_cmd[0]) != 0))
+                execve(path, shell->cmds->full_cmd, envp);
+			//printf("failed ?"); //
 		}
 		waitpid(shell->pid[0], NULL, 0);
 		free(shell->pid);
