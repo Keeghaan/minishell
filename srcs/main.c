@@ -39,6 +39,7 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		parse(token, shell);
 		if (shell->cmds)
 		{
+			printf("shell loop 2 test\n");
 			init_shell_struct(shell);
 			run_cmd(shell, envp);
 		}
@@ -61,7 +62,7 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 	}
 	else
 	{
-			if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
+		if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
 		{
 			shell->is_running = 0;
 			ft_putendl_fd("exit", 1);
@@ -145,7 +146,10 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
+		{
+			printf("test run shell\n");
 			free_cmds(&shell->cmds);
+		}
 	}
 	if (shell->prev_dir)
 		free(shell->prev_dir);
@@ -159,16 +163,17 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*env;
 	t_shell	shell;
 
-	//g_return = 125;	
-	check_argv(argc, argv, envp);
+	//g_return = 125;
+	check_argv(&shell, argc, argv, envp);
 	envp_to_lst(&env, envp);
 	init_shell(&shell);
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
-	shell.env = envp;
+//	shell.env = envp;
 	run_shell(&env, &shell, envp);
 	if (env)
 		free_envp(&env);
+	free_split(shell.env);
 	//close(shell.std_in);
 	//close(shell.std_out);
 	return (0);

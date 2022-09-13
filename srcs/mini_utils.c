@@ -38,7 +38,6 @@ void	free_cmds(t_cmd **cmd)
 		}
 		if (tmp->full_path)
 			free(tmp->full_path);
-
 		free(tmp->full_cmd);
 		if (tmp)
 			free(tmp);

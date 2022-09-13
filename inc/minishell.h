@@ -136,7 +136,7 @@ int	main(int argc, char **argv, char **envp);
 void	run_shell(t_envp **env, t_shell *shell, char **envp);
 void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp);
 void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp, t_envp **env);
-int	check_argv(int ac, char **av, char **en);
+int	check_argv(t_shell *shell,int ac, char **av, char **en);
 
 //PARSING
 //int	count_tokens(t_token **token);

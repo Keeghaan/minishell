@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 11:35:22 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 17:31:40 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/13 14:56:30 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,24 @@ static char	*get_path_cmd(char **en, char *cmd)
 	return (NULL);
 }
 
-int	check_argv(int ac, char **av, char **en)
+int	check_argv(t_shell *shell, int ac, char **av, char **en)
 {
+//	(void)shell;
 	char	*tmp;
-	char	**envp;
+//	char	**envp;
 
-	tmp = NULL;	
-	envp = get_env(en);
-	if (!envp)
+	tmp = NULL;
+	shell->env = get_env(en);
+	if (!shell->env)
+	{
+	//	shell->env_i = 1; a voir ?
 		return (3);
+	}
 	if (ac > 1)
 	{
 		if (av[1])
 		{
-			tmp = get_path_cmd(envp, av[1]);
+			tmp = get_path_cmd(shell->env, av[1]);
 			if (!tmp)
 				printf("%s: %s\n", av[1], strerror(2));
 			else if (access(tmp, F_OK | R_OK | X_OK) == 0)
@@ -115,6 +119,5 @@ int	check_argv(int ac, char **av, char **en)
 	}
 	if (tmp)
 		free(tmp);
-	free_split(envp);
 	return (0);
 }

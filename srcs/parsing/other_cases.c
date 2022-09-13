@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/13 14:08:57 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/13 14:46:42 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	check_file(char *token)
 		return (close(fd), 1);
 	if (!check_symbol(token))
 		printf("%s: %s: %s\n", SH, token, strerror(errno)); //verifier syntax
-	return (close(fd), 0);
+	return (0);
 }
 
 int	which_case(t_token **token, char **envp)
@@ -76,15 +76,15 @@ int	which_case(t_token **token, char **envp)
 		printf("OTHERCASE.c %s token\n", t->value);///
 		//if (check_cmd(t->value, envp))
 	//		cmd++;
-		if (check_file(t->value))
-		{
-			printf("othercase.c %s file is file\n", t->value);//
-			file++;
-		}
-		else if (check_symbol(t->value))
+		if (check_symbol(t->value))
 		{
 			printf("othercase.c symbol %s is symbol ? (verifier << >>)\n", t->value);//
 			symbol++;
+		}
+		else if (check_file(t->value))
+		{
+			printf("othercase.c %s file is file\n", t->value);//
+			file++;
 		}
 		if (t->next)
 			t = t->next;

@@ -51,8 +51,8 @@ void	cmd_not_found(char **cmd, char *path, t_shell *child)
 
 void	execute(char **cmd, char *path, t_shell *child)
 {
-	if (cmd_not_fnd(path, child->env))
-		return ;
+//	if (cmd_not_fnd(path, child->env))
+//		return ;
 	execve(path, cmd, child->env);
 /*	write(2, "minishell: ", 11);
 	write(2, cmd[0], ft_strlen(cmd[0]));
@@ -97,5 +97,5 @@ void	path_and_cmd(t_shell *child, int index)
 		execute(cmd, path, child);
 	}
 	else
-		cmd_not_found(cmd, path, child);
+		cmd_not_found(cmd, path, child); //je crois qu'il faut faire l'inverse "if !cmd not found, alors exec")
 }
