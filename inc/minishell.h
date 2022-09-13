@@ -144,7 +144,7 @@ char	*check_tokens(t_token **t);
 int	parse(t_token **token, t_shell *shell);
 int	file_or_command(t_token **t);
 int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
-
+int	which_case(t_token **token, char **envp);
 //CMDS
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell);
 void	get_outfile(t_token **tmp, t_cmd **new);
