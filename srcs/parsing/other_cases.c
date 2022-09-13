@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/13 14:05:00 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/13 14:08:57 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ static int	check_symbol(char *token)
 		return (1);
 	return (0);
 }
-
+/*
 static int	check_cmd(char *token, char **envp)
 {
 	int		j;
 	char	*tmp;
 	char	*path;
 	char	**env;
+	
 	j = -1;
-
 	env = get_env(envp);
 	if (!env)
 		return (-3);
-	while (env[--j])
+	while (env[++j])
 	{
 		printf("shell env %s\n", env[j]);
 		tmp = ft_strjoin(env[j], "/");
@@ -45,7 +45,7 @@ static int	check_cmd(char *token, char **envp)
 		free(path);
 	}
 	return (free_split(envp), 0);
-}
+}*/
 
 static int	check_file(char *token)
 {
@@ -61,21 +61,22 @@ static int	check_file(char *token)
 
 int	which_case(t_token **token, char **envp)
 {
+	(void)envp;
 	t_token	*t;
-	int		cmd;
+//	int		cmd;
 	int		file;
 	int		symbol;
 
 	t = *token;
-	cmd = 0;
+//	cmd = 0;
 	file = 0;
 	symbol = 0;
 	while (t)
 	{
 		printf("OTHERCASE.c %s token\n", t->value);///
-		if (check_cmd(t->value, envp))
-			cmd++;
-		else if (check_file(t->value))
+		//if (check_cmd(t->value, envp))
+	//		cmd++;
+		if (check_file(t->value))
 		{
 			printf("othercase.c %s file is file\n", t->value);//
 			file++;
@@ -92,7 +93,7 @@ int	which_case(t_token **token, char **envp)
 	}
 	if (!file)
 		return (1);
-	if (!cmd && file)
+	if (file)
 		return (2);
 	return (0);
 }
