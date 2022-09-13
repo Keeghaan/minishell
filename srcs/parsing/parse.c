@@ -13,22 +13,17 @@ char	*check_tokens(t_token **t)
 	{
 		if (tmp->type == PIPE && i == 0)
 			return (tmp->value);
-		if (!tmp->next && tmp->type != WORD) // il faut ecrire "newline" comme message d'erreur
+		if (!tmp->next && tmp->type != WORD)
 			return ("newline");
 		if ((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
 			|| tmp->type == DREDIR_IN || tmp->type == DREDIR_OUT
-			|| tmp->type == PIPE) && tmp->next->type != WORD && tmp->next->type != HERE_DOC)
+			|| tmp->type == PIPE) && tmp->next && tmp->next->type != WORD && tmp->next->type != HERE_DOC)
 			return (tmp->next->value);
 		i++;
 		tmp = tmp->next;	
 	}
 	return (NULL);
 }
-
-/* EXEMPLES DES COMMANDES QUI PEUVENT ETRE ENTREES :
-   < Makefile cat | wc > out
-   cat << lol | wc -l > out
-   cat Makefile */
 
 int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 {

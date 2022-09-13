@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/09/08 14:45:56 by jcourtoi         ###   ########.fr        #
+#    Updated: 2022/09/12 17:09:59 by nboratko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ fclean: clean
 	${RM} ${NAME}
 	@echo "$(_RED)Executable removed$'\033[0m"
 
-re: fclean all
+re: fclean
+	@make all
 
 .PHONY: all clean fclean re bonus

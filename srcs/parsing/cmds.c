@@ -107,7 +107,6 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 			break ;
 	}
 	get_outfile(tmp, &new);
-	//printf("%s\n");
 	new->full_cmd[i] = NULL;
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
 	new->next = NULL;

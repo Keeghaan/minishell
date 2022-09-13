@@ -14,14 +14,17 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		ft_putendl_fd("minishell: syntax error", 2);
 	if (!(*token))
 	{
-		if (buf)
-			free(buf);
 		return ;
 	}
 	shell->token = *token;
-	parse(token, shell);
-	init_shell_struct(shell);
-	run_cmd(shell, envp);
+	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5) //a optimiser
+		handle_exit(shell, buf);
+	else
+	{
+		parse(token, shell);
+		init_shell_struct(shell);
+		run_cmd(shell, envp);
+	}
 	free_token(&shell->token);
 	error_msg(shell, shell->cmds, envp, 0);
 }
@@ -38,9 +41,7 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 	}
 	else
 	{
-		if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5) //a optimiser
-			handle_exit(shell, buf);
-		if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
+			if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
 		{
 			shell->is_running = 0;
 			ft_putendl_fd("exit", 1);
