@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/13 15:12:03 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/13 15:45:23 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 	signalisation(1);
 //	if (shell->pipe)
 //	{
-		printf("execve test\n");
-		shell->pipe = 1;
+	//	shell->pipe = 1;
 		rewind_cmd(&shell->cmds, 1);
 		pipex(shell);
 /*	}

@@ -60,7 +60,7 @@ void	execute(char **cmd, char *path, t_shell *child)
 	write(2, "\n", 1); *///Ca si ca se lance on aura des msg d'erreur en double 
 	free_split(cmd);
 	free(child->pid);
-	close(STDIN_FILENO);
+	close(STDIN_FILENO); //faut verifier si c'est utile comme y a le cmd not found ?
 	close(STDOUT_FILENO);
 	close(child->pipefd[0]);
 	close(child->outfile);
@@ -92,16 +92,8 @@ void	path_and_cmd(t_shell *child, int index)
 	cmd = tmp->full_cmd;
 	path = tmp->full_path;
 	//close(tmp->outfile);
-	printf("test path n cmd pipex utils\n");
 	if (cmd[0] && path && check_cmd(cmd[0], child->env))
-	{
-		printf("pipex_utils test\n");
 		execute(cmd, path, child);
-	}
 	else
-	{
-		printf("pipex utilstst\n");
-		cmd_not_found(cmd, path, child); //je crois qu'il faut faire l'inverse "if !cmd not found, alors exec")
-
-	}
+		cmd_not_found(cmd, path, child);
 }

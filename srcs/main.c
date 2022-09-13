@@ -6,7 +6,7 @@ int	g_return;
 void	no_cmd(t_shell *shell, t_token **token, char **envp)
 {
 	(void)shell;
-	int	cases;
+	int	cases; //fonction en cours mais en fait j'ai l'impression qu'elle ne servira a rien et qu'il faudra juste utiliser which_case xD je sais pu pourquoi jai fait cette fonction intermediaire a la base
 
 	cases = which_case(token, envp);
 	if (cases == 1)
@@ -39,7 +39,6 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		parse(token, shell);
 		if (shell->cmds)
 		{
-			printf("shell loop cmds 2 test\n");
 			init_shell_struct(shell);
 			run_cmd(shell, envp);
 		}
