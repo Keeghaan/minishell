@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/14 10:30:45 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/14 11:39:52 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,29 @@ static int	is_digit(t_shell *shell)
 			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int	is_exit_valid(char *buf)
+{
+	int	j;
+	int	word;
+
+	j = -1;
+	word = 0;
+//	while (buf[++j] == ' ')
+		j++;
+	while (buf[j])
+	{
+		if (buf[j] != ' ')
+			word++;
+		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't' || buf[j] == ' '))
+			return (0);
+		j++;
+	}
+	if (word != 4)
+		return (0);
+	//cette fonction est chelou j'espere qu'elle ne cassera rien 
 	return (1);
 }
 
