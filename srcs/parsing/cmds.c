@@ -32,10 +32,8 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->next && (*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
-	{
 		(*new)->infile = (*tmp)->next->next->value;		
-	}
-	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && (*tmp)->prev->prev->prev == NULL)
+	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && !(*tmp)->prev->prev->prev)
 		(*new)->infile = (*tmp)->prev->value;
 }
 

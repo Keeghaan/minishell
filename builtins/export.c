@@ -73,13 +73,11 @@ int	check_export(char *opt_var, t_shell *shell) //var ou autre ?
 {
 	char	*values;
 
-	printf("HAHA\n");
 	printf("%s\n", opt_var);
 	while (shell->envp)
 	{
 		if (!ft_strncmp(opt_var, shell->envp->var, ft_strlen(shell->envp->var)))
 		{
-			printf("LOL\n");
 			values = get_values(opt_var, shell);
 			printf("%s\n", values);
 			free(shell->envp->values);
@@ -105,7 +103,6 @@ void	export_var(t_shell *shell, t_envp *envp)
 		check = check_export(shell->cmds->full_cmd[1], shell);
 		if (!check)
 		{
-			printf("NANA\n");
 			new = make_exported(shell->cmds->full_cmd[1], shell);
 			add_exported(&envp, new);
 		}

@@ -82,7 +82,11 @@ int	parse(t_token **token, t_shell *shell)
 
 	check = check_tokens(token);
 	if (check)
+	{
 		ft_printf("minishell: syntax error near unexpected token `%s'\n", check);
+		g_return = 2;
+		return (0);
+	}
 	if (get_cmds(token, &shell->cmds, shell))
 		return (1);
 	return (0);
