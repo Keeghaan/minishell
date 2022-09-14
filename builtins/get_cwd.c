@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:00:56 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/07 15:46:54 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/14 16:57:47 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,22 @@ int	get_next_dir(t_shell *shell, char *dir)
 	char	*tmp;
 	char	*tmp2;
 
-	tmp = ft_strjoin(shell->cwd, "/");
-	if (!tmp)
-		return (1);
+	if (ft_strchr(dir, '/'))
+	{
+		if (access(dir, F_OK | R_OK) == 0)
+		{	
+			shell->next_dir = ft_strdup(dir);
+			return (0);
+		}
+	}
+	if (*dir != '/')
+	{
+		tmp = ft_strjoin(shell->cwd, "/");
+		if (!tmp)
+			return (1);
+	}
+	else
+		tmp = ft_strdup(dir);
 	tmp2 = ft_strjoin(tmp, dir);
 	if (!tmp2)
 		return (free(tmp), 2);
@@ -31,60 +44,11 @@ int	get_next_dir(t_shell *shell, char *dir)
 	return (0);
 }
 
-static int	back_func(t_shell *shell, char *del, int size, int back)
-{
-	char	*tmp;
-	char	*tmp2;
-
-	tmp = malloc(sizeof(char) * size + 1);
-	tmp2 = shell->cwd;
-	if (back)
-	{
-		while (--back >= 0)
-		{
-			ft_strlcpy(tmp, tmp2, ft_strlen(tmp2) - ft_strlen(del) + 1);
-			if (!back)
-			{
-				if (chdir(tmp) != 0)
-					return (printf("%s: %s\n", tmp,
-							strerror(errno)), free(tmp), 1);
-				getcwd(shell->cwd, sizeof(shell->cwd));
-				size = ft_strlen(tmp) - ft_strlen(del);
-			}
-			tmp2 = tmp;
-			del = ft_strrchr(tmp, '/');
-			if (!del)
-				return (free(tmp), 1);
-		}
-	}
-	return (free(tmp), 0);
-}
-
-int	get_prev_dir(t_shell *shell, int back)
-{
-	char	*del;
-	int		size;
-
-	del = ft_strrchr(shell->cwd, '/');
-	if (!del)
-		return (1);
-	size = ft_strlen(shell->cwd) - ft_strlen(del);
-	if (back_func(shell, del, size, back))
-		return (2);
-	shell->prev_dir = malloc(sizeof(char) * (size + 1));
-	if (!shell->prev_dir)
-		return (3);
-	ft_strlcpy(shell->prev_dir, shell->cwd, size + 1);
-	return (0);
-}
-
 int	get_cwd(t_shell *shell)
 {
 	getcwd(shell->cwd, sizeof(shell->cwd));
 	if (errno)
 		return (2);
-	if (get_prev_dir(shell, 0))
-		return (3);
 	if (get_next_dir(shell, NULL))
 		return (free(shell->prev_dir), 4);
 	return (0);

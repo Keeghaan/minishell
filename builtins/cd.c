@@ -6,54 +6,11 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/13 16:05:33 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/14 16:57:02 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	move_back(char *action)
-{
-	int		back;
-	int		j;
-	char	**tmp;
-
-	back = 0;
-	j = 0;
-	tmp = ft_split(action, '/');
-	if (!tmp)
-	{
-		back++;
-		return (1);
-	}
-	while (tmp[j])
-	{
-		if (ft_strnstr(tmp[j], "..", ft_strlen(action)))
-			back++;
-		free(tmp[j]);
-		j++;
-	}
-	free(tmp);
-	return (back);
-}
-
-static int	possibilities_bis(t_shell *shell, char *action)
-{
-	int	back;
-
-	back = 0;
-	if (ft_strnstr(action, "..", ft_strlen(action)))
-	{
-		back = move_back(action);
-		get_prev_dir(shell, back);
-		if (access(shell->prev_dir, F_OK | X_OK) != 0)
-			return (printf("%s: %s: %s: %s\n", SH, "cd",
-					shell->prev_dir, strerror(errno)),
-				free(shell->prev_dir), 0);
-		return (3);
-	}
-	return (0);
-}
 
 int	possibilities(t_shell *shell, char *action)
 {
@@ -73,12 +30,10 @@ int	possibilities(t_shell *shell, char *action)
 	if ((ft_strlen(action) == 2 && ft_strnstr(action, "./", 2))
 		|| (ft_strlen(action) == 1 && *action == '.'))
 		return (1);
-	if (possibilities_bis(shell, action))
-		return (3);
 	get_next_dir(shell, action);
 	if (access(shell->next_dir, F_OK | X_OK) != 0)
 		return (printf("%s: %s: %s: %s\n", SH, "cd",
-				shell->next_dir, strerror(errno)), 0);
+				action, strerror(errno)), 0);
 	return (4);
 }
 
@@ -89,14 +44,8 @@ int	cd_cmd(t_shell *shell, char *action)
 	move = possibilities(shell, action);
 	if (!move)
 		return (1);
-	if (move == 3)
-	{
-		if (chdir(shell->prev_dir) != 0)
-			return (2);
-	}
 	if (move == 4)
 	{
-		printf("test");
 		if (chdir(shell->next_dir) != 0)
 			return (3);
 	}
