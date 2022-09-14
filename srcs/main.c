@@ -135,6 +135,7 @@ int	main(int argc, char **argv, char **envp)
 	if (env)
 		free_envp(&env);
 //	free_cmds(&shell.cmds);
-	free_split(shell.env);
+	if (shell.env)
+		free_split(shell.env);
 	return (0);
 }
