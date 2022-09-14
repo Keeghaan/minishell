@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/14 11:39:52 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/14 13:10:18 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,34 @@ static int	is_digit(t_shell *shell)
 	return (1);
 }
 
-int	is_exit_valid(char *buf)
+int	is_exit_valid(t_shell *shell, char *buf)
 {
 	int	j;
 	int	word;
+	int	num;
+	int	no_valid;
 
 	j = -1;
 	word = 0;
-//	while (buf[++j] == ' ')
-		j++;
-	while (buf[j])
+	num = 0;
+	no_valid = 0;
+	while (buf[++j])
 	{
 		if (buf[j] != ' ')
 			word++;
-		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't' || buf[j] == ' '))
-			return (0);
-		j++;
+		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't' || buf[j] == ' ' || ft_isdigit(buf[j]) || buf[j] == '-' || buf[j] == '+'))
+			no_valid++;
+		if (ft_isdigit(buf[j]) || buf[j] == '-' || buf[j] == '+')
+			num++;
 	}
-	if (word != 4)
-		return (0);
+	if (num && !no_valid)
+	{
+		if (is_digit(shell))
+			return (1);
+	}
+	handle_exit(shell, buf);
+	return (0);
 	//cette fonction est chelou j'espere qu'elle ne cassera rien 
-	return (1);
 }
 
 void	handle_exit(t_shell *shell, char *buf)
@@ -98,5 +105,9 @@ void	handle_exit(t_shell *shell, char *buf)
 	else
 		;
 	free_split(split);
-	exit(0);
+/*	free_token(&shell->token);
+	free_envp(&shell->envp);
+	free_split(shell->env);*/
+	free_exit(shell);
+	//exit(0);
 }

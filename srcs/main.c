@@ -32,13 +32,20 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		return ;
 	}
 	shell->token = *token;
-	if (ft_strnstr(buf, "exit", ft_strlen(buf)) && is_exit_valid(buf))
+	/*if (ft_strnstr(buf, "exit", ft_strlen(buf)) && is_exit_valid(shell, buf))
 	{
 		ft_putendl_fd("exit", 1);
-		exit (0);
-	}
+		free(buf);
+		free_exit(shell);
+	}*/
 	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5) //a optimiser
 		handle_exit(shell, buf);
+	else if (ft_strnstr(buf, "exit", ft_strlen(buf)) && is_exit_valid(shell, buf))
+	{
+		ft_putendl_fd("exit", 1);
+		free(buf);
+		free_exit(shell);
+	}
 	else
 	{
 		parse(token, shell);
@@ -50,7 +57,7 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		else
 			no_cmd(shell, token, envp);
 	}
-	//free_token(&shell->token);
+//	free_token(&shell->token);
 //	error_msg(shell, shell->cmds, envp, 0);
 }
 

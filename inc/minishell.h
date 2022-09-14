@@ -170,7 +170,6 @@ int	get_next_dir(t_shell *shell, char *dir);
 int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active);
 void	print_envp(t_envp *envp);
 void	unset_envp(t_shell *shell, char *unset);
-int	is_exit_valid(char *buf);
 
 //EXEC
 void	run_cmd(t_shell *shell, char **envp);
@@ -191,7 +190,8 @@ void	execute(char **cmd, char *path, t_shell *child);
 
 //EXIT
 void	handle_exit(t_shell *shell, char *buf);
-
+void	free_exit(t_shell *shell);
+int	is_exit_valid(t_shell *shell, char *buf);
 //HERE_DOC
 void	get_here_doc(t_token **token, t_cmd **new);
 
