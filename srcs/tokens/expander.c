@@ -84,6 +84,8 @@ void	support_expander(t_token **token, t_envp **env)
 	int	i;
 
 	i = 0;
+	if (ft_strlen((*token)->value) == 1 && (*token)->value[i] == '$')
+		return ;
 	while ((*token)->value[i])
 	{
 		if ((*token)->value[i] == '$')
