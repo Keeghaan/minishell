@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/12 19:27:56 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/14 10:15:55 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	is_digit(t_shell *shell)
 	i = 0;
 	if (token->value[i] == '+' || token->value[i] == '-')
 		i++;
+	if (i && !token->value[i])
+		return (0);
 	while (token->value[i])
 	{
 		if (!ft_isdigit(token->value[i]))
