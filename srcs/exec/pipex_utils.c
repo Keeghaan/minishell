@@ -48,25 +48,26 @@ void	cmd_not_found(char **cmd, char *path, t_shell *child)
 	while (++i < child->n_cmd)
 		child->pid[i] = -2;
 }*/
-
+/*
 void	execute(char **cmd, char *path, t_shell *child)
 {
 //	if (cmd_not_fnd(path, child->env))
 //		return ;
+	
 	execve(path, cmd, child->env);
-/*	write(2, "minishell: ", 11);
+	write(2, "minishell: ", 11);
 	write(2, cmd[0], ft_strlen(cmd[0]));
 	write(2, ": Permission denied", 19);
-	write(2, "\n", 1); *///Ca si ca se lance on aura des msg d'erreur en double 
-	free_split(cmd);
-	free(child->pid);
+	write(2, "\n", 1); ///Ca si ca se lance on aura des msg d'erreur en double 
+i//	free_split(cmd);
+/	free(child->pid);
 	close(STDIN_FILENO); //faut verifier si c'est utile comme y a le cmd not found ?
 	close(STDOUT_FILENO);
 	close(child->pipefd[0]);
 	close(child->outfile);
 	//exit(EXIT_FAILURE);
 }
-
+*/
 void	path_and_cmd(t_shell *child, int index)
 {
 	char	**cmd;
@@ -93,7 +94,10 @@ void	path_and_cmd(t_shell *child, int index)
 	path = tmp->full_path;
 	//close(tmp->outfile);
 	if (cmd[0] && path && check_cmd(cmd[0], child->env))
-		execute(cmd, path, child);
+	{
+		printf("test pipex exec\n");
+		execve(path, cmd, child->env);
+	}
 	else
 		cmd_not_found(cmd, path, child);
 }
