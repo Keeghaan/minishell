@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/14 10:15:55 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/14 10:30:45 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	is_digit(t_shell *shell)
 	if (token->value[i] == '+' || token->value[i] == '-')
 		i++;
 	if (i && !token->value[i])
-		return (0);
+		return (0); // faut faire gaffe parfois ca bug O___O (exit:command not found mais je comprends pas et c'est pas tout le tempss)
 	while (token->value[i])
 	{
 		if (!ft_isdigit(token->value[i]))
