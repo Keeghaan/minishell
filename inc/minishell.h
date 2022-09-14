@@ -161,7 +161,7 @@ char	**get_env(char **envp);
 //BUILTINS
 int	cd_cmd(t_shell *shell, char *action);
 void	export_var(t_shell *shell, t_envp *envp);
-void	check_export(char *opt_var, t_shell *shell);
+int	check_export(char *opt_var, t_shell *shell);
 t_envp	*make_exported(char *argv, t_shell *shell);
 void	add_exported(t_envp **envp, t_envp *new);
 int	get_cwd(t_shell *shell);

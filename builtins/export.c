@@ -9,7 +9,6 @@ char	*get_var(char *argv)
 	while (argv[i] != '=')
 		i++;
 	var = ft_substr(argv, 0, i);
-	printf("%s\n", var);
 	return (var);
 }
 
@@ -24,7 +23,6 @@ char	*get_values(char *argv, t_shell *shell)
 	while (argv[i] != '=')
 		i++;
 	i++;
-	//printf("%s\n", shell->token->next->next->value);
 	if (!argv[i] && shell->token->next->next && (shell->token->next->next->quotes == 2 
 		|| shell->token->next->next->quotes == 3))
 		values = ft_strdup(shell->token->next->next->value);
@@ -71,66 +69,56 @@ t_envp	*make_exported(char *argv, t_shell *shell)
 	return (new);
 }
 
-/*t_envp	*add_exported(t_envp **env, char *var, char *values)
+int	check_export(char *opt_var, t_shell *shell) //var ou autre ?
 {
-	t_envp	*new;
-	
-	new = malloc(sizeof(env));
-	if (!new)
-		return (NULL);
-	new->var = ft_strdup(var);
-	if (!new->var)
-		return (free(new), NULL);
-	new->values = ft_strdup(values);
-	if (!new->values)
-		return (free(new->var), free(new), NULL);
-	new->next = NULL;
-	return (new);
-}*/
+	char	*values;
 
-void	check_export(char *opt_var, t_shell *shell) //var ou autre ?
-{
-	int	exported;
-
-	exported = 0;
+	printf("HAHA\n");
+	printf("%s\n", opt_var);
 	while (shell->envp)
 	{
-		if (!ft_strncmp(opt_var, shell->envp->var, ft_strlen(opt_var)))
+		if (!ft_strncmp(opt_var, shell->envp->var, ft_strlen(shell->envp->var)))
 		{
-			shell->envp->exported = 1;
-			exported = 1;
-			printf("check export %s (%s)\n", shell->envp->var, shell->envp->values);
+			printf("LOL\n");
+			values = get_values(opt_var, shell);
+			printf("%s\n", values);
+			free(shell->envp->values);
+			shell->envp->values = ft_strdup(values);
+			free(values);
+			return (1);
 		}
 		if (shell->envp->next)
 			shell->envp = shell->envp->next;
 		else
 			break ;
 	}
-//	if (!exported)
-//		printf("Not exported\n");
+	return (0);
 }
 
 void	export_var(t_shell *shell, t_envp *envp)
 {
 	t_envp	*new;
+	int	check;
 
-	if (shell->cmds->full_cmd[1] && !ft_strchr(shell->cmds->full_cmd[1], '='))
-		check_export(shell->cmds->full_cmd[1], shell);
+	if (shell->cmds->full_cmd[1] && ft_strchr(shell->cmds->full_cmd[1], '='))
+	{
+		check = check_export(shell->cmds->full_cmd[1], shell);
+		if (!check)
+		{
+			printf("NANA\n");
+			new = make_exported(shell->cmds->full_cmd[1], shell);
+			add_exported(&envp, new);
+		}
+	}
 	else if (!shell->cmds->full_cmd[1])
 	{
 		while (shell->envp)
 		{
-			printf("export %s=\"%s\"\n", shell->envp->var, shell->envp->values); //declare -x ou export ?
-			shell->envp->exported = 1;
+			printf("declare -x %s=\"%s\"\n", shell->envp->var, shell->envp->values); //declare -x ou export ?
 			if (shell->envp->next)
 				shell->envp = shell->envp->next;
 			else
 				break ;
 		}
-	}
-	else if (ft_strchr(shell->cmds->full_cmd[1], '='))
-	{
-		new = make_exported(shell->cmds->full_cmd[1], shell);
-		add_exported(&envp, new);
 	}
 }
