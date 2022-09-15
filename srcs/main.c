@@ -102,12 +102,12 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		signalisation(0);
 		shell->envp = *env;
 		getcwd(shell->cwd, sizeof(shell->cwd));
-		shell->n_cmds = 0; // ?
+		shell->n_cmds = 0;
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
-		if (token)
-			free_token(&token);
+		if (shell->token)
+			free_token(&shell->token);
 //		if (shell->prev_dir)
 //			free(shell->prev_dir);
 	

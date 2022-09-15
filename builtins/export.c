@@ -1,36 +1,5 @@
 #include "../inc/minishell.h"
 
-char	*get_var(char *argv)
-{
-	int	i;
-	char	*var;
-
-	i = 0;
-	while (argv[i] != '=')
-		i++;
-	var = ft_substr(argv, 0, i);
-	return (var);
-}
-
-char	*get_values(char *argv, t_shell *shell)
-{
-	int	i;
-	int	j;
-	char	*values;
-
-	i = 0;
-	j = 0;
-	while (argv[i] != '=')
-		i++;
-	i++;
-	if (!argv[i] && shell->token->next->next && (shell->token->next->next->quotes == 2 
-		|| shell->token->next->next->quotes == 3))
-		values = ft_strdup(shell->token->next->next->value);
-	else
-		values = ft_substr(argv, i, ft_strlen(argv));
-	return (values);
-}
-
 void	add_exported(t_envp **envp, t_envp *new)
 {
 	t_envp	*tmp;

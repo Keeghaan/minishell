@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/15 17:25:14 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/15 18:57:40 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ int	path_builtins(t_shell *shell, t_cmd *cmd, int active)
 		if (active)
 			print_envp(shell->envp, cmd);
 		return (4);
+	}
+	if (ft_strchr(cmd->full_cmd[0], '='))
+	{
+		if (active)
+			fake_export(cmd->full_cmd[0], shell);
+		return (5);
 	}
 	return (0);
 }

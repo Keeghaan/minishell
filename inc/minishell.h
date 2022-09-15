@@ -158,18 +158,25 @@ int	is_builtin(t_token **tmp);
 char	**get_paths(t_shell *shell, char *cmd, t_envp **envp);
 char	*get_full_path(t_shell *shell, char *cmd);
 char	**get_env(char **envp);
+
+
 //BUILTINS
 int	cd_cmd(t_shell *shell, char *action);
+
+//export
 void	export_var(t_shell *shell, t_envp *envp);
 int	check_export(char *opt_var, t_shell *shell);
 t_envp	*make_exported(char *argv, t_shell *shell);
 void	add_exported(t_envp **envp, t_envp *new);
+char	*get_var(char *argv);
+char	*get_values(char *argv, t_shell *shell);
 int	get_cwd(t_shell *shell);
 int	get_prev_dir(t_shell *shell, int back);
 int	get_next_dir(t_shell *shell, char *dir);
 int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active);
 void	print_envp(t_envp *envp, t_cmd *cmd);
 void	unset_envp(t_shell *shell, char *unset);
+void	fake_export(char *cmd, t_shell *shell);
 
 //EXEC
 void	run_cmd(t_shell *shell, char **envp);

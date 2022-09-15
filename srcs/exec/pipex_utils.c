@@ -94,10 +94,7 @@ void	path_and_cmd(t_shell *child, int index)
 	path = tmp->full_path;
 	//close(tmp->outfile);
 	if (cmd[0] && path && check_cmd(cmd[0], child->env))
-	{
-		printf("test pipex exec\n");
 		execve(path, cmd, child->env);
-	}
 	else
 		cmd_not_found(cmd, path, child);
 }
