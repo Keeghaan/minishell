@@ -6,9 +6,16 @@ t_token	*make_new_token(char *line, int i, int j, int quotes)
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (quotes == 1)
+	{
 		new->value = ft_substr(line, i, j - 1);
+	}
 	else
-		new->value = ft_substr(line, i, j);
+	{
+		if (j == 0)
+			new->value = ft_strdup(" ");
+		else
+			new->value = ft_substr(line, i, j);
+	}
 	new->type = WORD;
 	new->next = NULL;
 	new->prev = NULL;

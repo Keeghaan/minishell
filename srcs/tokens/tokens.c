@@ -4,7 +4,9 @@ int	double_quotes_tokens(t_token **token, int i, int *j, int k, char *line)
 {
 	*j = i;
 	while (line[*j] && line[*j] != '"')
+	{
 		(*j)++;
+	}
 	if (!line[*j])
 	{
 		return (1);
