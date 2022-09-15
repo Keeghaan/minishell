@@ -6,10 +6,10 @@ char	**get_paths(char *cmd, t_envp **envp) //from pipex
 	t_envp	*tmp;
 	
 	tmp = *envp;
-	/*while (ft_strncmp(tmp->var, "PATH", 4))
+	while (ft_strncmp(tmp->var, "PATH", 4))
 	{
 			tmp = tmp->next; //ca leak
-	}*/
+	}
 	if (!ft_strncmp(tmp->var, "LD", 2))
 		ft_printf("minishell: %s: %s\n", cmd, "No such file or directory");
 	paths = NULL;
