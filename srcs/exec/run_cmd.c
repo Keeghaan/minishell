@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/13 16:07:40 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/15 17:25:14 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,12 @@ void	run_cmd(t_shell *shell, char **envp)
 	rewind_cmd(&shell->cmds, 1);
 //	if (error_msg(shell, shell->cmds, envp, 1) && !cmd)
 //		return ;
-	error_msg(shell, shell->cmds, envp, 1);
-	if (cmd)
-		exec_cmd(shell, shell->cmds->full_path, envp);
+	if (ft_strlen(shell->env[0]) > 1)
+	{
+		error_msg(shell, shell->cmds, envp, 1);
+		if (cmd)
+			exec_cmd(shell, shell->cmds->full_path, envp);
+	}
 	else
 		return ;
 }

@@ -155,7 +155,7 @@ void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell);
 int	is_builtin(t_token **tmp);
 
 //PATH_UTILS
-char	**get_paths(char *cmd, t_envp **envp);
+char	**get_paths(t_shell *shell, char *cmd, t_envp **envp);
 char	*get_full_path(t_shell *shell, char *cmd);
 char	**get_env(char **envp);
 //BUILTINS

@@ -7,6 +7,8 @@ t_token	*make_new_token(char *line, int i, int j, int quotes)
 	new = (t_token *)malloc(sizeof(t_token));
 	if (quotes == 1)
 	{
+		printf("I : %d\n", i);
+		printf("J : %d\n", j);
 		new->value = ft_substr(line, i, j - 1);
 	}
 	else

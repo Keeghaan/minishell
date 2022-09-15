@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-char	**get_paths(char *cmd, t_envp **envp) //from pipex
+char	**get_paths(t_shell *shell, char *cmd, t_envp **envp) //from pipex
 {
 	char	**paths;
 	t_envp	*tmp;
@@ -15,6 +15,11 @@ char	**get_paths(char *cmd, t_envp **envp) //from pipex
 	}	
 	if (tmp == NULL || !ft_strncmp(tmp->var, "LD", 2) || !tmp->next)
 	{
+	//	free_split(shell->env);
+		free(shell->env[0]);
+		free(shell->env[1]);
+		shell->env[0] = ft_strdup("");
+		shell->env[1] = ft_strdup("");
 		ft_printf("minishell: %s: %s\n", cmd, "No such file or directory");
 		return (NULL);
 	}
@@ -35,7 +40,7 @@ char	*get_full_path(t_shell *shell, char *cmd) //from pipex
 
 	i = 0;
 
-	paths = get_paths(cmd, &shell->envp);
+	paths = get_paths(shell, cmd, &shell->envp);
 	if (!paths)
 		return (NULL);
 	if (cmd && ft_strnstr(cmd, "/", ft_strlen(cmd))

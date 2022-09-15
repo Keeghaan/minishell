@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 16:54:25 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/15 17:19:57 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,12 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 	{
 		ret++;
 		if (msg)
-			printf("%s: command not found\n", cmd->full_cmd[0]);
+		{
+			if (cmd->full_cmd[0][0] == ' ')
+				printf(": command not found\n");
+			else
+				printf("%s: command not found\n", cmd->full_cmd[0]);
+		}
 	}
 	return (ret);
 }
