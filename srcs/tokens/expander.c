@@ -59,7 +59,7 @@ void	handle_home(t_token **token, char *user)  // ~/something
 	char	*final1;
 	char	*final2;
 
-	home = "/home/";
+	home = "/mnt/nfs/homes/";
 	rest = ft_substr((*token)->value, 1, ft_strlen((*token)->value) - 1);
 	final1 = ft_strjoin(home, user);
 	final2 = ft_strjoin(final1, rest);
