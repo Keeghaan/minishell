@@ -90,9 +90,8 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 
 void	run_shell(t_envp **env, t_shell *shell, char **envp)
 {
-
 	t_token	*token;
-	
+
 	ft_memset(&token, 0, sizeof(token));
 	ft_memset(&shell->cmds, 0, sizeof(shell->cmds));
 	shell->is_running = 1;

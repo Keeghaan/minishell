@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:00:56 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/14 17:11:43 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:08:04 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,21 @@ int	get_next_dir(t_shell *shell, char *dir)
 	char	*home;
 
 	user = expand_env_var("USER", &shell->envp, 0);
+	if (!user)
+		return (1);
 	home = ft_strjoin("/home/", user);
 	if (!home)
-		return (1);
+		return (free(user), 1);
 	if (ft_strncmp(dir, home, ft_strlen(dir)) == 0)
 	{
-		printf("%s\n", dir);
 		shell->next_dir = ft_strjoin("/mnt/nfs/homes/", user); //pas obligatoire
 		if (!shell->next_dir)
-			return (1);
-		printf("%s\n", shell->next_dir);
-		return (0);
+			return (free(home), free(user), 1);
+		printf("%s\n", shell->next_dir); //
+		return (free(home), free(user), 0);
 	}
+	free(home);
+	free(user);
 	if (ft_strchr(dir, '/'))
 	{
 		if (access(dir, F_OK | R_OK) == 0)

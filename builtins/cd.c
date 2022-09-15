@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/14 17:02:51 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:03:43 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	possibilities(t_shell *shell, char *action)
 			return (0);
 		if (chdir(home) != 0)
 			return (0);
-		return (free(home), 2);
+		return (free(home), free(user), 2);
 	}	
 	if ((ft_strlen(action) == 2 && ft_strnstr(action, "./", 2))
 		|| (ft_strlen(action) == 1 && *action == '.'))
