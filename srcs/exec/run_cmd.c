@@ -85,7 +85,7 @@ int	path_builtins(t_shell *shell, t_cmd *cmd, int active)
 	if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
 	{
 		if (active)
-			print_envp(shell->envp);
+			print_envp(shell->envp, cmd);
 		return (4);
 	}
 	return (0);

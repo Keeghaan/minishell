@@ -20,8 +20,8 @@ char	*check_tokens(t_token **t)
 			|| tmp->type == PIPE) && tmp->next && tmp->next->type != WORD && tmp->next->type != HERE_DOC)
 			return (tmp->next->value);
 		i++;
-		tmp = tmp->next;	
-	}
+		tmp = tmp->next;		
+	}	
 	return (NULL);
 }
 
@@ -57,7 +57,9 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 				}
 			}
 			else if (i == 0 && tmp->next == NULL) //une seule commande, par exemple env
+			{		
 				*cmd = make_new_cmd(&tmp, shell);
+			}
 			/*else if (tmp->next == NULL && (tmp->prev->type == REDIR_OUT || tmp->prev->type == DREDIR_OUT)) // il s'agit de outfile, c'est pas une commande
 				break ;*/
 		}
@@ -82,7 +84,7 @@ int	parse(t_token **token, t_shell *shell)
 
 	check = check_tokens(token);
 	if (check)
-	{
+	{		
 		ft_printf("minishell: syntax error near unexpected token `%s'\n", check);
 		g_return = 2;
 		return (0);

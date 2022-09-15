@@ -1,20 +1,5 @@
 #include "../inc/minishell.h"
 
-//Fonction pour verifier que les valeurs ont ete bien allouees,
-//A supprimer plus tard
-
-/*void	print(t_envp **env)
-{
-	t_envp	*alst;
-
-	alst = *env;
-	while (alst->next)
-	{
-		printf("%s\n\n", alst->var);
-		alst = alst->next;
-	}
-}*/
-
 t_envp	*make_new_env(char *envp)
 {
 	t_envp	*new;
@@ -54,7 +39,7 @@ void	envp_to_lst(t_envp **env, char **envp)
 	int	i;
 
 	i = 0;
-	if (!envp)
+	if (!envp[0])
 	{
 		*env = NULL;
 		return ;

@@ -6,12 +6,18 @@ char	**get_paths(char *cmd, t_envp **envp) //from pipex
 	t_envp	*tmp;
 	
 	tmp = *envp;
-	while (ft_strncmp(tmp->var, "PATH", 4))
+	while (tmp && ft_strncmp(tmp->var, "PATH", 4))
 	{
+		if (tmp->next)
 			tmp = tmp->next; //ca leak
-	}
-	if (!ft_strncmp(tmp->var, "LD", 2))
+		else
+			break ;
+	}	
+	if (tmp == NULL || !ft_strncmp(tmp->var, "LD", 2) || !tmp->next)
+	{
 		ft_printf("minishell: %s: %s\n", cmd, "No such file or directory");
+		return (NULL);
+	}
 	paths = NULL;
 	if (tmp)
 		paths = ft_split(tmp->values, ':');
@@ -27,7 +33,8 @@ char	*get_full_path(t_shell *shell, char *cmd) //from pipex
 	char	*path;
 	int		i;
 
-	i = 0;	
+	i = 0;
+
 	paths = get_paths(cmd, &shell->envp);
 	if (!paths)
 		return (NULL);

@@ -98,8 +98,7 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 	while (shell->is_running)
 	{
 		signalisation(0);
-		if (*env)
-			shell->envp = *env;
+		shell->envp = *env;
 		getcwd(shell->cwd, sizeof(shell->cwd));
 		shell->n_cmds = 0; // ?
 		main_shell_loop(env, shell, &token, envp);
