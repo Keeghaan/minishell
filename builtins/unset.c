@@ -13,6 +13,8 @@ void	unset_envp(t_shell *shell, char *unset)
 	{
 		tmp2 = tmp;
 		tmp = tmp->next;
+		free(tmp2->var);
+		free(tmp2->values);
 		free(tmp2);
 	}
 	else
@@ -24,6 +26,8 @@ void	unset_envp(t_shell *shell, char *unset)
 			{
 				tmp2 = tmp3->next;
 				tmp3->next = tmp3->next->next;
+				free(tmp2->var);
+				free(tmp2->values);
 				free(tmp2);
 				break ;
 			}

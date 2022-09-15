@@ -73,13 +73,11 @@ int	check_export(char *opt_var, t_shell *shell) //var ou autre ?
 {
 	char	*values;
 
-	printf("%s\n", opt_var);
 	while (shell->envp)
 	{
 		if (!ft_strncmp(opt_var, shell->envp->var, ft_strlen(shell->envp->var)))
 		{
 			values = get_values(opt_var, shell);
-			printf("%s\n", values);
 			free(shell->envp->values);
 			shell->envp->values = ft_strdup(values);
 			free(values);
