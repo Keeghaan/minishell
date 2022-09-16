@@ -86,6 +86,21 @@ void	pipex_loop_bis(t_shell *child, t_cmd *tmp)
 	}
 }
 
+void	pipex_loop_ter(t_shell *child, int i, char **envp)
+{
+	if (i == 0)
+	{
+		if (child->infile != -1)
+			child->pid[i] = fork();
+	}
+	if (i > 0)
+		child->pid[i] = fork();
+	if (child->pid[i] == -1)
+		printf("%s: %s\n", SH, strerror(errno));
+	if (child->pid[i] == 0)
+		pipex_loop2(child, i, envp);
+}
+
 static void	pipex_loop(t_shell *child, int i, char **envp)
 {
 	t_cmd	*tmp;
@@ -108,17 +123,7 @@ static void	pipex_loop(t_shell *child, int i, char **envp)
 		pipex_loop_bis(child, tmp);
 	if (pipe(child->pipefd) == -1)
 		ft_printf("%s: %s\n", SH, strerror(errno));
-	if (i == 0)
-	{
-		if (child->infile != -1)
-			child->pid[i] = fork();
-	}
-	if (i > 0)
-		child->pid[i] = fork();
-	if (child->pid[i] == -1)
-		printf("%s: %s\n", SH, strerror(errno));
-	if (child->pid[i] == 0)
-		pipex_loop2(child, i, envp);
+	pipex_loop_ter(child, i, envp);
 }
 
 void	pipex_bis(t_shell *child)
