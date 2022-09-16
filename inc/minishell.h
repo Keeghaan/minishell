@@ -192,7 +192,7 @@ int		cmd_not_fnd(char *path, char **en);
 void	pipex(t_shell *child, char **envp);
 void	get_nbr_cmds(t_shell *shell);
 void	path_and_cmd(t_shell *child, int index, char **envp);
-void	cmd_not_found(char **cmd, char *path, t_shell *child);
+void	cmd_not_found(char *path, t_shell *child);
 void	pipex_loop(t_shell *child, int i, char **envp);
 void	child_process(t_shell *child, int index, char **envp);
 
