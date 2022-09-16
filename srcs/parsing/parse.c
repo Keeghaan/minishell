@@ -5,7 +5,7 @@
 char	*check_tokens(t_token **t)
 {
 	t_token	*tmp;
-	int	i;
+	int		i;
 
 	tmp = *t;
 	i = 0;
@@ -16,18 +16,19 @@ char	*check_tokens(t_token **t)
 		if (!tmp->next && tmp->type != WORD)
 			return ("newline");
 		if ((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
-			|| tmp->type == DREDIR_IN || tmp->type == DREDIR_OUT
-			|| tmp->type == PIPE) && tmp->next && tmp->next->type != WORD && tmp->next->type != HERE_DOC)
+				|| tmp->type == DREDIR_IN || tmp->type == DREDIR_OUT
+				|| tmp->type == PIPE) && tmp->next && tmp->next->type
+			!= WORD && tmp->next->type != HERE_DOC)
 			return (tmp->next->value);
 		i++;
-		tmp = tmp->next;		
+		tmp = tmp->next;
 	}	
 	return (NULL);
 }
 
 int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 {
-	int	i;
+	int		i;
 	t_token	*tmp;
 
 	i = 0;
@@ -36,16 +37,16 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 	{
 		if (tmp->type == WORD)
 		{
-			if (i == 0 && tmp->next && (tmp->next->type == WORD || tmp->next->type == REDIR_IN
-				|| tmp->next->type == PIPE))
-			{
+			if (i == 0 && tmp->next && (tmp->next->type == WORD
+					|| tmp->next->type == REDIR_IN
+					|| tmp->next->type == PIPE))
 				*cmd = make_new_cmd(&tmp, shell);
-			}
-			else if ( i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
+			else if (i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
 				*cmd = make_new_cmd(&tmp, shell);
-			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN && tmp->prev->type != REDIR_OUT
-					&& tmp->prev->type != DREDIR_OUT
-					&& tmp->prev->prev->type != REDIR_IN)
+			else if (i > 0 && tmp->prev && tmp->prev->type
+				!= REDIR_IN && tmp->prev->type != REDIR_OUT
+				&& tmp->prev->type != DREDIR_OUT
+				&& tmp->prev->prev->type != REDIR_IN)
 			{
 				if (*cmd)
 					add_new_cmd(cmd, &tmp, shell);
