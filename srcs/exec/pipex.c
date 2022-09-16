@@ -1,14 +1,30 @@
 #include "../../inc/minishell.h"
 
+void	child_process_bis(t_shell *child, t_cmd *tmp)
+{
+	close(child->outfile);
+	dup2(child->std_out, 1);
+	if (tmp->redir == 1)
+		child->outfile = open(tmp->outfile,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (tmp->redir == 2)
+		child->outfile = open(tmp->outfile,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		child->outfile = open(tmp->outfile,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (dup2(child->outfile, STDOUT_FILENO) == -1)
+		ft_printf("minishell: %s\n", strerror(errno));
+	close(child->outfile);
+}
+
 void	child_process(t_shell *child, int index, char **envp)
 {
 	t_cmd	*tmp;
 	int		j;
 
 	tmp = child->cmds;
-	if (index == 0)
-		;
-	else
+	if (index != 0)
 	{
 		j = 0;
 		while (j < index)
@@ -23,22 +39,7 @@ void	child_process(t_shell *child, int index, char **envp)
 	close(child->pipefd[0]);
 	if (index == child->n_cmds - 1 || ft_strncmp(tmp->outfile,
 			"/dev/stdout", ft_strlen(tmp->outfile)))
-	{
-		close(child->outfile);
-		dup2(child->std_out, 1);
-		if (tmp->redir == 1)
-			child->outfile = open(tmp->outfile,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (tmp->redir == 2)
-			child->outfile = open(tmp->outfile,
-					O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			child->outfile = open(tmp->outfile,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (dup2(child->outfile, STDOUT_FILENO) == -1)
-			ft_printf("minishell: %s\n", strerror(errno));
-		close(child->outfile);
-	}
+		child_process_bis(child, tmp);
 	else if (index == 0)
 	{
 		if (child->infile != -1)
