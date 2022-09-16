@@ -10,7 +10,7 @@ void	handle_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	rl_on_new_line();	
+	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
@@ -19,9 +19,10 @@ void	handle_sigint_chld(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	rl_on_new_line();	
+	rl_on_new_line();
 	rl_replace_line("", 0);
 }
+
 void	signalisation(int child)
 {
 	struct sigaction	si;
@@ -43,5 +44,4 @@ void	signalisation(int child)
 	sq.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &si, NULL);
 	sigaction(SIGQUIT, &sq, NULL);
-
 }
