@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static void	child_process(t_shell *child, int index)
+static void	child_process(t_shell *child, int index, char **envp)
 {
 	t_cmd	*tmp;
 	int	j;
@@ -49,22 +49,22 @@ static void	child_process(t_shell *child, int index)
 			ft_printf("minishell: %s\n", strerror(errno));
 	}
 	close(child->pipefd[1]);
-	path_and_cmd(child, index);
+	path_and_cmd(child, index, envp);
 }
 
-static void	pipex_loop2(t_shell *child, int i)
+static void	pipex_loop2(t_shell *child, int i, char **envp)
 {
 	close(child->pipefd[0]);
 	if (i == 0)
 	{
 		if (child->infile != -1)
-			child_process(child, i);
+			child_process(child, i, envp);
 	}
 	if (i > 0)
-		child_process(child, i);
+		child_process(child, i, envp);
 }
 
-static void	pipex_loop(t_shell *child, int i)
+static void	pipex_loop(t_shell *child, int i, char **envp)
 {
 	t_cmd *tmp;
 	int	j;
@@ -91,18 +91,18 @@ static void	pipex_loop(t_shell *child, int i)
 			dup2(child->std_in, 0);
 			child->infile = open(tmp->infile, O_RDONLY);
 			if (dup2(child->infile, STDIN_FILENO) == -1)
-				ft_printf("minishell: %s\n", strerror(errno));
+				printf("%s: %s\n", SH, strerror(errno));
 			close(child->infile);
 		}
 		else
 		{
 			if (dup2(child->pipefd[0], STDIN_FILENO) == -1)
-				ft_printf("minishell: %s %s\n", strerror(errno));
+				printf("%s: %s\n", SH, strerror(errno));
 			close(child->pipefd[0]);
 		}
 	}
 	if (pipe(child->pipefd) == -1)
-		ft_printf("minishell: %s\n", strerror(errno));
+		ft_printf("%s: %s\n", SH, strerror(errno));
 	if (i == 0)
 	{
 		if (child->infile != -1)
@@ -111,9 +111,9 @@ static void	pipex_loop(t_shell *child, int i)
 	if (i > 0)
 		child->pid[i] = fork();
 	if (child->pid[i] == -1)
-		ft_printf("minishell: %s %s\n", strerror(errno));
+		printf("%s: %s\n", SH, strerror(errno));
 	if (child->pid[i] == 0)
-		pipex_loop2(child, i);
+		pipex_loop2(child, i, envp);
 }
 
 void	get_nbr_cmds(t_shell *shell)
@@ -139,7 +139,7 @@ void	get_nbr_cmds(t_shell *shell)
 		shell->pid[i] = -2;
 }
 
-void	pipex(t_shell *child)
+void	pipex(t_shell *child, char **envp)
 {
 	int	i;
 	int	status;
@@ -158,7 +158,7 @@ void	pipex(t_shell *child)
 	get_nbr_cmds(child);
 	while (++i < child->n_cmds)
 	{
-		pipex_loop(child, i);
+		pipex_loop(child, i, envp);
 		close(STDIN_FILENO);
 		close(child->pipefd[1]);
 	}

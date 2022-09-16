@@ -189,11 +189,11 @@ int		error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg);
 int		cmd_not_fnd(char *path, char **en);
 
 //PIPEX
-void	pipex(t_shell *child);
+void	pipex(t_shell *child, char **envp);
 void	get_nbr_cmds(t_shell *shell);
-void	path_and_cmd(t_shell *child, int index);
+void	path_and_cmd(t_shell *child, int index, char **envp);
 void	cmd_not_found(char **cmd, char *path, t_shell *child);
-void	execute(char **cmd, char *path, t_shell *child);
+//void	execute(char **cmd, char *path, t_shell *child);
 
 //EXIT
 void	handle_exit(t_shell *shell, char *buf);

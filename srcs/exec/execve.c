@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:32:39 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/15 18:49:09 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/16 10:22:54 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	exec_cmd(t_shell *shell, char *path, char **envp)
 {
 (void)path, (void)envp;
 	signalisation(1);
-	if (ft_strncmp(shell->cmds->full_cmd[0], "clear", ft_strlen(shell->cmds->full_cmd[0])) == 0)
-		execve(path, shell->cmds->full_cmd, envp);
-	else
-	{
+//	if (ft_strncmp(shell->cmds->full_cmd[0], "clear", ft_strlen(shell->cmds->full_cmd[0])) == 0)
+//		execve(path, shell->cmds->full_cmd, envp);
+//	else
+//	{
 		rewind_cmd(&shell->cmds, 1);
-		pipex(shell);
-	}
+		pipex(shell, envp);
+//	}
 /*	}
 	else if (!shell->pipe && shell->n_cmds)
 	{

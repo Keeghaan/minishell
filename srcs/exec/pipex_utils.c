@@ -68,7 +68,7 @@ i//	free_split(cmd);
 	//exit(EXIT_FAILURE);
 }
 */
-void	path_and_cmd(t_shell *child, int index)
+void	path_and_cmd(t_shell *child, int index, char **envp)
 {
 	char	**cmd;
 	char	*path;
@@ -94,7 +94,7 @@ void	path_and_cmd(t_shell *child, int index)
 	path = tmp->full_path;
 	//close(tmp->outfile);
 	if (cmd[0] && path && check_cmd(cmd[0], child->env))
-		execve(path, cmd, child->env);
+		execve(path, cmd, envp);
 	else
 		cmd_not_found(cmd, path, child);
 }
