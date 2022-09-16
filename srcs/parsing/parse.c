@@ -34,7 +34,7 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 	tmp = *t;
 	while (tmp)
 	{
-		if (tmp->type == WORD) // && tmp->prev->type != REDIR_IN) //&& ((tmp->prev != NULL && tmp->prev->type != DREDIR_IN) || tmp->prev == NULL))
+		if (tmp->type == WORD)
 		{
 			if (i == 0 && tmp->next && (tmp->next->type == WORD || tmp->next->type == REDIR_IN
 				|| tmp->next->type == PIPE))
@@ -45,27 +45,16 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 				*cmd = make_new_cmd(&tmp, shell);
 			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN && tmp->prev->type != REDIR_OUT
 					&& tmp->prev->type != DREDIR_OUT
-					&& tmp->prev->prev->type != REDIR_IN) //une commande ne peut jamais suivre une redirection
+					&& tmp->prev->prev->type != REDIR_IN)
 			{
 				if (*cmd)
-				{
-					//printf("LOL\n");
 					add_new_cmd(cmd, &tmp, shell);
-				}
 				else
-				{
 					*cmd = make_new_cmd(&tmp, shell);
-				}
 			}
-			else if (i == 0 && tmp->next == NULL) //une seule commande, par exemple env
-			{		
+			else if (i == 0 && tmp->next == NULL)
 				*cmd = make_new_cmd(&tmp, shell);
-			}
-			/*else if (tmp->next == NULL && (tmp->prev->type == REDIR_OUT || tmp->prev->type == DREDIR_OUT)) // il s'agit de outfile, c'est pas une commande
-				break ;*/
 		}
-	//	if (tmp->type == PIPE)
-	//		shell->pipe = 1;
 		if (tmp && tmp->next)
 			tmp = tmp->next;
 		else
