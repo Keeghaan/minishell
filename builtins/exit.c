@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/14 13:10:18 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/16 11:42:38 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,31 @@ static int	is_digit(t_shell *shell)
 	return (1);
 }
 
+int	is_exit_alone(char *buf)
+{
+	int	j;
+
+	j = -1;
+	while (buf[++j])
+	{
+		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't' || buf[j] == ' '))
+			return (0);	
+	}
+	return (1);
+}
+
 int	is_exit_valid(t_shell *shell, char *buf)
 {
 	int	j;
-	int	word;
 	int	num;
 	int	no_valid;
 
 	j = -1;
-	word = 0;
 	num = 0;
 	no_valid = 0;
+	printf("EEEEH\n");//
 	while (buf[++j])
 	{
-		if (buf[j] != ' ')
-			word++;
 		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't' || buf[j] == ' ' || ft_isdigit(buf[j]) || buf[j] == '-' || buf[j] == '+'))
 			no_valid++;
 		if (ft_isdigit(buf[j]) || buf[j] == '-' || buf[j] == '+')
@@ -87,13 +97,17 @@ void	handle_exit(t_shell *shell, char *buf)
 	int	n;
 	int	is_numeric;
 
-	split = ft_split(buf, ' ');
 	n = get_nb_tokens(shell);
+	if (n == 1)
+	{
+		ft_putendl_fd("exit", 1);
+		free_exit(shell);
+	}
+	split = ft_split(buf, ' ');
 	is_numeric = is_digit(shell);
 	ft_putendl_fd("exit", 1);
 	if (!split)
 		return ;
-	//shell->is_running = 0;
 	if (!is_numeric)
 		printf("minishell: %s: %s: numeric argument required\n", split[0], split[1]);
 	else if (is_numeric && n > 2)
@@ -102,12 +116,6 @@ void	handle_exit(t_shell *shell, char *buf)
 		free_split(split);
 		return ;
 	}
-	else
-		;
 	free_split(split);
-/*	free_token(&shell->token);
-	free_envp(&shell->envp);
-	free_split(shell->env);*/
 	free_exit(shell);
-	//exit(0);
 }

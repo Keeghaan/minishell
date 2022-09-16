@@ -199,6 +199,8 @@ void	cmd_not_found(char **cmd, char *path, t_shell *child);
 void	handle_exit(t_shell *shell, char *buf);
 void	free_exit(t_shell *shell);
 int	is_exit_valid(t_shell *shell, char *buf);
+int	is_exit_alone(char *buf);
+
 //HERE_DOC
 void	get_here_doc(t_token **token, t_cmd **new);
 

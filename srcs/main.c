@@ -38,10 +38,14 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 		free(buf);
 		free_exit(shell);
 	}*/
-	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5) //a optimiser
-		handle_exit(shell, buf);
-	else if (ft_strnstr(buf, "exit", ft_strlen(buf)) && is_exit_valid(shell, buf))
+	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5)// && !is_exit_alone(buf)) //a optimiser
 	{
+		printf("la ?");
+		handle_exit(shell, buf);
+	}
+	if (ft_strnstr(buf, "exit", ft_strlen(buf)) && is_exit_valid(shell, buf))
+	{
+		printf("?");
 		ft_putendl_fd("exit", 1);
 		free(buf);
 		free_exit(shell);
@@ -87,6 +91,9 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 			free(buf);
 		if (shell->next_dir)
 			free(shell->next_dir);
+		if (shell->token)
+			free_token(&shell->token);
+
 	}
 }
 
@@ -106,9 +113,7 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
-		if (shell->token)
-			free_token(&shell->token);
-//		if (shell->prev_dir)
+	//		if (shell->prev_dir)
 //			free(shell->prev_dir);
 	
 	}
