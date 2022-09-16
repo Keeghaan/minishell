@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/16 17:51:38 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/16 19:06:43 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 	int	ret;
 
 	ret = 0;
+
 	if (err && !(is_it_builtin(shell, cmd, 0) == 1))
 	{
 		ret++;
