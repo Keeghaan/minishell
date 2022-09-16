@@ -2,7 +2,7 @@
 
 char	*get_var(char *argv)
 {
-	int	i;
+	int		i;
 	char	*var;
 
 	i = 0;
@@ -14,8 +14,8 @@ char	*get_var(char *argv)
 
 char	*get_values(char *argv, t_shell *shell)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*values;
 
 	i = 0;
@@ -23,8 +23,9 @@ char	*get_values(char *argv, t_shell *shell)
 	while (argv[i] != '=')
 		i++;
 	i++;
-	if (!argv[i] && shell->token->next->next && (shell->token->next->next->quotes == 2 
-		|| shell->token->next->next->quotes == 3))
+	if (!argv[i] && shell->token->next->next
+		&& (shell->token->next->next->quotes == 2
+			|| shell->token->next->next->quotes == 3))
 		values = ft_strdup(shell->token->next->next->value);
 	else
 		values = ft_substr(argv, i, ft_strlen(argv));
@@ -34,7 +35,7 @@ char	*get_values(char *argv, t_shell *shell)
 void	fake_export(char *cmd, t_shell *shell)
 {
 	t_envp	*new;
-	int	check;
+	int		check;
 
 	check = check_export(cmd, shell);
 	if (!check)
