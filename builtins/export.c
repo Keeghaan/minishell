@@ -20,7 +20,7 @@ t_envp	*make_exported(char *argv, t_shell *shell)
 	t_envp	*new;
 	char	*var;
 	char	*values;
-	
+
 	var = get_var(argv);
 	values = get_values(argv, shell);
 	new = malloc(sizeof(t_envp));
@@ -38,15 +38,15 @@ t_envp	*make_exported(char *argv, t_shell *shell)
 	return (new);
 }
 
-int	check_export(char *opt_var, t_shell *shell) //var ou autre ?
+int	check_export(char *var, t_shell *shell)
 {
 	char	*values;
 
 	while (shell->envp)
 	{
-		if (!ft_strncmp(opt_var, shell->envp->var, ft_strlen(shell->envp->var)))
+		if (!ft_strncmp(var, shell->envp->var, ft_strlen(shell->envp->var)))
 		{
-			values = get_values(opt_var, shell);
+			values = get_values(var, shell);
 			free(shell->envp->values);
 			shell->envp->values = ft_strdup(values);
 			free(values);
@@ -63,7 +63,7 @@ int	check_export(char *opt_var, t_shell *shell) //var ou autre ?
 void	export_var(t_shell *shell, t_envp *envp)
 {
 	t_envp	*new;
-	int	check;
+	int		check;
 
 	if (shell->cmds->full_cmd[1] && ft_strchr(shell->cmds->full_cmd[1], '='))
 	{
@@ -78,7 +78,8 @@ void	export_var(t_shell *shell, t_envp *envp)
 	{
 		while (shell->envp)
 		{
-			printf("declare -x %s=\"%s\"\n", shell->envp->var, shell->envp->values); //declare -x ou export ?
+			printf("declare -x %s=\"%s\"\n", shell->envp->var,
+				shell->envp->values);
 			if (shell->envp->next)
 				shell->envp = shell->envp->next;
 			else
