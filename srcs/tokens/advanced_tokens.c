@@ -8,8 +8,6 @@ int	ft_iscrochet(char *s, int i)
 	{
 		if (s[i] == '<' || s[i] == '>')
 		{
-			//if (s[i + 1] == s[i] && s[i - 1] != s[i] && ft_strlen(s) > 2) //au cas ou qqn fait <<< par ex
-				//return (2);
 			if (s[i + 1] && i != 0 && s[i + 1] != s[i] && s[i - 1] != s[i])
 				return (1);
 			else if (i == 0 && s[i + 1] && s[i + 1] != s[i])
@@ -38,7 +36,7 @@ void	insert_token_list(t_token **token, char *value)
 		new->next = tmp->next;
 		new->prev = tmp;
 		tmp->next->prev = new;
-		tmp->next = new;	
+		tmp->next = new;
 	}
 	if (tmp->next == NULL)
 	{
@@ -52,7 +50,7 @@ void	str_separate(t_token **t, int i, int len)
 {
 	char	*s1;
 	char	*s2;
-	
+
 	if (i == 0)
 	{
 		s1 = ft_substr((*t)->value, i, len);
@@ -65,8 +63,6 @@ void	str_separate(t_token **t, int i, int len)
 	}
 	free((*t)->value);
 	(*t)->value = ft_strdup(s1);
-	char * str = (*t)->value;
-	(void) str;
 	insert_token_list(t, s2);
 	free(s1);
 	free(s2);
@@ -75,8 +71,8 @@ void	str_separate(t_token **t, int i, int len)
 void	tokenize_advanced(t_token **token)
 {
 	int	i;
-	int	size; //will always be 1, 2, or 3, indicates how many parts we separate (<<, <, | ...)
-	
+	int	size;
+
 	i = 0;
 	while ((*token))
 	{
@@ -99,9 +95,6 @@ void	tokenize_advanced(t_token **token)
 		i = 0;
 	}
 	while ((*token)->prev)
-	{
-	//	printf("%s\n", (*token)->value);
 		*token = (*token)->prev;
-	}
 	get_token_type(token);
 }
