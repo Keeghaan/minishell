@@ -2,7 +2,7 @@
 #include <fcntl.h>
 
 int	g_return;
-
+/*
 void	no_cmd(t_shell *shell, t_token **token, char **envp)
 {
 	(void)shell;
@@ -16,7 +16,7 @@ void	no_cmd(t_shell *shell, t_token **token, char **envp)
 	else
 		printf("else\n");
 }
-
+*/
 
 void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp, t_envp **env)
 {
@@ -59,7 +59,7 @@ void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp
 			run_cmd(shell, envp);
 		}
 		else
-			no_cmd(shell, token, envp);
+			which_case(token);
 	}
 //	free_token(&shell->token);
 //	error_msg(shell, shell->cmds, envp, 0);

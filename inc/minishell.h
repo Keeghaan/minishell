@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/16 17:20:46 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/16 18:28:10 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ char	*check_tokens(t_token **t);
 int		parse(t_token **token, t_shell *shell);
 int		file_or_command(t_token **t);
 int		get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
-int		which_case(t_token **token, char **envp);
+int		which_case(t_token **token);
 int		check_cmd(char *token, char **envp);
 
 //CMDS

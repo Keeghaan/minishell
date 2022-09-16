@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/13 15:09:27 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/16 18:29:42 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_cmd(char *token, char **envp)
 	char	*tmp;
 	char	*path;
 	char	**env;
-	
+
 	j = -1;
 	env = get_env(envp);
 	if (!env)
@@ -52,40 +52,28 @@ static int	check_file(char *token)
 	int	fd;
 
 	fd = open(token, O_RDONLY);
-       	if (fd > -1)
+	if (fd > -1)
 		return (close(fd), 1);
 	if (!check_symbol(token))
-		printf("%s: %s: %s\n", SH, token, strerror(errno)); //verifier syntax
+		printf("%s: %s: %s\n", SH, token, strerror(errno));
 	return (0);
 }
 
-int	which_case(t_token **token, char **envp)
+int	which_case(t_token **token)
 {
-	(void)envp;
 	t_token	*t;
-//	int		cmd;
 	int		file;
 	int		symbol;
 
-	t = *token;
-//	cmd = 0;
 	file = 0;
+	t = *token;
 	symbol = 0;
 	while (t)
 	{
-		printf("OTHERCASE.c %s token\n", t->value);///
-		//if (check_cmd(t->value, envp))
-	//		cmd++;
 		if (check_symbol(t->value))
-		{
-			printf("othercase.c symbol %s is symbol ? (verifier << >>)\n", t->value);//
 			symbol++;
-		}
 		else if (check_file(t->value))
-		{
-			printf("othercase.c %s file is file\n", t->value);//
 			file++;
-		}
 		if (t->next)
 			t = t->next;
 		else
