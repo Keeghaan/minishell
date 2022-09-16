@@ -26,7 +26,7 @@ t_token	*make_new_token(char *line, int i, int j, int quotes)
 void	add_new_token(t_token **token, char *line, int i, int j, int quotes)
 {
 	t_token	*tmp;
-	
+
 	tmp = *token;
 	while (tmp->next)
 		tmp = tmp->next;

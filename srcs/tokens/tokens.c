@@ -86,7 +86,7 @@ int	tokenizer(char *line, t_token **token, t_envp **env)
 		else if (ft_isprint(line[i]))
 			no_quotes_tokens(token, i, &j, k, line);
 		else
-			j++;;
+			j++;
 		i = j;
 		k++;
 	}

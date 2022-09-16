@@ -1,6 +1,7 @@
 #include "../../inc/minishell.h"
 
-// Expander will give environment variables $SOMETHING their corresponding values
+// Expander will give environment variables
+// $SOMETHING their corresponding values
 
 char	*expand_env_var(char *val, t_envp **env, int i)
 {
@@ -30,7 +31,7 @@ char	*expand_env_var(char *val, t_envp **env, int i)
 
 void	final_expansion(t_token **token, int i, char *val)
 {
-	char *start;
+	char	*start;
 
 	if (i == 0)
 	{
@@ -52,7 +53,7 @@ void	final_expansion(t_token **token, int i, char *val)
 	}
 }
 
-void	handle_home(t_token **token, char *user)  // ~/something
+void	handle_home(t_token **token, char *user)
 {
 	char	*home;
 	char	*rest;
@@ -75,13 +76,12 @@ void	get_global_return(t_token **token)
 {
 	free((*token)->value);
 	(*token)->value = ft_itoa(g_return);
-	//printf("%s\n", (*token)->value);
 }
 
 void	support_expander(t_token **token, t_envp **env)
 {
 	char	*check;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (ft_strlen((*token)->value) == 1 && (*token)->value[i] == '$')
@@ -90,7 +90,8 @@ void	support_expander(t_token **token, t_envp **env)
 	{
 		if ((*token)->value[i] == '$')
 		{
-			if ((*token)->value[i + 1] == '?' && ft_strlen((*token)->value) == 2)
+			if ((*token)->value[i + 1] == '?'
+				&& ft_strlen((*token)->value) == 2)
 				get_global_return(token);
 			else
 			{
@@ -117,7 +118,7 @@ void	expander(t_token **token, t_envp **env)
 		if ((*token)->quotes == 1 || (*token)->quotes == 3)
 			support_expander(token, env);
 		if ((*token)->next == NULL)
-				break ;
+			break ;
 		*token = (*token)->next;
 	}
 	while (*token)
