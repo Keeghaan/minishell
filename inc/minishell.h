@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
+/*   Updated: 2022/09/16 17:20:46 by jcourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 
 # define MINISHELL_H
@@ -22,20 +34,20 @@
 extern int	g_return;
 
 typedef struct s_envp
-{
-	int			exported;
-	char		*var;
-	char		*values;
+{	
+	char			*var;
+	char			*values;
+	int				exported;
 	struct s_envp	*next;
-}		t_envp;
+}	t_envp;
 
 // TOKENS
 
 enum	e_tok_type
 {
-	WORD = -1, //par defaut
+	WORD = -1,
 	PIPE = '|',
-	HERE_DOC,	//delimiter
+	HERE_DOC,
 	REDIR_IN = '<',
 	REDIR_OUT = '>',
 	DREDIR_IN,
@@ -50,32 +62,32 @@ enum	e_tok_type
 typedef struct s_token
 {
 	char			*value;
-	enum 	e_tok_type	type;
-	int			quotes; // see QUOTES above
-	struct s_token		*next;
-	struct s_token		*prev;
+	enum e_tok_type	type;
+	int				quotes;
+	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
-	char	**full_cmd;
-	char	*full_path;
-	char	*infile;
-	char	*outfile;
-	int	redir;
+	char			**full_cmd;
+	char			*full_path;
+	char			*infile;
+	char			*outfile;
+	int				redir;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
 
-typedef struct	s_shell
+typedef struct s_shell
 {
-	int	infile;
-	int	outfile;
-	int	std_in;
-	int	std_out;
-	int	n_cmds;
-	int	pipefd[2];
-	int	pipe;
+	int		infile;
+	int		outfile;
+	int		std_in;
+	int		std_out;
+	int		n_cmds;
+	int		pipefd[2];
+	int		pipe;
 	char	*prev_dir;
 	char	*next_dir;
 	char	cwd[250];
@@ -84,8 +96,8 @@ typedef struct	s_shell
 	t_envp	*envp;
 	t_token	*token;
 	pid_t	*pid;
-	int	is_running;
-	int	ret;
+	int		is_running;
+	int		ret;
 }	t_shell;
 
 // EXPANDER
@@ -98,11 +110,11 @@ void	get_global_return(t_token **token);
 
 // TOKENS
 
-int	tokenizer(char *line, t_token **token, t_envp **env);
+int		tokenizer(char *line, t_token **token, t_envp **env);
 void	add_new_token(t_token **token, char *line, int i, int j, int quotes);
 t_token	*make_new_token(char *line, int i, int j, int quotes);
-int	double_quotes_tokens(t_token **token, int i, int *j, int k, char *line);
-int	single_quotes_tokens(t_token **token, int i, int *j, int k, char *line);
+int		double_quotes_tokens(t_token **token, int i, int *j, int k, char *line);
+int		single_quotes_tokens(t_token **token, int i, int *j, int k, char *line);
 void	get_token_type(t_token **token);
 void	free_token(t_token **token);
 
@@ -110,10 +122,10 @@ void	free_token(t_token **token);
 void	tokenize_advanced(t_token **token);
 void	str_separate(t_token **token, int i, int len);
 void	insert_token_list(t_token **token, char *value);
-int	ft_iscrochet(char *s, int i);
+int		ft_iscrochet(char *s, int i);
 
 //ENVP UTILS
-t_envp *make_new_env(char *envp);
+t_envp	*make_new_env(char *envp);
 void	add_new_env(t_envp **env, char *envp);
 void	envp_to_lst(t_envp **env, char **envp);
 void	print(t_envp **env);
@@ -132,48 +144,46 @@ void	signalisation(int child);
 void	handle_sigint(int sig);
 
 // MAIN
-int	main(int argc, char **argv, char **envp);
+int		main(int argc, char **argv, char **envp);
 void	run_shell(t_envp **env, t_shell *shell, char **envp);
-void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp);
-void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp, t_envp **env);
-int	check_argv(t_shell *shell,int ac, char **av, char **en);
+void	main_shell_loop(t_envp **en, t_shell *sh, t_token **tok, char **envp);
+int		check_argv(t_shell *shell, int ac, char **av, char **en);
 
 //PARSING
 //int	count_tokens(t_token **token);
 char	*check_tokens(t_token **t);
-int	parse(t_token **token, t_shell *shell);
-int	file_or_command(t_token **t);
-int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
-int	which_case(t_token **token, char **envp);
-int	check_cmd(char *token, char **envp); // ca c'est pas pour le parsing finalement
+int		parse(t_token **token, t_shell *shell);
+int		file_or_command(t_token **t);
+int		get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
+int		which_case(t_token **token, char **envp);
+int		check_cmd(char *token, char **envp);
 
 //CMDS
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell);
 void	get_outfile(t_token **tmp, t_cmd **new);
 void	get_infile(t_token **tmp, t_cmd **new);
 void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell);
-int	is_builtin(t_token **tmp);
+int		is_builtin(t_token **tmp);
 
 //PATH_UTILS
 char	**get_paths(t_shell *shell, char *cmd, t_envp **envp);
 char	*get_full_path(t_shell *shell, char *cmd);
 char	**get_env(char **envp);
 
-
 //BUILTINS
-int	cd_cmd(t_shell *shell, char *action);
+int		cd_cmd(t_shell *shell, char *action);
 
 //export
 void	export_var(t_shell *shell, t_envp *envp);
-int	check_export(char *opt_var, t_shell *shell);
+int		check_export(char *opt_var, t_shell *shell);
 t_envp	*make_exported(char *argv, t_shell *shell);
 void	add_exported(t_envp **envp, t_envp *new);
 char	*get_var(char *argv);
 char	*get_values(char *argv, t_shell *shell);
-int	get_cwd(t_shell *shell);
-int	get_prev_dir(t_shell *shell, int back);
-int	get_next_dir(t_shell *shell, char *dir);
-int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active);
+int		get_cwd(t_shell *shell);
+int		get_prev_dir(t_shell *shell, int back);
+int		get_next_dir(t_shell *shell, char *dir);
+int		is_it_builtin(t_shell *shell, t_cmd *cmd, int active);
 void	print_envp(t_envp *envp, t_cmd *cmd);
 void	unset_envp(t_shell *shell, char *unset);
 void	fake_export(char *cmd, t_shell *shell);
@@ -201,8 +211,8 @@ void	child_process(t_shell *child, int index, char **envp);
 //EXIT
 void	handle_exit(t_shell *shell, char *buf);
 void	free_exit(t_shell *shell);
-int	is_exit_valid(t_shell *shell, char *buf);
-int	is_exit_alone(char *buf);
+int		is_exit_valid(t_shell *shell, char *buf);
+int		is_exit_alone(char *buf);
 
 //HERE_DOC
 void	get_here_doc(t_token **token, t_cmd **new);
