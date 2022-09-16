@@ -13,7 +13,7 @@
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
 # define SH "minishell"
-
+# define N_ARG_ER "numeric argument required"
 // Evil shell
 // https://korben.info/evil-sh-script-shell-rendrait-fou-nimporte.html
 
