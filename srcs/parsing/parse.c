@@ -44,7 +44,8 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 			else if ( i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
 				*cmd = make_new_cmd(&tmp, shell);
 			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN && tmp->prev->type != REDIR_OUT
-					&& tmp->prev->type != DREDIR_OUT) //une commande ne peut jamais suivre une redirection
+					&& tmp->prev->type != DREDIR_OUT
+					&& tmp->prev->prev->type != REDIR_IN) //une commande ne peut jamais suivre une redirection
 			{
 				if (*cmd)
 				{
