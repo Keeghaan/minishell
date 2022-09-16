@@ -10,11 +10,11 @@ int	ft_iscrochet(char *s, int i)
 		{
 			//if (s[i + 1] == s[i] && s[i - 1] != s[i] && ft_strlen(s) > 2) //au cas ou qqn fait <<< par ex
 				//return (2);
-			if (s[i + 1] && s[i + 1] != s[i] && s[i - 1] && s[i - 1] != s[i])
+			if (s[i + 1] && i != 0 && s[i + 1] != s[i] && s[i - 1] != s[i])
 				return (1);
-			else if (!s[i - 1] && s[i + 1] && s[i + 1] != s[i])
+			else if (i == 0 && s[i + 1] && s[i + 1] != s[i])
 				return (1);
-			else if (!s[i + 1] && s[i - 1] && s[i - 1] != s[i])
+			else if (!s[i + 1] && i != 0 && s[i - 1] != s[i])
 				return (1);
 		}
 		if (s[i] == '|')
