@@ -6,13 +6,12 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 13:17:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/08 16:44:15 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:07:07 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-//Est ce une variable d'environnement ??
 int	is_env_var(t_envp *envp, char *var)
 {
 	while (envp)
@@ -59,7 +58,7 @@ static int	is_valid_ter(char *cmd, char **envp, char *path)
 			tmp = ft_strjoin(en[j], "/");
 			ret = join_path(tmp, path, en, cmd);
 			if (ret < 0)
-				return ( 0);
+				return (0);
 			else if (ret == 0)
 				j++;
 			else if (ret)
@@ -76,7 +75,7 @@ static	int	valid_cmd_bis(char *cmd)
 	j = 0;
 	if (!cmd)
 		return (0);
-	if (!ft_isalpha(*cmd)) /// a verifier
+	if (!ft_isalpha(*cmd))
 		return (0);
 	while (cmd[j])
 	{

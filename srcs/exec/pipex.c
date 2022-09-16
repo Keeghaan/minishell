@@ -3,7 +3,7 @@
 static void	child_process(t_shell *child, int index, char **envp)
 {
 	t_cmd	*tmp;
-	int	j;
+	int		j;
 
 	tmp = child->cmds;
 	if (index == 0)
@@ -21,16 +21,20 @@ static void	child_process(t_shell *child, int index, char **envp)
 		}
 	}
 	close(child->pipefd[0]);
-	if (index == child->n_cmds - 1 || ft_strncmp(tmp->outfile, "/dev/stdout", ft_strlen(tmp->outfile)))
+	if (index == child->n_cmds - 1 || ft_strncmp(tmp->outfile,
+			"/dev/stdout", ft_strlen(tmp->outfile)))
 	{
 		close(child->outfile);
 		dup2(child->std_out, 1);
-		if (tmp->redir == 1)	
-			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (tmp->redir == 1)
+			child->outfile = open(tmp->outfile,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (tmp->redir == 2)
-			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			child->outfile = open(tmp->outfile,
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
-			child->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644); //test pour si y a pas de redir
+			child->outfile = open(tmp->outfile,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (dup2(child->outfile, STDOUT_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));
 		close(child->outfile);
@@ -66,9 +70,9 @@ static void	pipex_loop2(t_shell *child, int i, char **envp)
 
 static void	pipex_loop(t_shell *child, int i, char **envp)
 {
-	t_cmd *tmp;
-	int	j;
-	
+	t_cmd	*tmp;
+	int		j;
+
 	tmp = child->cmds;
 	if (i == 0)
 		;
@@ -80,7 +84,7 @@ static void	pipex_loop(t_shell *child, int i, char **envp)
 			if (tmp->next)
 				tmp = tmp->next;
 			else
-				break;
+				break ;
 			j++;
 		}
 	}
@@ -116,36 +120,31 @@ static void	pipex_loop(t_shell *child, int i, char **envp)
 		pipex_loop2(child, i, envp);
 }
 
-void	get_nbr_cmds(t_shell *shell)
+void	pipex_bis(t_shell *child)
 {
-	t_cmd	*tmp;
 	int	i;
 
-	shell->n_cmds = 0;
-	tmp = shell->cmds;
-	while (tmp)
-	{
-		shell->n_cmds++;
-		if (tmp->next)
-			tmp = tmp->next;
-		else
-			break ;
-	}
-	shell->pid = malloc(sizeof(int) * shell->n_cmds);
-	if (!shell->pid)
-		return ;
 	i = -1;
-	while (++i < shell->n_cmds)
-		shell->pid[i] = -2;
+	while (++i < child->n_cmds)
+		waitpid(child->pid[i], NULL, 0);
+	free(child->pid);
+	if (child->pipefd[0] != -1)
+		close(child->pipefd[0]);
+	if (child->infile != -1)
+		close(child->infile);
+	dup2(child->std_in, 0);
+	dup2(child->std_out, 1);
+	if (access(".here_doc", F_OK) == 0)
+		unlink(".here_doc");
+	if (access(".here_doc2", F_OK) == 0)
+		unlink(".here_doc2");
 }
 
 void	pipex(t_shell *child, char **envp)
 {
 	int	i;
-	int	status;
 
 	i = -1;
-	//if (!child->here_doc)
 	child->infile = open(child->cmds->infile, O_RDONLY);
 	if (child->infile < 0)
 		printf("%s: %s\n", child->cmds->infile, strerror(errno));
@@ -162,20 +161,5 @@ void	pipex(t_shell *child, char **envp)
 		close(STDIN_FILENO);
 		close(child->pipefd[1]);
 	}
-	i = -1;
-	while (++i < child->n_cmds)
-		waitpid(child->pid[i], &status, 0);
-	free(child->pid);
-	if (child->pipefd[0] != -1)
-		close(child->pipefd[0]);
-	if (child->infile != -1)
-		close(child->infile);
-	dup2(child->std_in, 0);
-	dup2(child->std_out, 1);
-	if (access(".here_doc", F_OK) == 0)
-		unlink(".here_doc");
-	if (access(".here_doc2", F_OK) == 0)
-		unlink(".here_doc2");
-	//close(child->std_in);
-	//close(child->std_out);
+	pipex_bis(child);
 }

@@ -1,16 +1,26 @@
 #include "../../inc/minishell.h"
 
-void	free_split(char **av)
+void	get_nbr_cmds(t_shell *shell)
 {
-	int	i;
+	t_cmd	*tmp;
+	int		i;
 
-	i = 0;
-	while (av[i])
+	shell->n_cmds = 0;
+	tmp = shell->cmds;
+	while (tmp)
 	{
-		free(av[i]);
-		i++;
+		shell->n_cmds++;
+		if (tmp->next)
+			tmp = tmp->next;
+		else
+			break ;
 	}
-	free(av);
+	shell->pid = malloc(sizeof(int) * shell->n_cmds);
+	if (!shell->pid)
+		return ;
+	i = -1;
+	while (++i < shell->n_cmds)
+		shell->pid[i] = -2;
 }
 
 void	cmd_not_found(char **cmd, char *path, t_shell *child)
@@ -27,53 +37,12 @@ void	cmd_not_found(char **cmd, char *path, t_shell *child)
 	exit(EXIT_FAILURE);
 }
 
-/*void	child_struct_init(t_child *child, char **av, char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (av[i])
-		i++;
-	child->av = av;
-	child->envp = envp;
-	child->n_cmd = i - 3;
-	child->outfile = open(av[i - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (child->outfile == -1)
-	{
-		ft_printf("minishell: %s: %s\n", av[i - 1], strerror(errno));
-		exit(EXIT_FAILURE);
-	}
-	child->pid = malloc(sizeof(int) * 2);
-	i = -1;
-	while (++i < child->n_cmd)
-		child->pid[i] = -2;
-}*/
-/*
-void	execute(char **cmd, char *path, t_shell *child)
-{
-//	if (cmd_not_fnd(path, child->env))
-//		return ;
-	
-	execve(path, cmd, child->env);
-	write(2, "minishell: ", 11);
-	write(2, cmd[0], ft_strlen(cmd[0]));
-	write(2, ": Permission denied", 19);
-	write(2, "\n", 1); ///Ca si ca se lance on aura des msg d'erreur en double 
-i//	free_split(cmd);
-/	free(child->pid);
-	close(STDIN_FILENO); //faut verifier si c'est utile comme y a le cmd not found ?
-	close(STDOUT_FILENO);
-	close(child->pipefd[0]);
-	close(child->outfile);
-	//exit(EXIT_FAILURE);
-}
-*/
 void	path_and_cmd(t_shell *child, int index, char **envp)
 {
 	char	**cmd;
 	char	*path;
 	t_cmd	*tmp;
-	int	i;
+	int		i;
 
 	tmp = child->cmds;
 	i = 0;
@@ -92,9 +61,7 @@ void	path_and_cmd(t_shell *child, int index, char **envp)
 	}
 	cmd = tmp->full_cmd;
 	path = tmp->full_path;
-	//close(tmp->outfile);
 	if (cmd[0] && path && check_cmd(cmd[0], child->env))
 		execve(path, cmd, envp);
-	else
-		cmd_not_found(cmd, path, child);
+	cmd_not_found(cmd, path, child);
 }
