@@ -18,6 +18,26 @@ void	child_process_bis(t_shell *child, t_cmd *tmp)
 	close(child->outfile);
 }
 
+void	child_process_ter(t_shell *child, t_cmd *tmp, int index)
+{
+	if (index == child->n_cmds - 1 || ft_strncmp(tmp->outfile,
+			"/dev/stdout", ft_strlen(tmp->outfile)))
+		child_process_bis(child, tmp);
+	else if (index == 0)
+	{
+		if (child->infile != -1)
+		{
+			if (dup2(child->pipefd[1], STDOUT_FILENO) == -1)
+				ft_printf("minishell: %s\n", strerror(errno));
+		}
+	}
+	else
+	{
+		if (dup2(child->pipefd[1], STDOUT_FILENO) == -1)
+			ft_printf("minishell: %s\n", strerror(errno));
+	}
+}
+
 void	child_process(t_shell *child, int index, char **envp)
 {
 	t_cmd	*tmp;
@@ -37,22 +57,7 @@ void	child_process(t_shell *child, int index, char **envp)
 		}
 	}
 	close(child->pipefd[0]);
-	if (index == child->n_cmds - 1 || ft_strncmp(tmp->outfile,
-			"/dev/stdout", ft_strlen(tmp->outfile)))
-		child_process_bis(child, tmp);
-	else if (index == 0)
-	{
-		if (child->infile != -1)
-		{
-			if (dup2(child->pipefd[1], STDOUT_FILENO) == -1)
-				ft_printf("minishell: %s\n", strerror(errno));
-		}
-	}
-	else
-	{
-		if (dup2(child->pipefd[1], STDOUT_FILENO) == -1)
-			ft_printf("minishell: %s\n", strerror(errno));
-	}
+	child_process_ter(child, tmp, index);
 	close(child->pipefd[1]);
 	path_and_cmd(child, index, envp);
 }
