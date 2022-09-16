@@ -89,8 +89,6 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token, char **envp)
 			shell_loop_part_two(buf, shell, token, envp, env);
 		if (buf)
 			free(buf);
-		if (shell->next_dir)
-			free(shell->next_dir);
 		if (shell->token)
 			free_token(&shell->token);
 
@@ -112,11 +110,11 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		shell->n_cmds = 0;
 		main_shell_loop(env, shell, &token, envp);
 		if (shell->cmds)
-			free_cmds(&shell->cmds);
-	//		if (shell->prev_dir)
-//			free(shell->prev_dir);
-	
+			free_cmds(&shell->cmds);	
 	}
+	if (shell->next_dir)
+			free(shell->next_dir);
+
 //	if (shell->cmds)
 //		free_cmds(&shell->cmds); //????pour les leaks d'exit
 
