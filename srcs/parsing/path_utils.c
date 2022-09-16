@@ -1,21 +1,20 @@
 #include "../../inc/minishell.h"
 
-char	**get_paths(t_shell *shell, char *cmd, t_envp **envp) //from pipex
+char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 {
 	char	**paths;
 	t_envp	*tmp;
-	
+
 	tmp = *envp;
 	while (tmp && ft_strncmp(tmp->var, "PATH", 4))
 	{
 		if (tmp->next)
-			tmp = tmp->next; //ca leak
+			tmp = tmp->next;
 		else
 			break ;
 	}	
 	if (tmp == NULL || !ft_strncmp(tmp->var, "LD", 2) || !tmp->next)
 	{
-	//	free_split(shell->env);
 		free(shell->env[0]);
 		free(shell->env[1]);
 		shell->env[0] = ft_strdup("");
@@ -31,7 +30,7 @@ char	**get_paths(t_shell *shell, char *cmd, t_envp **envp) //from pipex
 	return (paths);
 }
 
-char	*get_full_path(t_shell *shell, char *cmd) //from pipex 
+char	*get_full_path(t_shell *shell, char *cmd)
 {
 	char	**paths;
 	char	*slash;
@@ -39,7 +38,6 @@ char	*get_full_path(t_shell *shell, char *cmd) //from pipex
 	int		i;
 
 	i = 0;
-
 	paths = get_paths(shell, cmd, &shell->envp);
 	if (!paths)
 		return (NULL);
@@ -58,5 +56,5 @@ char	*get_full_path(t_shell *shell, char *cmd) //from pipex
 		free(path);
 	}
 	free_split(paths);
-	return (NULL);	
+	return (NULL);
 }
