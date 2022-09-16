@@ -6,16 +6,28 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:00:56 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/15 16:05:03 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/16 11:56:49 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+int	gnd_bis(t_shell *shell, char *tmp, char *dir)
+{
+	char	*tmp2;
+
+	tmp2 = ft_strjoin(tmp, dir);
+	if (!tmp2)
+		return (free(tmp), 2);
+	shell->next_dir = ft_strdup(tmp2);
+	if (!shell->next_dir)
+		return (free(tmp2), free(tmp), 2);
+	return (free(tmp2), 0);
+}
+
 int	get_next_dir(t_shell *shell, char *dir)
 {
 	char	*tmp;
-	char	*tmp2;
 
 	if (ft_strchr(dir, '/'))
 	{
@@ -33,15 +45,9 @@ int	get_next_dir(t_shell *shell, char *dir)
 	}
 	else
 		tmp = ft_strdup(dir);
-	tmp2 = ft_strjoin(tmp, dir);
-	if (!tmp2)
-		return (free(tmp), 2);
-	shell->next_dir = ft_strdup(tmp2);
-	if (!shell->next_dir)
-		return (free(tmp2), free(tmp), 2);
-	free(tmp2);
-	free(tmp);
-	return (0);
+	if (gnd_bis(shell, tmp, dir))
+		return (2);
+	return (free(tmp), 0);
 }
 
 int	get_cwd(t_shell *shell)
