@@ -25,6 +25,9 @@ void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell)
 
 void	get_infile(t_token **tmp, t_cmd **new)
 {
+	t_token	*token;
+
+	token = *tmp;
 	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE) && (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin"; //par defaut
 	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL || (*tmp)->next->type == PIPE))
@@ -32,7 +35,12 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->next && (*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
-		(*new)->infile = (*tmp)->next->next->value;		
+	{
+		token = token->next->next;
+		while (token->next && token->next->type == WORD)
+			token = token->next;
+		(*new)->infile = token->value;
+	}		
 	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && !(*tmp)->prev->prev->prev)
 		(*new)->infile = (*tmp)->prev->value;
 }
@@ -109,6 +117,5 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
 	new->next = NULL;
 	new->prev = NULL;
-//	printf("cmds.c %s\n", new->full_cmd[0]);
 	return (new);
 }
