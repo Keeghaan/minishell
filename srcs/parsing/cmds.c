@@ -28,11 +28,9 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	t_token	*token;
 
 	token = *tmp;
-	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
-		&& (*tmp)->next && (*tmp)->next->type != REDIR_IN)
+	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE) && (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin";
-	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL
-			|| (*tmp)->next->type == PIPE))
+	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL || (*tmp)->next->type == PIPE))
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
 		(*new)->infile = "/dev/stdin";
@@ -40,12 +38,12 @@ void	get_infile(t_token **tmp, t_cmd **new)
 		== REDIR_IN && (*tmp)->next->next)
 	{
 		token = token->next->next;
-		while (token->next && token->next->type == WORD)
+		while (token->next && token->next->next && token->next->type == WORD 
+			&& token->next->next->type == PIPE)
 			token = token->next;
 		(*new)->infile = token->value;
 	}		
-	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type
-		== REDIR_IN && !(*tmp)->prev->prev->prev)
+	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && !(*tmp)->prev->prev->prev)
 		(*new)->infile = (*tmp)->prev->value;
 }
 
@@ -121,5 +119,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
 	new->next = NULL;
 	new->prev = NULL;
+	//printf("%s\n", new->full_cmd[0]);
+	//printf("INFILE: %s\n", new->infile);
 	return (new);
 }
