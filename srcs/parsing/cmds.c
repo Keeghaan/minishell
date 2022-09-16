@@ -28,20 +28,24 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	t_token	*token;
 
 	token = *tmp;
-	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE) && (*tmp)->next && (*tmp)->next->type != REDIR_IN)
-		(*new)->infile = "/dev/stdin"; //par defaut
-	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL || (*tmp)->next->type == PIPE))
+	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
+		&& (*tmp)->next && (*tmp)->next->type != REDIR_IN)
+		(*new)->infile = "/dev/stdin";
+	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL
+			|| (*tmp)->next->type == PIPE))
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
 		(*new)->infile = "/dev/stdin";
-	else if ((*tmp)->next && (*tmp)->next->type == REDIR_IN && (*tmp)->next->next)
+	else if ((*tmp)->next && (*tmp)->next->type
+		== REDIR_IN && (*tmp)->next->next)
 	{
 		token = token->next->next;
 		while (token->next && token->next->type == WORD)
 			token = token->next;
 		(*new)->infile = token->value;
 	}		
-	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN && !(*tmp)->prev->prev->prev)
+	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type
+		== REDIR_IN && !(*tmp)->prev->prev->prev)
 		(*new)->infile = (*tmp)->prev->value;
 }
 
@@ -52,12 +56,13 @@ void	get_outfile(t_token **tmp, t_cmd **new)
 	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
 		(*new)->outfile = "/dev/stdout";
 	else if ((*tmp)->type == PIPE)
-		(*new)->outfile = "/dev/stdout"; //par defaut
+		(*new)->outfile = "/dev/stdout";
 	else if ((*tmp)->type == DREDIR_IN)
 	{
 		if ((*tmp)->next->next && (*tmp)->next->next->type == PIPE)
 			(*new)->outfile = "/dev/stdout";
-		else if ((*tmp)->next->next && (*tmp)->next->next->next && (*tmp)->next->next->type == REDIR_OUT)
+		else if ((*tmp)->next->next && (*tmp)->next->next->next
+			&& (*tmp)->next->next->type == REDIR_OUT)
 			(*new)->outfile = (*tmp)->next->next->next->value;
 	}
 	else
@@ -74,8 +79,8 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 {
 	t_cmd	*new;
 	t_token	*curr;
-	int	i;
-	int	count;
+	int		i;
+	int		count;
 
 	count = 0;
 	i = 0;
@@ -95,17 +100,16 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		else
 			break ;
 	}
-	//printf("make new cmd %d size\n", count + 1);
 	new->redir = 0;
 	new->full_cmd = (char **)malloc(sizeof(char *) * count);
 	if (!new->full_cmd)
-		return (NULL); 
+		return (NULL);
 	i = 0;
 	while (*tmp && (*tmp)->type == WORD)
 	{
 		new->full_cmd[i] = ft_strdup(((*tmp)->value));
 		if (!new->full_cmd[i])
-			return (free_split(new->full_cmd), NULL); //a verifier 
+			return (free_split(new->full_cmd), NULL);
 		i++;
 		if ((*tmp)->next)
 			*tmp = (*tmp)->next;
