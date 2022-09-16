@@ -6,32 +6,16 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/15 17:19:57 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:39:21 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-/*
-void	error_msg(t_cmd *cmd)
-{
-	while (cmd)
-	{
-		if (access(cmd->full_path, F_OK | X_OK | R_OK) != 0)
-			printf("%s: %s: %s\n", SH, cmd->full_cmd[0], strerror(errno));
-		if (cmd->next)
-			cmd = cmd->next;
-		else
-			break ;
-	}
-}
-
-*/
 
 static int	path_found(char *cmd)
 {
 	if (access(cmd, R_OK | X_OK | F_OK) == 0)
 		return (0);
-//	printf("%s: command not found\n", cmd);
 	return (errno);
 }
 

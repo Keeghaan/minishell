@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/09/16 13:29:21 by jcourtoi         ###   ########.fr        #
+#    Updated: 2022/09/16 13:52:05 by jcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ _END=	$'\033[0m
 
 OBJS = ${SRCS:.c=.o}
 
-INCLUDE = inc
+INCLUDE =	-I inc\
+		-I libft
 
 CC = cc
 
@@ -40,6 +41,9 @@ RM = rm -rf
 HEADER = inc/minishell.h
 
 all: ${NAME}
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@
 
 ${NAME}: ${OBJS} ${HEADER}
 	@make -C ./libft
@@ -62,4 +66,10 @@ fclean: clean
 re: fclean
 	@make all
 
-.PHONY: all clean fclean re bonus
+test:	$(NAME)
+	./$(NAME)
+
+vtest:	$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_rl_error ./$(NAME)
+
+.PHONY: all clean fclean re bonus test vtest
