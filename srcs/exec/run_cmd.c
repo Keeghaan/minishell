@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/16 16:52:27 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:44:34 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,9 @@ void	run_cmd(t_shell *shell, char **envp)
 	{
 		error_msg(shell, shell->cmds, envp, 1);
 		if (cmd)
-			exec_cmd(shell, shell->cmds->full_path, envp);
+		{
+			signalisation(1);
+			pipex(shell, envp);
+		}
 	}
-	else
-		return ;
 }

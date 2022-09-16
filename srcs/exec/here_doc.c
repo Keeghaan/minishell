@@ -4,7 +4,6 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc)
 {
 	int	cmp;
 
-	//write(1, "> ", 2);
 	*tmp = readline("     > ");
 	if (!(*tmp))
 	{
@@ -27,7 +26,7 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc)
 
 static void	write_in_file(int *file, t_token **token)
 {
-	int	check;
+	int		check;
 	char	*tmp;
 
 	check = 1;
@@ -46,7 +45,7 @@ static void	write_in_file(int *file, t_token **token)
 
 void	get_here_doc(t_token **token, t_cmd **new)
 {
-	int	file;
+	int			file;
 	static int	i;
 
 	if (i != 1)
@@ -63,9 +62,4 @@ void	get_here_doc(t_token **token, t_cmd **new)
 		(*new)->infile = ".here_doc2";
 		i = 0;
 	}
-	/*if ((*new)->infile == -1)
-	{
-		unlink(".here_doc");
-		printf("error\n");
-	}*/
 }
