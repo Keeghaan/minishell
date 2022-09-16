@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
+/*   Updated: 2022/09/16 18:43:03 by nboratko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 //returns NULL if it worked and the value of the token if error
@@ -41,12 +53,19 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 					|| tmp->next->type == REDIR_IN
 					|| tmp->next->type == PIPE))
 				*cmd = make_new_cmd(&tmp, shell);
-			else if (i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
+			else if (tmp->prev->prev && tmp->prev->prev->type == REDIR_IN
+				&& tmp->prev->prev->prev && tmp->prev->prev->prev->type == WORD
+				&& tmp->next && tmp->next->type == PIPE)
+			{
+				if (tmp->next)
+					tmp = tmp->next;
+				else
+					break ;
+			}
+			else if ( i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
 				*cmd = make_new_cmd(&tmp, shell);
-			else if (i > 0 && tmp->prev && tmp->prev->type
-				!= REDIR_IN && tmp->prev->type != REDIR_OUT
-				&& tmp->prev->type != DREDIR_OUT
-				&& tmp->prev->prev->type != REDIR_IN)
+			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN && tmp->prev->type != REDIR_OUT
+					&& tmp->prev->type != DREDIR_OUT) //une commande ne peut jamais suivre une redirection
 			{
 				if (*cmd)
 					add_new_cmd(cmd, &tmp, shell);
