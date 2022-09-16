@@ -2,7 +2,6 @@
 
 void	init_shell_struct(t_shell *shell)
 {
-	//shell->pid = 0; // ca non plus, peut-etre pas besoin :D
 	t_cmd	*tmp;
 
 	tmp = shell->cmds;
@@ -16,13 +15,14 @@ void	init_shell_struct(t_shell *shell)
 	if (tmp->redir == 1)
 		shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (tmp->redir == 2)
-		shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		shell->outfile = open(tmp->outfile,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
 void	free_cmds(t_cmd **cmd)
 {
 	t_cmd	*tmp;
-	int	i;
+	int		i;
 
 	tmp = *cmd;
 	while (tmp)
@@ -31,8 +31,8 @@ void	free_cmds(t_cmd **cmd)
 		*cmd = (*cmd)->next;
 		while (tmp->full_cmd[i])
 		{
-			if (tmp->full_path &&
-				ft_strncmp(tmp->full_path, tmp->full_cmd[i], ft_strlen(tmp->full_path)))
+			if (tmp->full_path && ft_strncmp(tmp->full_path,
+					tmp->full_cmd[i], ft_strlen(tmp->full_path)))
 				free(tmp->full_cmd[i]);
 			if (!tmp->full_path)
 				free(tmp->full_cmd[i]);

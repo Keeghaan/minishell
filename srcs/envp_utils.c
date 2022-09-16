@@ -4,13 +4,13 @@ t_envp	*make_new_env(char *envp)
 {
 	t_envp	*new;
 	char	*line;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	new = malloc(sizeof(t_envp));
 	if (!new)
-		return (NULL); //ensuite on peut faire quoi ?
+		return (NULL);
 	while (envp[i] != '=')
 		i++;
 	new->var = ft_substr(envp, 0, i);
