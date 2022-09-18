@@ -89,6 +89,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
+	new->empty = 0;
 	if ((*tmp)->next && (*tmp)->next->type == DREDIR_IN)
 		get_here_doc(tmp, &new);
 	else
@@ -102,6 +103,8 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 			break ;
 	}
 	new->redir = 0;
+	if ((*tmp)->empty_cmd)
+		new->empty = 1;
 	new->full_cmd = (char **)malloc(sizeof(char *) * count);
 	if (!new->full_cmd)
 		return (NULL);

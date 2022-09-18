@@ -5,14 +5,18 @@ t_token	*make_new_token(char *line, int i, int j, int quotes)
 	t_token	*new;
 
 	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->empty_cmd = 0;
 	if (quotes == 1)
-	{
 		new->value = ft_substr(line, i, j - 1);
-	}
 	else
 	{
 		if (j == 0)
+		{
+			new->empty_cmd = 1;
 			new->value = ft_strdup(" ");
+		}
 		else
 			new->value = ft_substr(line, i, j);
 	}

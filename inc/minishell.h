@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/16 18:28:10 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:28:54 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_token
 	char			*value;
 	enum e_tok_type	type;
 	int				quotes;
+	int				empty_cmd;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -75,6 +76,7 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	int				redir;
+	int				empty;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
