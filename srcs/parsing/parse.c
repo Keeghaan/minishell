@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/18 15:05:21 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:21:04 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 					|| tmp->next->type == REDIR_IN
 					|| tmp->next->type == PIPE))
 				*cmd = make_new_cmd(&tmp, shell);
-			else if (tmp->prev->prev && tmp->prev->prev->type == REDIR_IN
+			else if (tmp->prev && tmp->prev->type == WORD && tmp->prev->prev && tmp->prev->prev->type == REDIR_IN
 				&& tmp->prev->prev->prev && tmp->prev->prev->prev->type == WORD
-				&& tmp->next && tmp->next->type
-				== PIPE && tmp->prev && tmp->prev->type == WORD)
+				&& tmp->next && tmp->next->type == PIPE)
 			{
 				if (tmp->next)
 					tmp = tmp->next;
