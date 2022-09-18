@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 14:28:54 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:32:41 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ void	path_and_cmd(t_shell *child, int index, char **envp);
 void	cmd_not_found(char *path, t_shell *child);
 void	pipex_loop(t_shell *child, int i, char **envp);
 void	child_process(t_shell *child, int index, char **envp);
+int		double_cmd(t_token **tok);
 
 //void	execute(char **cmd, char *path, t_shell *child);
 

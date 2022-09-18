@@ -81,7 +81,7 @@ void	pipex_bis(t_shell *child)
 	if (access(".here_doc2", F_OK) == 0)
 		unlink(".here_doc2");
 }
-
+/*
 int	double_cmd(t_token **tok)
 {
 	t_token *t;
@@ -107,7 +107,7 @@ int	double_cmd(t_token **tok)
 	}
 	return (0);
 }
-
+*/
 void	pipex(t_shell *child, char **envp)
 {
 	int	i;
@@ -116,7 +116,7 @@ void	pipex(t_shell *child, char **envp)
 	child->infile = open(child->cmds->infile, O_RDONLY);
 	if (child->infile < 0)
 	{
-		if (!double_cmd(&child->token))			
+		if (!double_cmd(&child->token))
 			printf("%s: %s\n", child->cmds->infile, strerror(errno));
 	}
 	else
