@@ -6,48 +6,11 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 15:35:20 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:39:33 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	double_cmd_bis(t_token *t)
-{
-	if (t->prev && t->prev->type == WORD && t->prev->prev
-		&& t->prev->prev->type == REDIR_IN && t->prev->prev->prev
-		&& t->prev->prev->prev->type == WORD
-		&& t->next && t->next->type == PIPE)
-	{
-		if (t->empty_cmd)
-			return (printf("%s: '': %s\n", t->prev->prev->prev->value,
-					strerror(2)), 1);
-		else
-			return (printf("%s: %s: %s\n", t->prev->prev->prev->value,
-					t->value, strerror(2)), 1);
-	}
-	return (0);
-}
-
-int	double_cmd(t_token **tok)
-{
-	t_token	*t;
-
-	t = *tok;
-	while (t)
-	{
-		if (t->type == WORD)
-		{
-			if (double_cmd_bis(t))
-				return (1);
-		}
-		if (t->next)
-			t = t->next;
-		else
-			break ;
-	}
-	return (0);
-}
 
 static int	path_found(char *cmd)
 {

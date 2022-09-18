@@ -1,50 +1,54 @@
 #include "../inc/minishell.h"
 
-void	init_shell_struct(t_shell *shell)
+int	double_cmd_bis(t_token *t, int msg)
 {
-	t_cmd	*tmp;
-
-	tmp = shell->cmds;
-	while (tmp)
+	if (t->prev && t->prev->type == WORD && t->prev->prev
+		&& t->prev->prev->type == REDIR_IN && t->prev->prev->prev
+		&& t->prev->prev->prev->type == WORD
+		&& t->next && t->next->type == PIPE)
 	{
-		if (tmp->next)
-			tmp = tmp->next;
+		if (t->empty_cmd)
+		{
+			if (msg)
+				printf("%s: '': %s\n", t->prev->prev->prev->value,
+					strerror(2));
+			return (1);
+		}
+		else
+		{
+			if (msg)
+				printf("%s: %s: %s\n", t->prev->prev->prev->value,
+					t->value, strerror(2));
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int	double_cmd(t_token **tok, int msg)
+{
+	t_token	*t;
+	int		fd;
+
+	t = *tok;
+	while (t)
+	{
+		if (t->type == WORD)
+		{
+			if (double_cmd_bis(t, msg))
+			{
+				fd = open(t->value, O_RDONLY);
+				if (fd >= 0)
+					return (close(fd), 2);
+				return (1);
+			}
+		}
+		if (t->next)
+			t = t->next;
 		else
 			break ;
 	}
-	if (tmp->redir == 1)
-		shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (tmp->redir == 2)
-		shell->outfile = open(tmp->outfile,
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-}
-
-void	free_cmds(t_cmd **cmd)
-{
-	t_cmd	*tmp;
-	int		i;
-
-	tmp = *cmd;
-	while (tmp)
-	{
-		i = 0;
-		*cmd = (*cmd)->next;
-		while (tmp->full_cmd[i])
-		{
-			if (tmp->full_path && ft_strncmp(tmp->full_path,
-					tmp->full_cmd[i], ft_strlen(tmp->full_path)))
-				free(tmp->full_cmd[i]);
-			if (!tmp->full_path)
-				free(tmp->full_cmd[i]);
-			i++;
-		}
-		if (tmp->full_path)
-			free(tmp->full_path);
-		free(tmp->full_cmd);
-		if (tmp)
-			free(tmp);
-		tmp = *cmd;
-	}
+	return (0);
 }
 
 void	rewind_cmd(t_cmd **cmd, int back)
