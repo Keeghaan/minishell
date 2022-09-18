@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 15:39:33 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:46:51 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ static int	check_errno(char *cmd, char **en)
 
 	j = -1;
 	found = 0;
-	if (!check_path_cmd2(cmd))
-		return (path_found(cmd));
+	if (check_path_cmd2(cmd) == 1)
+	{
+		printf("%s: %s: %s\n", SH, cmd, strerror(path_found(cmd))); //
+		return (-1);
+	}
 	while (en[++j])
 	{
 		tmp = ft_strjoin(en[j], "/");
@@ -80,7 +83,8 @@ int	error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg)
 	while (cmd)
 	{
 		err = check_errno(cmd->full_cmd[0], en);
-		ret += play_msg(err, shell, cmd, msg);
+		if (err != -1)
+			ret += play_msg(err, shell, cmd, msg);
 		if (cmd->next)
 			cmd = cmd->next;
 		else
