@@ -35,6 +35,12 @@ static void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char
 		}
 		else
 			which_case(token);
+		if (shell->next_dir)
+		{
+			free(shell->next_dir);
+			shell->next_dir = NULL;
+		}
+
 	}
 }
 
@@ -85,8 +91,8 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
 	}
-	if (shell->next_dir)
-		free(shell->next_dir);
+/*	if (shell->next_dir)
+		free(shell->next_dir);*/
 	rl_clear_history();
 }
 

@@ -89,7 +89,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
-	(*tmp)->empty_cmd = 0;
+	new->empty = 0;
 	if ((*tmp)->next && (*tmp)->next->type == DREDIR_IN)
 		get_here_doc(tmp, &new);
 	else
