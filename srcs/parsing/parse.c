@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/18 14:19:10 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:05:21 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 			else if (tmp->prev->prev && tmp->prev->prev->type == REDIR_IN
 				&& tmp->prev->prev->prev && tmp->prev->prev->prev->type == WORD
 				&& tmp->next && tmp->next->type
-				== PIPE && tmp->prev->type == WORD)
+				== PIPE && tmp->prev && tmp->prev->type == WORD)
 			{
 				if (tmp->next)
 					tmp = tmp->next;

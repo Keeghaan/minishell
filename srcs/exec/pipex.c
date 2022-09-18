@@ -82,6 +82,32 @@ void	pipex_bis(t_shell *child)
 		unlink(".here_doc2");
 }
 
+int	double_cmd(t_token **tok)
+{
+	t_token *t;
+
+	t = *tok;
+	while (t)
+	{
+		if (t->type == WORD)
+		{
+			if (t->prev && t->prev->type == WORD && t->prev->prev && t->prev->prev->type
+				== REDIR_IN && t->prev->prev->prev && t->prev->prev->prev->type == WORD && t->next && t->next->type == PIPE)
+			{
+				if (t->empty_cmd)
+					return (printf("%s: '': %s\n", t->prev->prev->prev->value, strerror(2)), 1);
+				else
+					return (printf("%s: %s: %s\n", t->prev->prev->prev->value, t->value, strerror(2)), 1);
+			}
+		}
+		if (t->next)
+			t = t->next;
+		else
+			break ;
+	}
+	return (0);
+}
+
 void	pipex(t_shell *child, char **envp)
 {
 	int	i;
@@ -89,7 +115,10 @@ void	pipex(t_shell *child, char **envp)
 	i = -1;
 	child->infile = open(child->cmds->infile, O_RDONLY);
 	if (child->infile < 0)
-		printf("%s: %s\n", child->cmds->infile, strerror(errno));
+	{
+		if (!double_cmd(&child->token))			
+			printf("%s: %s\n", child->cmds->infile, strerror(errno));
+	}
 	else
 	{
 		if (dup2(child->infile, STDIN_FILENO) == -1)
