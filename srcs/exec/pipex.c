@@ -88,7 +88,7 @@ void	pipex(t_shell *child, char **envp)
 
 	i = -1;
 
-	if (double_cmd(&child->token, 0) != 2)
+	if (double_cmd(&child->token, 0) < 2)
 	{
 		child->infile = open(child->cmds->infile, O_RDONLY);
 		if (child->infile < 0)
