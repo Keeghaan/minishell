@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/16 19:00:20 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:19:10 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,19 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 				*cmd = make_new_cmd(&tmp, shell);
 			else if (tmp->prev->prev && tmp->prev->prev->type == REDIR_IN
 				&& tmp->prev->prev->prev && tmp->prev->prev->prev->type == WORD
-				&& tmp->next && tmp->next->type == PIPE && tmp->prev->type == WORD)
+				&& tmp->next && tmp->next->type
+				== PIPE && tmp->prev->type == WORD)
 			{
 				if (tmp->next)
 					tmp = tmp->next;
 				else
 					break ;
 			}
-			else if ( i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
+			else if (i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
 				*cmd = make_new_cmd(&tmp, shell);
-			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN && tmp->prev->type != REDIR_OUT
-					&& tmp->prev->type != DREDIR_OUT) //une commande ne peut jamais suivre une redirection
+			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN
+				&& tmp->prev->type != REDIR_OUT
+				&& tmp->prev->type != DREDIR_OUT)
 			{
 				if (*cmd)
 					add_new_cmd(cmd, &tmp, shell);
