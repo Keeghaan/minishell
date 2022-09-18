@@ -71,7 +71,8 @@ void	free_envp(t_envp **envp)
 }
 
 //cette fonction est faite pour le builtin unset, jamais testee
-//https://www.log2base2.com/data-structures/linked-list/deleting-a-node-in-linked-list.html
+//https://www.log2base2.com/data-structured
+///linked-list/deleting-a-node-in-linked-list.html
 
 void	remove_env(t_envp **envp, char *var)
 {
