@@ -87,8 +87,8 @@ void	pipex(t_shell *child, char **envp)
 	int	i;
 
 	i = -1;
-	if (double_cmd(&child->token, 0) < 2)
-	{
+//	if (double_cmd(&child->token, 0) < 2)
+//	{
 		child->infile = open(child->cmds->infile, O_RDONLY);
 		if (child->infile < 0)
 		{
@@ -106,7 +106,7 @@ void	pipex(t_shell *child, char **envp)
 				close(child->infile);
 			}
 		}
-	}
+//	}
 	get_nbr_cmds(child);
 	while (++i < child->n_cmds)
 	{

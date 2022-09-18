@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 15:46:51 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 19:02:31 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	free_cmds(t_cmd **cmd);
 void	rewind_token(t_token **token, int back);
 void	rewind_cmd(t_cmd **cmd, int back);
 void	init_shell(t_shell *shell);
+int	is_a_dir(char *value);
 //SIGNALS
 void	signalisation(int child);
 void	handle_sigint(int sig);

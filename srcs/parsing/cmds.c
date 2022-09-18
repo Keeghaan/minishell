@@ -48,6 +48,8 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN
 		&& !(*tmp)->prev->prev->prev)
 		(*new)->infile = (*tmp)->prev->value;
+	else
+		(*new)->infile = "/dev/stdin"; //
 }
 
 void	get_outfile(t_token **tmp, t_cmd **new)
