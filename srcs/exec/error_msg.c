@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 19:02:48 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 19:48:32 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 	return (ret);
 }
 
+void	other(char *cmd)
+{
+	if (is_a_dir(cmd) == 3)
+		printf("%s: %s: %s\n", SH, cmd, strerror(21));
+}
+
 int	error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg)
 {
 	char	**en;
@@ -81,6 +87,8 @@ int	error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg)
 		return (-1);
 	while (cmd)
 	{
+		//if (!cmd->prev && !cmd->next)
+		//	other(cmd->full_cmd[0]);
 		err = check_errno(cmd->full_cmd[0], en);
 		if (err > 0)
 			ret += play_msg(err, shell, cmd, msg);

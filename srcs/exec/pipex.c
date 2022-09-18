@@ -42,7 +42,7 @@ void	child_process(t_shell *child, int index, char **envp)
 {
 	t_cmd	*tmp;
 	int		j;
-
+	
 	tmp = child->cmds;
 	if (index != 0)
 	{
@@ -56,6 +56,7 @@ void	child_process(t_shell *child, int index, char **envp)
 			j++;
 		}
 	}
+
 	close(child->pipefd[0]);
 	child_process_ter(child, tmp, index);
 	close(child->pipefd[1]);
@@ -87,7 +88,7 @@ void	pipex(t_shell *child, char **envp)
 	int	i;
 
 	i = -1;
-//	if (double_cmd(&child->token, 0) < 2)
+//	if (double_cmd(&child->token, 1) == 5) //pwd ne s'affiche pu mais cat < Makefile /dev/stdin est mieux
 //	{
 		child->infile = open(child->cmds->infile, O_RDONLY);
 		if (child->infile < 0)
@@ -97,14 +98,10 @@ void	pipex(t_shell *child, char **envp)
 		}
 		else
 		{
-			if (double_cmd(&child->token, 0))
-				close(child->infile);
-			else
-			{
-				if (dup2(child->infile, STDIN_FILENO) == -1)
-					ft_printf("minishell: %s\n", strerror(errno));
-				close(child->infile);
-			}
+			double_cmd(&child->token, 1);
+			if (dup2(child->infile, STDIN_FILENO) == -1)
+				ft_printf("minishell: %s\n", strerror(errno));
+			close(child->infile);
 		}
 //	}
 	get_nbr_cmds(child);

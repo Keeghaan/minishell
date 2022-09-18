@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/09/16 17:50:41 by jcourtoi         ###   ########.fr        #
+#    Updated: 2022/09/18 19:08:11 by jcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ re: fclean
 
 test:	$(NAME)
 	./$(NAME)
+
+fdtest:	$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_rl_error --track-fds=yes ./$(NAME)
 
 vtest:	$(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_rl_error ./$(NAME)
