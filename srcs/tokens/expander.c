@@ -72,12 +72,6 @@ void	handle_home(t_token **token, char *user)
 	free(user);
 }
 
-void	get_global_return(t_token **token)
-{
-	free((*token)->value);
-	(*token)->value = ft_itoa(g_return);
-}
-
 void	support_expander(t_token **token, t_envp **env)
 {
 	char	*check;

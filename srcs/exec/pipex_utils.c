@@ -61,7 +61,6 @@ void	path_and_cmd(t_shell *child, int index, char **envp)
 			i++;
 		}
 	}
-
 	cmd = tmp->full_cmd;
 	path = tmp->full_path;
 	if (cmd[0] && path && check_cmd(cmd[0], child->env))

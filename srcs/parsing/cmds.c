@@ -49,7 +49,7 @@ void	get_infile(t_token **tmp, t_cmd **new)
 		&& !(*tmp)->prev->prev->prev)
 		(*new)->infile = (*tmp)->prev->value;
 	else
-		(*new)->infile = "/dev/stdin"; //
+		(*new)->infile = "/dev/stdin";
 }
 
 void	get_outfile(t_token **tmp, t_cmd **new)

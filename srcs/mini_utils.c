@@ -17,7 +17,9 @@ int	double_cmd_bis(t_token *t, int msg)
 {
 	int	dir;
 
-	if (t->next && t->next->type == REDIR_IN && t->next->next && t->next->next->type == WORD && t->next->next->next && t->next->next->next->type == WORD)
+	if (t->next && t->next->type == REDIR_IN && t->next->next
+		&& t->next->next->type == WORD && t->next->next->next
+		&& t->next->next->next->type == WORD)
 	{
 		if (is_a_dir(t->value) == 3)
 			return (printf("%s: %s: %s\n", SH, t->value, strerror(21)), 4);
@@ -34,15 +36,18 @@ int	double_cmd_bis(t_token *t, int msg)
 			dir = is_a_dir(t->next->next->next->value);
 			if (msg && dir == 3)
 			{
-				printf("%s: %s: %s\n", t->value, t->next->next->next->value, strerror(21));
+				printf("%s: %s: %s\n", t->value,
+					t->next->next->next->value, strerror(21));
 				return (3);
 			}
-			else if (dir == 2 && t->next->next->next->next && t->next->next->next->next->type == PIPE)
+			else if (dir == 2 && t->next->next->next->next
+				&& t->next->next->next->next->type == PIPE)
 				return (5);
 			else if (dir == 2 && !t->next->next->next->next)
 				return (1);
 			if (msg && !dir)
-				printf("%s: %s: %s\n", t->value, t->next->next->next->value, strerror(2));
+				printf("%s: %s: %s\n", t->value,
+					t->next->next->next->value, strerror(2));
 			return (1);
 		}
 	}

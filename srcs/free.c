@@ -6,11 +6,17 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:42:41 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 15:38:24 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 20:05:13 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	get_global_return(t_token **token)
+{
+	free((*token)->value);
+	(*token)->value = ft_itoa(g_return);
+}
 
 void	free_split(char **av)
 {

@@ -6,13 +6,13 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 19:18:02 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/18 14:54:44 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 20:06:22 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void ft_strjoin_bis(char *s1, char *s2, char *s3)
+static void	ft_strjoin_bis(char *s1, char *s2, char *s3)
 {
 	int		i;
 	int		len;
@@ -48,15 +48,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	s3 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (s3 == NULL)
 		return (NULL);
-/*	i = -1;
-	while (s1[++i])
-		s3[i] = s1[i];
-	i = -1;
-	while (s2[++i])
-	{
-		s3[len1] = s2[i];
-		len1++;
-	}*/
 	ft_strjoin_bis(s1, s2, s3);
 	return (s3);
 }

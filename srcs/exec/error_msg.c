@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 20:00:26 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/18 20:13:23 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_errno(char *cmd, char **en)
 
 	j = -1;
 	not_found = 1;
-	if (check_path_cmd2(cmd))
+	if (!check_path_cmd2(cmd))
 		return (0);
 	while (en[++j])
 	{
@@ -71,7 +71,7 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 void	other(char *cmd)
 {
 	int	dir;
-	
+
 	dir = is_a_dir(cmd);
 	if (dir == 3)
 		printf("%s: %s: %s\n", SH, cmd, strerror(21));
