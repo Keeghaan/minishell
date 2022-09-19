@@ -19,6 +19,8 @@ static	int	shell_loop_part_two_bis(char *buf, t_shell *shell,
 	}
 	if (!(*token))
 		return (1);
+	if ((*token)->value)
+		expander(token, env);
 	shell->token = *token;
 	return (0);
 }

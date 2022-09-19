@@ -6,7 +6,8 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 14:43:33 by jcourtoi         ###   ########.fr       */
+/*                                                                            */
+/*   Updated: 2022/09/19 15:44:57 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +116,18 @@ void	support_expander_bis(t_token **t, char *val, t_envp **en, int *i);
 // TOKENS
 
 int		tokenizer(char *line, t_token **token, t_envp **env);
-void	add_new_token(t_token **token, char *line, int i, int j, int quotes);
-t_token	*make_new_token(char *line, int i, int j, int quotes);
-int		double_quotes_tokens(t_token **token, int i, int *j, int k, char *line);
-int		single_quotes_tokens(t_token **token, int i, int *j, int k, char *line);
+void	add_new_token(t_token **token, char *line, int i, int j);
+t_token	*make_new_token(char *line, int i, int j);
+int		tokenizer_support_func(t_token **token, int i, int *j, char *line);
+int		double_quotes_tokens_one(t_token **token, int i, int *j, char *line);
+int		double_quotes_tokens_two(t_token **token, int i, int *j, char *line);
+int		single_quotes_tokens_one(t_token **token, int i, int *j, char *line);
+int		single_quotes_tokens_two(t_token **token, int i, int *j, char *line);
+int		dquotes_func(t_token **token, int i, int *j, char *line);
+int		squotes_func(t_token **token, int i, int *j, char *line);
+void	no_quotes_tokens_one(t_token **token, int i, int *j, char *line);
+void	no_quotes_tokens_two(t_token **token, int i, int *j, char *line);
+void	noquotes_func(t_token **token, int i, int *j, char *line);
 void	get_token_type(t_token **token);
 void	free_token(t_token **token);
 

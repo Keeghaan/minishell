@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   advanced_tokens.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/19 15:02:28 by nboratko          #+#    #+#             */
+/*   Updated: 2022/09/19 15:02:30 by nboratko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	ft_iscrochet(char *s, int i)
@@ -31,6 +43,7 @@ void	insert_token_list(t_token **token, char *value)
 	new->value = ft_strdup(value);
 	new->type = WORD;
 	new->quotes = 1;
+	new->empty_cmd = 0;
 	if (tmp->next != NULL)
 	{
 		new->next = tmp->next;

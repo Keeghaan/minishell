@@ -1,6 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/19 15:02:22 by nboratko          #+#    #+#             */
+/*   Updated: 2022/09/19 15:44:07 by nboratko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
-t_token	*make_new_token(char *line, int i, int j, int quotes)
+int	tokenizer_support_func(t_token **token, int i, int *j, char *line)
+{
+	if (line[i] == '"')
+	{
+		if (dquotes_func(token, i, j, line) == 1)
+			return (1);
+	}
+	else if (line[i] == 39)
+	{
+		if (squotes_func(token, i, j, line) == 2)
+			return (2);
+	}
+	else if (ft_isprint(line[i]))
+		noquotes_func(token, i, j, line);	
+	else
+		(*j)++;
+	return (0);
+}
+
+t_token	*make_new_token(char *line, int i, int j)
 {
 	t_token	*new;
 
@@ -8,7 +39,7 @@ t_token	*make_new_token(char *line, int i, int j, int quotes)
 	if (!new)
 		return (NULL);
 	new->empty_cmd = 0;
-	if (quotes == 1)
+	if (i == 0 || (i != 0 && line[i - 1] != 39 && line[i - 1] != '"'))
 		new->value = ft_substr(line, i, j - 1);
 	else
 	{
@@ -23,18 +54,17 @@ t_token	*make_new_token(char *line, int i, int j, int quotes)
 	new->type = WORD;
 	new->next = NULL;
 	new->prev = NULL;
-	new->quotes = quotes;
 	return (new);
 }
 
-void	add_new_token(t_token **token, char *line, int i, int j, int quotes)
+void	add_new_token(t_token **token, char *line, int i, int j)
 {
 	t_token	*tmp;
 
 	tmp = *token;
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = make_new_token(line, i, j, quotes);
+	tmp->next = make_new_token(line, i, j);
 	tmp->next->prev = tmp;
 }
 
