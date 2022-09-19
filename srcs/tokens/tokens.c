@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 15:02:07 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 15:47:20 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:52:19 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	noquotes_func(t_token **token, int i, int *j, char *line)
 		no_quotes_tokens_two(token, i, j, line);
 }
 
-int	tokenizer(char *line, t_token **token, t_envp **env)
+int	tokenizer(char *line, t_token **token)
 {
 	int	i;
 	int	j;

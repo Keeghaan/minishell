@@ -115,7 +115,7 @@ void	support_expander_bis(t_token **t, char *val, t_envp **en, int *i);
 
 // TOKENS
 
-int		tokenizer(char *line, t_token **token, t_envp **env);
+int		tokenizer(char *line, t_token **token);
 void	add_new_token(t_token **token, char *line, int i, int j);
 t_token	*make_new_token(char *line, int i, int j);
 int		tokenizer_support_func(t_token **token, int i, int *j, char *line);
