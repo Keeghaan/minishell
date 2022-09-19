@@ -55,6 +55,8 @@ void	get_outfile(t_token **tmp, t_cmd **new)
 		else if ((*tmp)->next->next && (*tmp)->next->next->next
 			&& (*tmp)->next->next->type == REDIR_OUT)
 			(*new)->outfile = (*tmp)->next->next->next->value;
+		else
+			(*new)->outfile = "/dev/stdout";
 	}
 	else
 		(*new)->outfile = "/dev/stdout";

@@ -4,11 +4,12 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc)
 {
 	int	cmp;
 
-	*tmp = readline("     > ");
+	*tmp = readline("> ");
 	if (!(*tmp))
 	{
-		printf("YOU MIGHT HAVE A LITTLE HERE DOC PROBLEM\n");
-		exit(EXIT_FAILURE);
+		printf("minishell: warning : here-document limited");
+		printf("by end-of-file (wanted `%s')\n", heredoc);
+		return (0);
 	}
 	if (ft_strlen(*tmp) == ft_strlen(heredoc))
 	{
