@@ -17,7 +17,7 @@ void	init_shell(t_shell *shell)
 	shell->infile = -1;
 	shell->outfile = -1;
 	shell->pipe = 0;
-	shell->ret = 0;
+	//shell->ret = 0;
 	shell->unclosed_q = 0;
 	shell->prev_dir = NULL;
 	shell->next_dir = NULL;

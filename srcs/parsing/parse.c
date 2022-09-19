@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 16:19:07 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:35:22 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	parse(t_token **token, t_shell *shell)
 	{		
 		ft_printf("minishell: syntax error near unexpected token `%s'\n", check);
 		shell->ret = 2;
-		return (0);
+		return (-1);
 	}
 	if (get_cmds(token, &shell->cmds, shell))
 		return (1);

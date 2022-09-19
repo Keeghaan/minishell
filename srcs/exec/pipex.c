@@ -99,6 +99,7 @@ void	pipex(t_shell *child, char **envp)
 	}
 	else
 	{
+		child->ret = 0;
 		double_cmd(&child->token, 1);
 		if (dup2(child->infile, STDIN_FILENO) == -1)
 			ft_printf("minishell: %s\n", strerror(errno));

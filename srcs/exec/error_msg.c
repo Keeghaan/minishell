@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 15:13:05 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:37:47 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 		}
 		shell->ret = 127;
 	}
+	else
+		shell->ret = 0;
 	return (ret);
 }
 
