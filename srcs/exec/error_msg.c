@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 12:14:37 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:13:05 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 
 	ret = 0;
 	if (err && !(is_it_builtin(shell, cmd, 0) == 1
-		|| is_it_builtin(shell, cmd, 0) == 2))
+			|| is_it_builtin(shell, cmd, 0) == 2))
 	{
 		ret++;
 		if (msg)
@@ -70,18 +70,22 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 	return (ret);
 }
 
-void	other(char *cmd)
+void	other(char *cmd, char **envp)
 {
+	(void)envp;
 	int	dir;
 
 	dir = is_a_dir(cmd);
-	if (dir == 3)
-		printf("%s: %s: %s\n", SH, cmd, strerror(21));
-	else if (dir == 2 && ft_strchr(cmd, '/'))
-		printf("%s: %s: %s\n", SH, cmd, strerror(path_found(cmd)));
-	else if (dir == 2 && !ft_strchr(cmd, '/'))
-		printf("%s: %s: command not found\n", SH, cmd);
-}
+	if (!is_valid_cmd(cmd, envp))
+	{
+		if (dir == 3)
+			printf("%s: %s: %s\n", SH, cmd, strerror(21));
+		else if (dir == 2 && ft_strchr(cmd, '/'))
+			printf("%s: %s: %s\n", SH, cmd, strerror(path_found(cmd)));
+		else if (dir == 2 && !ft_strchr(cmd, '/'))
+			printf("%s: %s: command not found\n", SH, cmd);
+	}
+}	
 
 int	error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg)
 {
@@ -96,7 +100,7 @@ int	error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg)
 	while (cmd)
 	{
 		if ((!cmd->prev && !cmd->next) || (!cmd->prev && cmd->next))
-			other(cmd->full_cmd[0]);
+			other(cmd->full_cmd[0], envp);
 		err = check_errno(cmd->full_cmd[0], en);
 		if (err > 0)
 			ret += play_msg(err, shell, cmd, msg);
