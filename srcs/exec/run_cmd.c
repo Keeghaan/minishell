@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 12:55:24 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:26:57 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	run_cmd(t_shell *shell, char **envp)
 	rewind_cmd(&shell->cmds, 1);
 	if (ft_strlen(shell->env[0]) > 1)
 	{
-		if (!double_cmd(&shell->token, 0)
+		if (!double_cmd(&shell->token, 0) && !shell->unclosed_q
 			&& !is_it_builtin(shell, shell->cmds, 0))
 			error_msg(shell, shell->cmds, envp, 1);
 		if (cmd)

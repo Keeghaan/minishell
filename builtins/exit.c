@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/16 11:47:54 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:41:52 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ void	handle_exit(t_shell *shell, char *buf)
 
 	n = get_nb_tokens(shell);
 	if (n == 1)
-	{
-		ft_putendl_fd("exit", 1);
-		free_exit(shell);
-	}
+		free_exit(shell, buf, 1);
 	split = ft_split(buf, ' ');
 	is_numeric = is_digit(shell);
 	ft_putendl_fd("exit", 1);
@@ -104,5 +101,5 @@ void	handle_exit(t_shell *shell, char *buf)
 		return ;
 	}
 	free_split(split);
-	free_exit(shell);
+	free_exit(shell, buf, 0);
 }

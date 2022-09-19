@@ -23,14 +23,12 @@ void	get_nbr_cmds(t_shell *shell)
 		shell->pid[i] = -2;
 }
 
-void	cmd_not_found(char *path, t_shell *child)
+void	cmd_not_found(t_shell *child)
 {
-	(void)path;
 	free(child->pid);
 	free_envp(&child->envp);
 	free_token(&child->token);
 	free_cmds(&child->cmds);
-	free_split(child->env);
 	close(child->outfile);
 	close(child->pipefd[0]);
 	close(child->pipefd[1]);
@@ -65,5 +63,5 @@ void	path_and_cmd(t_shell *child, int index, char **envp)
 	path = tmp->full_path;
 	if (cmd[0] && path && check_cmd(cmd[0], child->env))
 		execve(path, cmd, envp);
-	cmd_not_found(path, child);
+	cmd_not_found(child);
 }

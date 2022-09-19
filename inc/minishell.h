@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 13:01:18 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:42:36 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_shell
 	pid_t	*pid;
 	int		is_running;
 	int		ret;
+	int		unclosed_q;
 }	t_shell;
 
 // EXPANDER
@@ -206,7 +207,7 @@ int		cmd_not_fnd(char *path, char **en);
 void	pipex(t_shell *child, char **envp);
 void	get_nbr_cmds(t_shell *shell);
 void	path_and_cmd(t_shell *child, int index, char **envp);
-void	cmd_not_found(char *path, t_shell *child);
+void	cmd_not_found(t_shell *child);
 void	pipex_loop(t_shell *child, int i, char **envp);
 void	child_process(t_shell *child, int index, char **envp);
 int		double_cmd(t_token **tok, int msg);
@@ -215,7 +216,7 @@ int		double_cmd(t_token **tok, int msg);
 
 //EXIT
 void	handle_exit(t_shell *shell, char *buf);
-void	free_exit(t_shell *shell);
+void	free_exit(t_shell *shell, char *buf, int msg);
 int		is_exit_valid(t_shell *shell, char *buf);
 int		is_exit_alone(char *buf);
 

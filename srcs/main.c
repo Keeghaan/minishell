@@ -3,19 +3,24 @@
 
 int	g_return;
 
-static	void	shell_loop_part_two_bis(char *buf, t_shell *shell,
+static	int	shell_loop_part_two_bis(char *buf, t_shell *shell,
 		t_token **token, t_envp **env)
 {
+	shell->unclosed_q = 0;
 	if (ft_strchr(buf, '|'))
 		shell->pipe = 1;
 	else
 		shell->pipe = 0;
 	g_return = shell->ret;
 	if (tokenizer(buf, token, env))
+	{
 		ft_putendl_fd("minishell: syntax error", 2);
+		shell->unclosed_q = 1;
+	}
 	if (!(*token))
-		return ;
+		return (1);
 	shell->token = *token;
+	return (0);
 }
 
 static void	shell_loop_part_two(char *buf, t_shell *shell,
@@ -24,19 +29,17 @@ static void	shell_loop_part_two(char *buf, t_shell *shell,
 	shell_loop_part_two_bis(buf, shell, token, env);
 	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5)
 		handle_exit(shell, buf);
-	if (ft_strnstr(buf, "exit", ft_strlen(buf)) && is_exit_valid(shell, buf))
-	{
-		ft_putendl_fd("exit", 1);
-		free(buf);
-		free_exit(shell);
-	}
+	else if (ft_strnstr(buf, "exit", ft_strlen(buf))
+		&& is_exit_valid(shell, buf))
+		free_exit(shell, buf, 1);
 	else
 	{
 		parse(token, shell);
 		if (shell->cmds)
 		{
 			init_shell_struct(shell);
-			run_cmd(shell, shell->env);
+			if (!shell->unclosed_q)
+				run_cmd(shell, shell->env);
 		}
 		else
 			which_case(token);
