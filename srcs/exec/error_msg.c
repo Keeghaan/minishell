@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 18:37:47 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/19 20:03:56 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 
 void	other(char *cmd, char **envp)
 {
-	(void)envp;
 	int	dir;
 
 	dir = is_a_dir(cmd);
