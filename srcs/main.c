@@ -77,8 +77,9 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token)
 			shell_loop_part_two(buf, shell, token, env);
 		if (buf)
 			free(buf);
-		if (shell->token)
-			free_token(&shell->token);
+		if (token)
+			free_token(token);
+
 	}
 }
 
