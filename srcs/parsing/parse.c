@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 10:57:00 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 16:19:07 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*check_tokens(t_token **t)
 	{
 		if (tmp->type == PIPE && i == 0)
 			return (tmp->value);
-		if (!tmp->next && tmp->type != WORD)
+		if (!tmp->next && tmp->type != WORD && tmp->type != HERE_DOC)
 			return ("newline");
 		if ((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
 				|| tmp->type == DREDIR_IN || tmp->type == DREDIR_OUT

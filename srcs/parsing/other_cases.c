@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 14:59:14 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 16:20:07 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ int	which_case(t_token **token)
 	{
 		if (check_symbol(t->value))
 			symbol++;
-		else if (check_file(t->value))
+		else if (t->type != HERE_DOC)
+		{
+			if  (check_file(t->value))
 			file++;
+		}
 		if (t->next)
 			t = t->next;
 		else
