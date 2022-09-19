@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 13:42:36 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:44:47 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	support_expander(t_token **token, t_envp **env);
 char	*expand_env_var(char *val, t_envp **env, int i);
 void	final_expansion(t_token **token, int i, char *val);
 void	get_global_return(t_token **token);
-void	support_expander_bis(t_token **token, char *value, t_envp **env, int *i);
+void	support_expander_bis(t_token **t, char *val, t_envp **en, int *i);
 
 // TOKENS
 

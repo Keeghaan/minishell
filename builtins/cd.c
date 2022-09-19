@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/15 13:03:43 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:46:02 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,5 @@ int	cd_cmd(t_shell *shell, char *action)
 			return (3);
 	}
 	get_cwd(shell);
-	printf("cd cmd cwd : %s\n", shell->cwd);
 	return (0);
 }
