@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:42:41 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 20:05:13 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 10:36:13 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,21 @@ void	free_cmds(t_cmd **cmd)
 		if (tmp)
 			free(tmp);
 		tmp = *cmd;
+	}
+}
+
+void	free_envp(t_envp **envp)
+{
+	t_envp	*tmp;
+	t_envp	*alst;
+
+	alst = *envp;
+	while (alst)
+	{
+		tmp = alst;
+		alst = alst->next;
+		free(tmp->var);
+		free(tmp->values);
+		free(tmp);
 	}
 }

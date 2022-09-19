@@ -54,31 +54,35 @@ void	envp_to_lst(t_envp **env, char **envp)
 	}
 }
 
-void	free_envp(t_envp **envp)
-{
-	t_envp	*tmp;
-	t_envp	*alst;
-
-	alst = *envp;
-	while (alst)
-	{
-		tmp = alst;
-		alst = alst->next;
-		free(tmp->var);
-		free(tmp->values);
-		free(tmp);
-	}
-}
-
 //cette fonction est faite pour le builtin unset, jamais testee
 //https://www.log2base2.com/data-structured
 ///linked-list/deleting-a-node-in-linked-list.html
+
+void	remove_env_bis(t_envp *tmp, char *var)
+{
+	t_envp	*tmp3;
+	t_envp	*tmp2;
+	
+	tmp3 = tmp;
+	while (tmp3->next != NULL)
+	{
+		if (tmp3->next->var == var)
+		{
+			tmp2 = tmp3->next;
+			tmp3->next = tmp3->next->next;
+			free(tmp2);
+			break ;
+		}
+		else
+			tmp3 = tmp3->next;
+	}
+}
 
 void	remove_env(t_envp **envp, char *var)
 {
 	t_envp	*tmp;
 	t_envp	*tmp2;
-	t_envp	*tmp3;
+//	t_envp	*tmp3;
 
 	tmp = *envp;
 	if (!envp || !*envp || !var)
@@ -91,7 +95,8 @@ void	remove_env(t_envp **envp, char *var)
 	}
 	else
 	{
-		tmp3 = tmp;
+		remove_env_bis(tmp, var);
+		/*tmp3 = tmp;
 		while (tmp3->next != NULL)
 		{
 			if (tmp3->next->var == var)
@@ -103,6 +108,6 @@ void	remove_env(t_envp **envp, char *var)
 			}
 			else
 				tmp3 = tmp3->next;
-		}
+		}*/
 	}
 }
