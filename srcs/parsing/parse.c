@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 10:09:56 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 10:57:00 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,42 @@ char	*check_tokens(t_token **t)
 	return (NULL);
 }
 
+void	get_cmds_ter(t_token *tmp, int i, t_shell *shell, t_cmd **cmd)
+{
+	if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN
+		&& tmp->prev->type != REDIR_OUT
+		&& tmp->prev->type != DREDIR_OUT)
+	{
+		if (*cmd)
+			add_new_cmd(cmd, &tmp, shell);
+		else
+			*cmd = make_new_cmd(&tmp, shell);
+	}
+	else if (i == 0 && tmp->next == NULL)
+		*cmd = make_new_cmd(&tmp, shell);
+}
+
+void	get_cmds_bis(t_token *tmp, int i, t_shell *shell, t_cmd **cmd)
+{
+	if (i == 0 && tmp->next && (tmp->next->type == WORD
+			|| tmp->next->type == REDIR_IN
+			|| tmp->next->type == PIPE))
+		*cmd = make_new_cmd(&tmp, shell);
+	else if (tmp->prev && tmp->prev->type == WORD && tmp->prev->prev
+		&& tmp->prev->prev->type == REDIR_IN
+		&& tmp->prev->prev->prev && tmp->prev->prev->prev->type == WORD
+		&& tmp->next && tmp->next->type == PIPE)
+	{
+		if (!tmp->next)
+			return ;
+		tmp = tmp->next;
+	}
+	else if (i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
+		*cmd = make_new_cmd(&tmp, shell);
+	else
+		get_cmds_ter(tmp, i, shell, cmd);
+}
+
 int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 {
 	int		i;
@@ -48,39 +84,10 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 	while (tmp)
 	{
 		if (tmp->type == WORD)
-		{
-			if (i == 0 && tmp->next && (tmp->next->type == WORD
-					|| tmp->next->type == REDIR_IN
-					|| tmp->next->type == PIPE))
-				*cmd = make_new_cmd(&tmp, shell);
-			else if (tmp->prev && tmp->prev->type == WORD && tmp->prev->prev
-				&& tmp->prev->prev->type == REDIR_IN
-				&& tmp->prev->prev->prev && tmp->prev->prev->prev->type == WORD
-				&& tmp->next && tmp->next->type == PIPE)
-			{
-				if (tmp->next)
-					tmp = tmp->next;
-				else
-					break ;
-			}
-			else if (i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
-				*cmd = make_new_cmd(&tmp, shell);
-			else if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN
-				&& tmp->prev->type != REDIR_OUT
-				&& tmp->prev->type != DREDIR_OUT)
-			{
-				if (*cmd)
-					add_new_cmd(cmd, &tmp, shell);
-				else
-					*cmd = make_new_cmd(&tmp, shell);
-			}
-			else if (i == 0 && tmp->next == NULL)
-				*cmd = make_new_cmd(&tmp, shell);
-		}
-		if (tmp && tmp->next)
-			tmp = tmp->next;
-		else
+			get_cmds_bis(tmp, i, shell, cmd);
+		if ((tmp && !tmp->next) || !tmp)
 			break ;
+		tmp = tmp->next;
 		i++;
 	}
 	if (*cmd)
