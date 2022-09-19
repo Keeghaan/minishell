@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:06:36 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 17:26:52 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/19 20:11:55 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	init_shell(t_shell *shell)
 	shell->infile = -1;
 	shell->outfile = -1;
 	shell->pipe = 0;
-	//shell->ret = 0;
 	shell->unclosed_q = 0;
 	shell->prev_dir = NULL;
 	shell->next_dir = NULL;
