@@ -29,7 +29,6 @@ void	cmd_not_found(t_shell *child)
 	free_envp(&child->envp);
 	free_token(&child->token);
 	free_cmds(&child->cmds);
-	close(child->outfile);
 	close(child->pipefd[0]);
 	close(child->pipefd[1]);
 	close(STDIN_FILENO);
