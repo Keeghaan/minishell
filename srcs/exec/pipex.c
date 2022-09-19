@@ -56,7 +56,6 @@ void	child_process(t_shell *child, int index, char **envp)
 			j++;
 		}
 	}
-
 	close(child->pipefd[0]);
 	child_process_ter(child, tmp, index);
 	close(child->pipefd[1]);
@@ -94,7 +93,7 @@ void	pipex(t_shell *child, char **envp)
 		if (child->infile < 0)
 		{
 			if (!double_cmd(&child->token, 1))
-				printf("i%s: %s\n", child->cmds->infile, strerror(errno));
+				printf("%s: %s\n", child->cmds->infile, strerror(errno));
 			child->ret = 1;
 		}
 		else

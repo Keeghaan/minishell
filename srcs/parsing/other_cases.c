@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/16 18:29:42 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:56:52 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	check_cmd(char *token, char **envp)
 		return (-3);
 	while (env[++j])
 	{
-		printf("shell env %s\n", env[j]);
 		tmp = ft_strjoin(env[j], "/");
 		if (!tmp)
 			return (-1);
@@ -41,7 +40,7 @@ int	check_cmd(char *token, char **envp)
 			return (-2);
 		free(tmp);
 		if (access(path, F_OK | R_OK | X_OK) == 0)
-			return (free(path), free_split(envp), 1);
+			return (free(path), free_split(env), 1);
 		free(path);
 	}
 	return (free_split(envp), 0);

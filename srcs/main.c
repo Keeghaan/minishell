@@ -3,7 +3,8 @@
 
 int	g_return;
 
-static void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char **envp, t_envp **env)
+static	void	shell_loop_part_two_bis(char *buf, t_shell *shell,
+		t_token **token, t_envp **env)
 {
 	if (ft_strchr(buf, '|'))
 		shell->pipe = 1;
@@ -13,10 +14,14 @@ static void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char
 	if (tokenizer(buf, token, env))
 		ft_putendl_fd("minishell: syntax error", 2);
 	if (!(*token))
-	{
 		return ;
-	}
 	shell->token = *token;
+}
+
+static void	shell_loop_part_two(char *buf, t_shell *shell,
+		t_token **token, t_envp **env)
+{
+	shell_loop_part_two_bis(buf, shell, token, env);
 	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5)
 		handle_exit(shell, buf);
 	if (ft_strnstr(buf, "exit", ft_strlen(buf)) && is_exit_valid(shell, buf))
@@ -31,7 +36,7 @@ static void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char
 		if (shell->cmds)
 		{
 			init_shell_struct(shell);
-			run_cmd(shell, envp);
+			run_cmd(shell, shell->env);
 		}
 		else
 			which_case(token);
@@ -43,8 +48,7 @@ static void	shell_loop_part_two(char *buf, t_shell *shell, t_token **token, char
 	}
 }
 
-void	main_shell_loop(t_envp **env, t_shell *shell,
-		t_token **token, char **envp)
+void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token)
 {
 	char	*buf;
 
@@ -65,7 +69,7 @@ void	main_shell_loop(t_envp **env, t_shell *shell,
 		if (ft_strlen(buf) > 0)
 			add_history(buf);
 		if (*buf != '\0' && *buf != '\n')
-			shell_loop_part_two(buf, shell, token, envp, env);
+			shell_loop_part_two(buf, shell, token, env);
 		if (buf)
 			free(buf);
 		if (shell->token)
@@ -73,7 +77,7 @@ void	main_shell_loop(t_envp **env, t_shell *shell,
 	}
 }
 
-void	run_shell(t_envp **env, t_shell *shell, char **envp)
+void	run_shell(t_envp **env, t_shell *shell)
 {
 	t_token	*token;
 
@@ -86,7 +90,7 @@ void	run_shell(t_envp **env, t_shell *shell, char **envp)
 		shell->envp = *env;
 		getcwd(shell->cwd, sizeof(shell->cwd));
 		shell->n_cmds = 0;
-		main_shell_loop(env, shell, &token, envp);
+		main_shell_loop(env, shell, &token);
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
 	}
@@ -98,15 +102,14 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*env;
 	t_shell	shell;
 
-	check_argv(&shell, argc, argv, envp);
+	check_argv(argc, argv, envp);
 	envp_to_lst(&env, envp);
 	init_shell(&shell);
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
-	run_shell(&env, &shell, envp);
+	shell.env = envp;
+	run_shell(&env, &shell);
 	if (env)
 		free_envp(&env);
-	if (shell.env)
-		free_split(shell.env);
 	return (0);
 }

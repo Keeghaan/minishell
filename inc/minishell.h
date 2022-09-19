@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:12:44 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 10:02:41 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:01:18 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ void	handle_sigint(int sig);
 
 // MAIN
 int		main(int argc, char **argv, char **envp);
-void	run_shell(t_envp **env, t_shell *shell, char **envp);
-void	main_shell_loop(t_envp **en, t_shell *sh, t_token **tok, char **envp);
-int		check_argv(t_shell *shell, int ac, char **av, char **en);
+void	run_shell(t_envp **env, t_shell *shell);
+void	main_shell_loop(t_envp **en, t_shell *sh, t_token **tok);
+int		check_argv(int ac, char **av, char **en);
 
 //PARSING
 //int	count_tokens(t_token **token);
