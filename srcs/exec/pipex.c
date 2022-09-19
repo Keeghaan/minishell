@@ -74,8 +74,10 @@ void	pipex_bis(t_shell *child)
 		close(child->pipefd[0]);
 	if (child->infile != -1)
 		close(child->infile);
-	dup2(child->std_in, 0);
-	dup2(child->std_out, 1);
+	dup2(child->std_in, STDIN_FILENO);
+	close(child->std_in);
+	dup2(child->std_out, STDOUT_FILENO);
+	close(child->std_out);
 	if (access(".here_doc", F_OK) == 0)
 		unlink(".here_doc");
 	if (access(".here_doc2", F_OK) == 0)

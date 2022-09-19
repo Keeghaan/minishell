@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:06:36 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 13:26:19 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:26:52 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,4 @@ void	init_shell_struct(t_shell *shell)
 		else
 			break ;
 	}
-	if (tmp->redir == 1)
-		shell->outfile = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (tmp->redir == 2)
-		shell->outfile = open(tmp->outfile,
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
 }

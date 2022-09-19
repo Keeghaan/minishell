@@ -95,6 +95,8 @@ void	run_shell(t_envp **env, t_shell *shell)
 		shell->envp = *env;
 		getcwd(shell->cwd, sizeof(shell->cwd));
 		shell->n_cmds = 0;
+		shell->std_in = dup(STDIN_FILENO);
+		shell->std_out = dup(STDOUT_FILENO);
 		main_shell_loop(env, shell, &token);
 		if (shell->cmds)
 			free_cmds(&shell->cmds);
@@ -110,11 +112,14 @@ int	main(int argc, char **argv, char **envp)
 	check_argv(argc, argv, envp);
 	envp_to_lst(&env, envp);
 	init_shell(&shell);
-	shell.std_in = dup(0);
-	shell.std_out = dup(1);
 	shell.env = envp;
 	run_shell(&env, &shell);
 	if (env)
 		free_envp(&env);
+	close(shell.std_in);
+	close(shell.std_out);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 	return (0);
 }
