@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 14:52:29 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:54:24 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ void	change_pwd(t_envp **envp, char *oldpwd, char *pwd)
 	en = *envp;
 	while (en)
 	{
-		if (!ft_strncmp(en->var, "OLDPWD", ft_strlen(en->var)) && ft_strlen(en->var) == 6)
+		if (!ft_strncmp(en->var, "OLDPWD", ft_strlen(en->var))
+			&& ft_strlen(en->var) == 6)
 		{
 			free(en->values);
 			en->values = oldpwd;
 		}
-		else if (!ft_strncmp(en->var, "PWD", ft_strlen(en->var)) && ft_strlen(en->var) == 3)
+		else if (!ft_strncmp(en->var, "PWD", ft_strlen(en->var))
+			&& ft_strlen(en->var) == 3)
 		{
 			free(en->values);
 			en->values = pwd;
@@ -78,7 +80,5 @@ int	cd_cmd(t_shell *shell, char *action)
 	get_cwd(shell);
 	pwd = ft_strdup(shell->cwd);
 	change_pwd(&shell->envp, oldpwd, pwd);
-//	free(pwd);
-//	free(oldpwd);
 	return (0);
 }
