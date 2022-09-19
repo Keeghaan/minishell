@@ -14,6 +14,8 @@
 
 static void	pipex_loop2(t_shell *child, int i, char **envp)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	close(child->pipefd[0]);
 	if (i == 0)
 	{

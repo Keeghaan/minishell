@@ -12,7 +12,7 @@ static	int	shell_loop_part_two_bis(char *buf, t_shell *shell,
 	else
 		shell->pipe = 0;
 	g_return = shell->ret;
-	if (tokenizer(buf, token, env))
+	if (tokenizer(buf, token))
 	{
 		ft_putendl_fd("minishell: syntax error", 2);
 		shell->unclosed_q = 1;
