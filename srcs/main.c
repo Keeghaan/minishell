@@ -7,7 +7,6 @@ static	int	shell_loop_part_two_bis(char *buf, t_shell *shell,
 		t_token **token, t_envp **env)
 {
 	shell->unclosed_q = 0;
-//	shell->ret = 0;
 	g_return = shell->ret;
 	if (ft_strchr(buf, '|'))
 		shell->pipe = 1;
@@ -29,8 +28,6 @@ static	int	shell_loop_part_two_bis(char *buf, t_shell *shell,
 static void	shell_loop_part_two(char *buf, t_shell *shell,
 		t_token **token, t_envp **env)
 {
-	int	cases;
-
 	shell_loop_part_two_bis(buf, shell, token, env);
 	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5)
 		handle_exit(shell, buf);
@@ -41,20 +38,7 @@ static void	shell_loop_part_two(char *buf, t_shell *shell,
 	{
 		if (parse(token, shell) == -1)
 			return ;
-		if (shell->cmds)
-		{
-			init_shell_struct(shell);
-			if (!shell->unclosed_q)
-				run_cmd(shell, shell->env);
-		}
-		else
-		{
-			cases = which_case(token);
-			if (cases == 1)
-				shell->ret = 1;
-			else
-				shell->ret = 0;
-		}
+		shell_loop_ter(shell, token);
 		if (shell->next_dir)
 		{
 			free(shell->next_dir);
@@ -75,7 +59,6 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token)
 	}
 	else
 	{
-//		shell->ret = 0;
 		if (ft_strlen(buf) >= 4 && !ft_strncmp("exit", buf, ft_strlen(buf)))
 		{
 			shell->is_running = 0;
@@ -90,7 +73,6 @@ void	main_shell_loop(t_envp **env, t_shell *shell, t_token **token)
 			free(buf);
 		if (token)
 			free_token(token);
-
 	}
 }
 
