@@ -1,4 +1,4 @@
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 // Expander will give environment variables
 // $SOMETHING their corresponding values
@@ -88,13 +88,7 @@ void	support_expander(t_token **token, t_envp **env)
 				&& ft_strlen((*token)->value) == 2)
 				get_global_return(token);
 			else
-			{
-				check = expand_env_var((*token)->value, env, i + 1);
-				final_expansion(token, i, check);
-				if (check)
-					free(check);
-				i = 0;
-			}
+				support_expander_bis(token, (*token)->value, env, &i);
 		}
 		if (i == 0 && (*token)->value[i] == '~')
 		{

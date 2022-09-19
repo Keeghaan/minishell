@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/09/18 19:08:11 by jcourtoi         ###   ########.fr        #
+#    Updated: 2022/09/19 10:03:02 by jcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 SRCS = srcs/main.c srcs/envp_utils.c srcs/mini_utils.c srcs/tokens/tokens.c\
 	srcs/tokens/advanced_tokens.c srcs/tokens/expander.c\
-	srcs/signals.c srcs/tokens/tokens_utils.c\
+	srcs/signals.c srcs/tokens/tokens_utils.c srcs/tokens/expander_utils.c\
 	srcs/parsing/parse.c srcs/parsing/cmds.c srcs/parsing/path_utils.c\
 	srcs/exec/pipex.c srcs/exec/pipex_utils.c srcs/check_args.c \
 	srcs/exec/run_cmd.c srcs/exec/exec_utils.c\
