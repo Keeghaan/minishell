@@ -50,7 +50,7 @@ void	path_and_cmd(t_shell *child, int index, char **envp)
 	i = 0;
 	if (index == 0)
 		;
-	else
+	else if (child->pipe)
 	{
 		while (i < index)
 		{

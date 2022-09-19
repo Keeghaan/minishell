@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/18 19:28:31 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:16:35 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,15 @@ void	run_cmd(t_shell *shell, char **envp)
 		is_it_builtin(shell, shell->cmds, 1);
 		if (is_valid_cmd(shell->cmds->full_cmd[0], envp))
 			cmd++;
-		if (shell->cmds->next)
-			shell->cmds = shell->cmds->next;
-		else
+		if (!shell->cmds->next)
 			break ;
+		shell->cmds = shell->cmds->next;
 	}
 	rewind_cmd(&shell->cmds, 1);
 	if (ft_strlen(shell->env[0]) > 1)
 	{
-		if (!double_cmd(&shell->token, 0))
+		if (!double_cmd(&shell->token, 0)
+			&& !is_it_builtin(shell, shell->cmds, 0))
 			error_msg(shell, shell->cmds, envp, 1);
 		if (cmd)
 		{
