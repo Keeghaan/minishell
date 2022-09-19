@@ -94,7 +94,7 @@ void	pipex(t_shell *child, char **envp)
 		if (child->infile < 0)
 		{
 			if (!double_cmd(&child->token, 1))
-				printf("%s: %s\n", child->cmds->infile, strerror(errno));
+				printf("i%s: %s\n", child->cmds->infile, strerror(errno));
 			child->ret = 1;
 		}
 		else

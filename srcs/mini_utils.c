@@ -1,22 +1,32 @@
-#include "../inc/minishell.h"
+#include "minishell.h"
 
-int	is_a_dir(char *value)
+int	double_cmd_ter(t_token *t, int msg)
 {
-	int	fd;
+	int	dir;
 
-	fd = open(value, O_RDWR);
-	if (fd >= 0)
-		return (close(fd), 2);
-	fd = open(value, O_RDONLY);
-	if (fd >= 0)
-		return (close(fd), 3);
-	return (0);
+	dir = is_a_dir(t->next->next->next->value);
+	if (msg && dir == 3)
+	{
+		printf("%s: %s: %s\n", t->value,
+			t->next->next->next->value, strerror(21));
+		return (3);
+	}
+	else if (dir == 2 && t->next->next->next->next
+		&& t->next->next->next->next->type == PIPE)
+		return (5);
+	else if (dir == 2 && !t->next->next->next->next)
+		return (1);
+	if (msg && !dir)
+	{
+		printf("%s: %s: %s\n", t->value,
+			t->next->next->next->value, strerror(2));
+		return (1);
+	}
+	return (1);
 }
 
 int	double_cmd_bis(t_token *t, int msg)
 {
-	int	dir;
-
 	if (t->next && t->next->type == REDIR_IN && t->next->next
 		&& t->next->next->type == WORD && t->next->next->next
 		&& t->next->next->next->type == WORD)
@@ -32,24 +42,7 @@ int	double_cmd_bis(t_token *t, int msg)
 			return (1);
 		}
 		else
-		{
-			dir = is_a_dir(t->next->next->next->value);
-			if (msg && dir == 3)
-			{
-				printf("%s: %s: %s\n", t->value,
-					t->next->next->next->value, strerror(21));
-				return (3);
-			}
-			else if (dir == 2 && t->next->next->next->next
-				&& t->next->next->next->next->type == PIPE)
-				return (5);
-			else if (dir == 2 && !t->next->next->next->next)
-				return (1);
-			if (msg && !dir)
-				printf("%s: %s: %s\n", t->value,
-					t->next->next->next->value, strerror(2));
-			return (1);
-		}
+			return (double_cmd_ter(t, msg));
 	}
 	return (0);
 }
