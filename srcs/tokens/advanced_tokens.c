@@ -68,10 +68,21 @@ void	str_separate(t_token **t, int i, int len)
 	free(s2);
 }
 
+static void	tokenize_advanced_bis(t_token **token, char *value, int *i)
+{
+	int	size;
+
+	size = ft_iscrochet(value, *i);
+	if (size)
+	{
+		str_separate(token, *i, size);
+		*i = 0;
+	}
+}
+
 void	tokenize_advanced(t_token **token)
 {
 	int	i;
-	int	size;
 
 	i = 0;
 	while ((*token))
@@ -80,12 +91,7 @@ void	tokenize_advanced(t_token **token)
 		{
 			while ((*token)->value[i])
 			{
-				size = ft_iscrochet((*token)->value, i);
-				if (size)
-				{
-					str_separate(token, i, size);
-					i = 0;
-				}
+				tokenize_advanced_bis(token, (*token)->value, &i);
 				i++;
 			}
 		}
