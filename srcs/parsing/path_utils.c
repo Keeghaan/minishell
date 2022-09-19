@@ -20,10 +20,9 @@ char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 	tmp = *envp;
 	while (tmp && ft_strncmp(tmp->var, "PATH", 4))
 	{
-		if (tmp->next)
-			tmp = tmp->next;
-		else
+		if (!tmp->next)
 			break ;
+		tmp = tmp->next;
 	}	
 	if (tmp == NULL || !ft_strncmp(tmp->var, "LD", 2) || !tmp->next)
 	{
