@@ -62,7 +62,7 @@ void	remove_env_bis(t_envp *tmp, char *var)
 {
 	t_envp	*tmp3;
 	t_envp	*tmp2;
-	
+
 	tmp3 = tmp;
 	while (tmp3->next != NULL)
 	{
@@ -82,7 +82,6 @@ void	remove_env(t_envp **envp, char *var)
 {
 	t_envp	*tmp;
 	t_envp	*tmp2;
-//	t_envp	*tmp3;
 
 	tmp = *envp;
 	if (!envp || !*envp || !var)
@@ -94,20 +93,5 @@ void	remove_env(t_envp **envp, char *var)
 		free(tmp2);
 	}
 	else
-	{
 		remove_env_bis(tmp, var);
-		/*tmp3 = tmp;
-		while (tmp3->next != NULL)
-		{
-			if (tmp3->next->var == var)
-			{
-				tmp2 = tmp3->next;
-				tmp3->next = tmp3->next->next;
-				free(tmp2);
-				break ;
-			}
-			else
-				tmp3 = tmp3->next;
-		}*/
-	}
 }
