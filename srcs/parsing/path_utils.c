@@ -1,5 +1,17 @@
 #include "../../inc/minishell.h"
 
+int	is_builtin(t_token **tmp)
+{
+	if (!ft_strncmp((*tmp)->value, "echo", ft_strlen((*tmp)->value))
+		|| !ft_strncmp((*tmp)->value, "cd", ft_strlen((*tmp)->value))
+		|| !ft_strncmp((*tmp)->value, "unset", ft_strlen((*tmp)->value))
+		|| !ft_strncmp((*tmp)->value, "export", ft_strlen((*tmp)->value))
+		|| !ft_strncmp((*tmp)->value, "pwd", ft_strlen((*tmp)->value))
+		|| !ft_strncmp((*tmp)->value, "exit", ft_strlen((*tmp)->value)))
+		return (1);
+	return (0);
+}
+
 char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 {
 	char	**paths;

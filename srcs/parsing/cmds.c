@@ -1,17 +1,5 @@
 #include "../../inc/minishell.h"
 
-int	is_builtin(t_token **tmp)
-{
-	if (!ft_strncmp((*tmp)->value, "echo", ft_strlen((*tmp)->value))
-		|| !ft_strncmp((*tmp)->value, "cd", ft_strlen((*tmp)->value))
-		|| !ft_strncmp((*tmp)->value, "unset", ft_strlen((*tmp)->value))
-		|| !ft_strncmp((*tmp)->value, "export", ft_strlen((*tmp)->value))
-		|| !ft_strncmp((*tmp)->value, "pwd", ft_strlen((*tmp)->value))
-		|| !ft_strncmp((*tmp)->value, "exit", ft_strlen((*tmp)->value)))
-		return (1);
-	return (0);
-}
-
 void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell)
 {
 	t_cmd	*tmp_cmd;
@@ -78,15 +66,42 @@ void	get_outfile(t_token **tmp, t_cmd **new)
 	}
 }
 
+t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
+{
+	int	i;
+
+	i = 0;
+	new->redir = 0;
+	if ((*tmp)->empty_cmd)
+		new->empty = 1;
+	new->full_cmd = (char **)malloc(sizeof(char *) * count);
+	if (!new->full_cmd)
+		return (NULL);
+	while (*tmp && (*tmp)->type == WORD)
+	{
+		new->full_cmd[i] = ft_strdup(((*tmp)->value));
+		if (!new->full_cmd[i])
+			return (free_split(new->full_cmd), NULL);
+		i++;
+		if (!(*tmp)->next)
+			break ;
+		*tmp = (*tmp)->next;
+	}
+	get_outfile(tmp, &new);
+	new->full_cmd[i] = NULL;
+	new->full_path = get_full_path(shell, new->full_cmd[0]);
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
+
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 {
 	t_cmd	*new;
 	t_token	*curr;
-	int		i;
 	int		count;
 
 	count = 0;
-	i = 0;
 	curr = *tmp;
 	new = malloc(sizeof(t_cmd));
 	if (!new)
@@ -104,28 +119,5 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		else
 			break ;
 	}
-	new->redir = 0;
-	if ((*tmp)->empty_cmd)
-		new->empty = 1;
-	new->full_cmd = (char **)malloc(sizeof(char *) * count);
-	if (!new->full_cmd)
-		return (NULL);
-	i = 0;
-	while (*tmp && (*tmp)->type == WORD)
-	{
-		new->full_cmd[i] = ft_strdup(((*tmp)->value));
-		if (!new->full_cmd[i])
-			return (free_split(new->full_cmd), NULL);
-		i++;
-		if ((*tmp)->next)
-			*tmp = (*tmp)->next;
-		else
-			break ;
-	}
-	get_outfile(tmp, &new);
-	new->full_cmd[i] = NULL;
-	new->full_path = get_full_path(shell, new->full_cmd[0]);
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+	return (make_new_cmd_bis(shell, tmp, new, count));
 }
