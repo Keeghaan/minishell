@@ -51,7 +51,8 @@ int	play_msg(int err, t_shell *shell, t_cmd *cmd, int msg)
 	int	ret;
 
 	ret = 0;
-	if (err && !(is_it_builtin(shell, cmd, 0) == 1))
+	if (err && !(is_it_builtin(shell, cmd, 0) == 1
+		|| is_it_builtin(shell, cmd, 0) == 2))
 	{
 		ret++;
 		if (msg)

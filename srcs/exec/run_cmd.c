@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 13:26:57 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:43:50 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ int	get_cmd_nbr(t_shell *shell, char **envp)
 
 int	path_builtins(t_shell *shell, t_cmd *cmd, int active)
 {
+	if (!ft_strncmp(cmd->full_cmd[0], "export", ft_strlen(cmd->full_cmd[0])))
+	{
+		if (active)
+			export_var(shell, shell->envp);
+		return (1);
+	}
 	if (!ft_strncmp(cmd->full_cmd[0], "unset", ft_strlen(cmd->full_cmd[0])))
 	{
 		if (active)
 			unset_envp(shell, cmd->full_cmd[1]);
 		return (3);
-	}
-	if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
-	{
-		if (active)
-			print_envp(shell->envp, cmd);
-		return (4);
 	}
 	if (ft_strchr(cmd->full_cmd[0], '='))
 	{
@@ -92,16 +92,16 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 		}
 		return (1);
 	}
-	if (!ft_strncmp(cmd->full_cmd[0], "export", ft_strlen(cmd->full_cmd[0])))
+	if (!ft_strncmp(cmd->full_cmd[0], "env", ft_strlen(cmd->full_cmd[0])))
 	{
 		if (active)
-			export_var(shell, shell->envp);
-		return (1);
+			print_envp(shell->envp, cmd);
+		return (2);
 	}
 	if (!ft_strncmp(cmd->full_cmd[0], "pwd", ft_strlen(cmd->full_cmd[0])))
-		return (2);
+		return (3);
 	if (!ft_strncmp(cmd->full_cmd[0], "echo", ft_strlen(cmd->full_cmd[0])))
-		return (2);
+		return (3);
 	return (0);
 }
 
@@ -126,7 +126,7 @@ void	run_cmd(t_shell *shell, char **envp)
 		if (!double_cmd(&shell->token, 0) && !shell->unclosed_q
 			&& !is_it_builtin(shell, shell->cmds, 0))
 			error_msg(shell, shell->cmds, envp, 1);
-		if (cmd)
+		if (cmd && !(is_it_builtin(shell, shell->cmds, 0) == 2))
 		{
 			signalisation(1);
 			pipex(shell, envp);
