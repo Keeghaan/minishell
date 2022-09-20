@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 15:41:19 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/20 16:37:23 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	other(char *cmd, char **envp)
 	int	dir;
 
 	dir = is_a_dir(cmd);
-	if (!is_valid_cmd(cmd, envp))
+	if (!is_valid_cmd(cmd, envp) && ft_strncmp(cmd, "./minishell", 11) != 0)
 	{
 		if (dir == 3)
 			printf("%s: %s: %s\n", SH, cmd, strerror(21));

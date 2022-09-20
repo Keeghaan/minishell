@@ -1,5 +1,4 @@
-#include "../inc/minishell.h"
-#include <fcntl.h>
+#include "minishell.h"
 
 int	g_return;
 

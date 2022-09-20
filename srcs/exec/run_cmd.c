@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 15:40:05 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/20 16:42:44 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	run_cmd(t_shell *shell, char **envp)
 		if (!double_cmd(&shell->token, 0) && !shell->unclosed_q
 			&& !is_it_builtin(shell, shell->cmds, 0))
 			error_msg(shell, shell->cmds, envp, 1);
-		if (cmd && !(is_it_builtin(shell, shell->cmds, 0) == 2))
+		if (!(is_it_builtin(shell, shell->cmds, 0) == 2))
 		{
 			signalisation(1);
 			pipex(shell, envp);
