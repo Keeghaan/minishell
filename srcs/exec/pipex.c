@@ -90,10 +90,13 @@ void	pipex(t_shell *child, char **envp)
 	int	i;
 
 	i = -1;
-	child->infile = open(child->cmds->infile, O_RDONLY);
+	if (!child->cmds->infile)
+		child->infile = -1;
+	else
+		child->infile = open(child->cmds->infile, O_RDONLY);
 	if (child->infile < 0)
 	{
-		if (!double_cmd(&child->token, 1))
+		if (!double_cmd(&child->token, 1) && child->cmds->infile != NULL)
 			printf("%s: %s\n", child->cmds->infile, strerror(errno));
 		child->ret = 1;
 	}

@@ -92,6 +92,8 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 	get_outfile(tmp, &new);
 	new->full_cmd[i] = NULL;
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
+	//	printf("%s\n", new->infile);
+	//printf("%s\n", new->outfile);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -110,7 +112,10 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		return (NULL);
 	new->empty = 0;
 	if ((*tmp)->next && (*tmp)->next->type == DREDIR_IN)
-		get_here_doc(tmp, &new);
+	{
+		if (get_here_doc(tmp, &new, shell) == 0)
+			new->infile = NULL;
+	}
 	else
 		get_infile(tmp, &new);
 	while (curr)

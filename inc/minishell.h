@@ -230,6 +230,9 @@ int		is_exit_valid(t_shell *shell, char *buf);
 int		is_exit_alone(char *buf);
 
 //HERE_DOC
-void	get_here_doc(t_token **token, t_cmd **new);
+int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell);
+
+//GNL
+char	*get_next_line(int fd, int a);
 
 #endif
