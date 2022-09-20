@@ -19,7 +19,7 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	if (!(*tmp)->prev && (*tmp)->next && (*tmp)->next->next
 		&& (*tmp)->next->next->type == PIPE && (*tmp)->next->type == WORD)
 		(*new)->infile = (*tmp)->next->value;
-	else if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
+	else	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
 		&& (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL
@@ -89,7 +89,7 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 		if (!new->full_cmd[i])
 			return (free_split(new->full_cmd), NULL);
 		i++;
-		if (!(*tmp)->next || !no_redir((*tmp)))
+		if (!(*tmp)->next)
 			break ;
 		*tmp = (*tmp)->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 13:41:52 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/20 18:01:55 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,27 @@ static int	is_digit(t_shell *shell)
 	return (1);
 }
 
+int	exit_alone(char *buf)
+{
+	int	j;
+	int	letter;
+
+	j = -1;
+	letter = 0;
+	while (buf[++j])
+	{
+		while (buf[j] == ' ')
+			j++;
+		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't' || buf[j] == ' '))
+			return (0);
+		if (buf[j] != ' ')
+			letter++;
+	}
+	if (letter != 4)
+		return (0);
+	return (1);
+}
+
 int	is_exit_valid(t_shell *shell, char *buf)
 {
 	int	j;
@@ -60,6 +81,8 @@ int	is_exit_valid(t_shell *shell, char *buf)
 	j = -1;
 	num = 0;
 	no_valid = 0;
+	if (exit_alone(buf))
+		return (1);
 	while (buf[++j])
 	{
 		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't'
@@ -84,15 +107,18 @@ void	handle_exit(t_shell *shell, char *buf)
 	int		n;
 	int		is_numeric;
 
+
 	n = get_nb_tokens(shell);
-	if (n == 1)
+	if (n == 1 && exit_alone(buf))
 		free_exit(shell, buf, 1);
+	else if (n == 1 && !exit_alone(buf))
+		return ;
 	split = ft_split(buf, ' ');
 	is_numeric = is_digit(shell);
 	ft_putendl_fd("exit", 1);
 	if (!split)
 		return ;
-	if (!is_numeric)
+	if (!is_numeric || ft_strchr(buf, '$'))
 		printf("%s: %s: %s: %s\n", SH, split[0], split[1], N_ARG_ER);
 	else if (is_numeric && n > 2)
 	{
@@ -100,6 +126,8 @@ void	handle_exit(t_shell *shell, char *buf)
 		free_split(split);
 		return ;
 	}
+	if (!exit_alone(buf))
+		return ;
 	free_split(split);
 	free_exit(shell, buf, 0);
 }
