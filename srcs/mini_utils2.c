@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:28:11 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 10:28:55 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/19 20:15:51 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,37 @@ int	is_a_dir(char *value)
 	if (fd >= 0)
 		return (close(fd), 3);
 	return (0);
+}
+
+void	pipex_quatro(t_shell *child, char **envp)
+{
+	int	i;
+
+	i = -1;
+	while (++i < child->n_cmds)
+	{
+		pipex_loop(child, i, envp);
+		close(STDIN_FILENO);
+		close(child->pipefd[1]);
+	}
+}
+
+void	shell_loop_ter(t_shell *shell, t_token **tok)
+{
+	int	cases;
+
+	if (shell->cmds)
+	{
+		init_shell_struct(shell);
+		if (!shell->unclosed_q)
+			run_cmd(shell, shell->env);
+	}
+	else
+	{
+		cases = which_case(tok);
+		if (cases == 1)
+			shell->ret = 1;
+		else
+			shell->ret = 0;
+	}
 }

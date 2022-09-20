@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 18:35:22 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/19 19:56:59 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ char	*check_tokens(t_token **t)
 
 void	get_cmds_ter(t_token *tmp, int i, t_shell *shell, t_cmd **cmd)
 {
-	if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN
-		&& tmp->prev->type != REDIR_OUT
-		&& tmp->prev->type != DREDIR_OUT)
-	{
-		if (*cmd)
-			add_new_cmd(cmd, &tmp, shell);
-		else
-			*cmd = make_new_cmd(&tmp, shell);
-	}
-	else if (i == 0 && tmp->next == NULL)
-		*cmd = make_new_cmd(&tmp, shell);
-}
-
-void	get_cmds_bis(t_token *tmp, int i, t_shell *shell, t_cmd **cmd)
-{
 	if (i == 0 && tmp->next && (tmp->next->type == WORD
 			|| tmp->next->type == REDIR_IN
 			|| tmp->next->type == PIPE))
@@ -70,26 +55,44 @@ void	get_cmds_bis(t_token *tmp, int i, t_shell *shell, t_cmd **cmd)
 	}
 	else if (i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
 		*cmd = make_new_cmd(&tmp, shell);
-	else
-		get_cmds_ter(tmp, i, shell, cmd);
+	else if (i == 0 && tmp->next == NULL)
+		*cmd = make_new_cmd(&tmp, shell);
 }
 
-int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
+void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 {
-	int		i;
-	t_token	*tmp;
+	int	i;
 
 	i = 0;
-	tmp = *t;
 	while (tmp)
 	{
 		if (tmp->type == WORD)
-			get_cmds_bis(tmp, i, shell, cmd);
+		{
+			if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN
+				&& tmp->prev->type != REDIR_OUT
+				&& tmp->prev->type != DREDIR_OUT)
+			{
+				if (*cmd)
+					add_new_cmd(cmd, &tmp, shell);
+				else
+					*cmd = make_new_cmd(&tmp, shell);
+			}
+			else
+				get_cmds_ter(tmp, i, shell, cmd);
+		}
 		if ((tmp && !tmp->next) || !tmp)
 			break ;
 		tmp = tmp->next;
 		i++;
 	}
+}
+
+int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
+{
+	t_token	*tmp;
+
+	tmp = *t;
+	get_cmds_bis(tmp, shell, cmd);
 	if (*cmd)
 		return (1);
 	return (0);

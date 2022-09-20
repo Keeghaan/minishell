@@ -4,7 +4,6 @@ void	child_process_bis(t_shell *child, t_cmd *tmp)
 {
 	if (child->outfile > -1)
 		close(child->outfile);
-	//dup2(child->std_out, 1);
 	if (tmp->redir == 1)
 		child->outfile = open(tmp->outfile,
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -109,11 +108,6 @@ void	pipex(t_shell *child, char **envp)
 		close(child->infile);
 	}
 	get_nbr_cmds(child);
-	while (++i < child->n_cmds)
-	{
-		pipex_loop(child, i, envp);
-		close(STDIN_FILENO);
-		close(child->pipefd[1]);
-	}
+	pipex_quatro(child, envp);
 	pipex_bis(child);
 }

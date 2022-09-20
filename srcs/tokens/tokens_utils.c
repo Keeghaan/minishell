@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 15:02:22 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 15:44:07 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/19 20:10:19 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	tokenizer_support_func(t_token **token, int i, int *j, char *line)
 			return (2);
 	}
 	else if (ft_isprint(line[i]))
-		noquotes_func(token, i, j, line);	
+		noquotes_func(token, i, j, line);
 	else
 		(*j)++;
 	return (0);
