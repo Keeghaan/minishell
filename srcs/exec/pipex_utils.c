@@ -10,7 +10,7 @@ void	get_nbr_cmds(t_shell *shell)
 	while (tmp)
 	{
 		shell->n_cmds++;
-		if (tmp->next)
+		if (tmp->next != NULL)
 			tmp = tmp->next;
 		else
 			break ;

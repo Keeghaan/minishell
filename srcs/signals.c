@@ -45,3 +45,13 @@ void	signalisation(int child)
 	sigaction(SIGINT, &si, NULL);
 	sigaction(SIGQUIT, &sq, NULL);
 }
+
+void	handle_mister_here(int sig)
+{
+	(void)sig;
+	g_return = 130;
+	if (STDIN_FILENO != -1)
+		close(STDIN_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+}

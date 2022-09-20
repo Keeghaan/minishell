@@ -78,6 +78,7 @@ typedef struct s_cmd
 	char			*outfile;
 	int				redir;
 	int				empty;
+	int				quotes;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
@@ -158,6 +159,7 @@ void	shell_loop_ter(t_shell *shell, t_token **tok);
 //SIGNALS
 void	signalisation(int child);
 void	handle_sigint(int sig);
+void	handle_mister_here(int sig);
 
 // MAIN
 int		main(int argc, char **argv, char **envp);
@@ -233,6 +235,7 @@ int		is_exit_alone(char *buf);
 
 //HERE_DOC
 int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell);
+void	expand_tmp(char **tmp, t_shell *shell, char *delimiter);
 
 //GNL
 char	*get_next_line(int fd, int a);

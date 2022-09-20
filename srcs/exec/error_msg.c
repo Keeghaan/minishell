@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:07:52 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 20:03:56 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:41:19 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg)
 		return (-1);
 	while (cmd)
 	{
-		if ((!cmd->prev && !cmd->next) || (!cmd->prev && cmd->next))
+		if ((cmd->prev == NULL && cmd->next == NULL) || (cmd->prev == NULL && cmd->next))
 			other(cmd->full_cmd[0], envp);
 		err = check_errno(cmd->full_cmd[0], en);
 		if (err > 0)

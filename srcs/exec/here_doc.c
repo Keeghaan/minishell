@@ -1,39 +1,11 @@
 #include "../../inc/minishell.h"
 
-static void	handle_mister_here(int sig)
+static void	free_all(t_shell *shell)
 {
-	(void)sig;
-	g_return = 130;
-	if (STDIN_FILENO != -1)
-		close(STDIN_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
+	free_envp(&shell->envp);
+	free_token(&shell->token);
+	free_cmds(&shell->cmds);
 }
-
-/*static void	new_func(t_shell *shell, t_cmd **new)
-{
-	t_cmd	*cmd;
-	
-	cmd = shell->cmds;
-	if (!cmd)
-	{
-		cmd = *new;
-		shell->cmds = cmd;
-		return ;
-	}
-	else if (cmd && !cmd->next)
-	{
-		cmd->next = *new;
-		return ;
-	}
-	if (cmd && cmd->next)
-	{
-		while (cmd->next)
-			cmd = cmd->next;
-	}
-	cmd->next = *new;
-	
-}*/
 
 static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 {
@@ -48,10 +20,7 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 	}
 	if (!(*tmp) && g_return == 130)
 	{
-		
-		free_envp(&shell->envp);
-		free_token(&shell->token);
-		free_cmds(&shell->cmds);
+		free_all(shell);
 		return (130);
 	}
 	if (ft_strlen(*tmp) == ft_strlen(heredoc))
@@ -60,6 +29,8 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 		cmp = 1;
 	if (!cmp)
 		return (0);
+	if ((*tmp)[0] == '$')
+		expand_tmp(tmp, shell, heredoc);
 	write(*file, *tmp, ft_strlen(*tmp));
 	write(*file, "\n", 1);
 	free(*tmp);
@@ -72,7 +43,6 @@ static int	write_in_file(int *file, t_token **token, t_shell *shell)
 	char	*tmp;
 	struct sigaction	sa;
 
-	//*file = open("/tmp/file1", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
 	check = 1;
 	if (*file == -1)
 		ft_printf("%s\n", strerror(errno));
@@ -110,15 +80,15 @@ int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell)
 			free(*new);
 			exit(130);
 		}
-		free_envp(&shell->envp);
-		free_token(&shell->token);
-		free_cmds(&shell->cmds);
+		free_all(shell);
 		free(*new);
 		exit(0);
 	}
 	else
 	{
 		waitpid(-1, &status, 0);
+		free(*new);
+		*new = malloc(sizeof(t_cmd));
 		if (WEXITSTATUS(status) == 130)
 			(*new)->infile = NULL;
 		else if (WEXITSTATUS(status) == 0)
@@ -127,7 +97,6 @@ int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell)
 	return (1);
 }
 
-	
 	/*
 	static int	i;
 	if (lol == 0)

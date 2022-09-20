@@ -93,7 +93,7 @@ void	run_shell(t_envp **env, t_shell *shell)
 		shell->std_in = dup(STDIN_FILENO);
 		shell->std_out = dup(STDOUT_FILENO);
 		main_shell_loop(env, shell, &token);
-		if (shell->cmds)
+		if (shell->cmds != NULL)
 			free_cmds(&shell->cmds);
 	}
 	rl_clear_history();

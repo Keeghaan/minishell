@@ -79,6 +79,7 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 	new->full_cmd = (char **)malloc(sizeof(char *) * count);
 	if (!new->full_cmd)
 		return (NULL);
+	new->quotes = (*tmp)->quotes;
 	while (*tmp && (*tmp)->type == WORD)
 	{
 		new->full_cmd[i] = ft_strdup(((*tmp)->value));
@@ -92,8 +93,6 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 	get_outfile(tmp, &new);
 	new->full_cmd[i] = NULL;
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
-	//	printf("%s\n", new->infile);
-	//printf("%s\n", new->outfile);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

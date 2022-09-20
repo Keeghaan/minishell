@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:42:41 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 14:31:33 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:57:52 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ void	free_cmds(t_cmd **cmd)
 		if (tmp->full_path)
 			free(tmp->full_path);
 		free(tmp->full_cmd);
-		if (tmp)
-			free(tmp);
+		free(tmp);
 		tmp = *cmd;
 	}
 }
