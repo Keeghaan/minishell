@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:28:11 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 17:21:14 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:54:46 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	shell_loop_ter(t_shell *shell, t_token **tok)
 	}
 	else
 	{
-		cases = which_case(tok);
+		cases = which_case(tok, shell);
 		if (cases == 1)
 			shell->ret = 1;
 		else

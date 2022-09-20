@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 20:11:41 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/20 18:05:53 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	check_file(char *token)
 	return (0);
 }
 
-int	which_case(t_token **token)
+int	which_case(t_token **token, t_shell *shell)
 {
 	t_token	*t;
 	int		file;
@@ -71,11 +71,13 @@ int	which_case(t_token **token)
 	{
 		if (check_symbol(t->value))
 			symbol++;
-		else if (t->type != HERE_DOC)
+		if (t->type != HERE_DOC)
 		{
 			if (check_file(t->value))
 			file++;
 		}
+		if (t->type == DREDIR_IN)
+			get_here_doc(token, NULL, shell, 1);
 		if (!t->next)
 			break ;
 		t = t->next;
