@@ -6,11 +6,19 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:28:11 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 20:15:51 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:21:14 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	no_redir(t_token *t)
+{
+	if (t->prev && !t->prev->prev && t->prev->type == WORD
+		&& t->next && t->next->type == PIPE)
+		return (1);
+	return (0);
+}
 
 int	is_a_dir(char *value)
 {

@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 19:56:59 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:22:51 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 	i = 0;
 	while (tmp)
 	{
-		if (tmp->type == WORD)
+		if (tmp->type == WORD && !no_redir(tmp))
 		{
 			if (i > 0 && tmp->prev && tmp->prev->type != REDIR_IN
 				&& tmp->prev->type != REDIR_OUT
