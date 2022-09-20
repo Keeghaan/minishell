@@ -11,6 +11,7 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 {
 	int	cmp;
 
+	printf("%s\n", heredoc);
 	*tmp = readline("> ");
 	if (!(*tmp) && g_return != 130)
 	{
@@ -37,7 +38,7 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 	return (1);
 }
 
-static int	write_in_file(int *file, t_token **token, t_shell *shell)
+static int	write_in_file(int *file, t_token **token, t_shell *shell, int a)
 {
 	int		check;
 	char	*tmp;
@@ -52,7 +53,12 @@ static int	write_in_file(int *file, t_token **token, t_shell *shell)
 	while (1)
 	{
 		sigaction(SIGINT, &sa, NULL);
-		check = write_here_doc(&tmp, file, (*token)->next->next->value, shell);
+		if (!a)
+			check = write_here_doc(&tmp, file, (*token)->next->next->value, shell);
+		else
+		{	
+			check = write_here_doc(&tmp, file, (*token)->next->value, shell);
+		}
 		if (check == 0)
 			break ;
 		if (check == 130)
@@ -63,30 +69,13 @@ static int	write_in_file(int *file, t_token **token, t_shell *shell)
 	return (0);
 }
 
-int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell)
+void	parent_process(t_cmd **new, int a)
 {
-	int			file;
-	pid_t	lol;
 	int	status;
 
-	signal(SIGINT, SIG_IGN);
-	file = 0;	
-	lol = fork();
-	file = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (lol == 0)
+	waitpid(-1, &status, 0);
+	if (!a)
 	{
-		if (write_in_file(&file, token, shell) == 130)
-		{
-			free(*new);
-			exit(130);
-		}
-		free_all(shell);
-		free(*new);
-		exit(0);
-	}
-	else
-	{
-		waitpid(-1, &status, 0);
 		free(*new);
 		*new = malloc(sizeof(t_cmd));
 		if (WEXITSTATUS(status) == 130)
@@ -94,6 +83,35 @@ int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell)
 		else if (WEXITSTATUS(status) == 0)
 			(*new)->infile = ".here_doc";
 	}
+	g_return = WEXITSTATUS(status);
+}
+
+int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a)
+{
+	int			file;
+	pid_t	lol;
+
+	signal(SIGINT, SIG_IGN);
+	if (a)
+		(void)(*new);
+	file = 0;	
+	lol = fork();
+	file = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (lol == 0)
+	{
+		if (write_in_file(&file, token, shell, a) == 130)
+		{
+			if (!a)
+				free(*new);
+			exit(130);
+		}
+		free_all(shell);
+		if (!a)
+			free(*new);
+		exit(0);
+	}
+	else
+		parent_process(new, a);
 	return (1);
 }
 

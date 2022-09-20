@@ -175,7 +175,7 @@ char	*check_tokens(t_token **t);
 int		parse(t_token **token, t_shell *shell);
 int		file_or_command(t_token **t);
 int		get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
-int		which_case(t_token **token);
+int		which_case(t_token **token, t_shell *shell);
 int		check_cmd(char *token, char **envp);
 
 //CMDS
@@ -236,7 +236,7 @@ int		is_exit_valid(t_shell *shell, char *buf);
 int		is_exit_alone(char *buf);
 
 //HERE_DOC
-int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell);
+int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a);
 void	expand_tmp(char **tmp, t_shell *shell, char *delimiter);
 
 //GNL

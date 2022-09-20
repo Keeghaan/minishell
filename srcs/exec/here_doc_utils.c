@@ -9,7 +9,6 @@ void	expand_tmp(char **tmp, t_shell *shell, char *delimiter)
 	token = shell->token;
 	while (ft_strncmp(token->value, delimiter, ft_strlen(token->value)))
 		token = token->next;
-//	token = token->prev->prev;
 	envp = shell->envp;
 	if (token->quotes == 1)
 	{

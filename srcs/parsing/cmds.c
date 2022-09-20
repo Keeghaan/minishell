@@ -114,10 +114,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 		return (NULL);
 	new->empty = 0;
 	if ((*tmp)->next && (*tmp)->next->type == DREDIR_IN)
-	{
-		if (get_here_doc(tmp, &new, shell) == 0)
-			new->infile = NULL;
-	}
+		get_here_doc(tmp, &new, shell, 0);
 	else
 		get_infile(tmp, &new);
 	while (curr)
