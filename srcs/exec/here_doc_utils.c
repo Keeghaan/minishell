@@ -6,17 +6,11 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:21:12 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:07:20 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:39:58 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	get_global_return(t_token **token)
-{
-	free((*token)->value);
-	(*token)->value = ft_itoa(g_return);
-}
 
 void	expand_tmp(char **tmp, t_shell *shell, char *delimiter)
 {
@@ -47,6 +41,15 @@ void	expand_tmp(char **tmp, t_shell *shell, char *delimiter)
 	}	
 }
 
+static void	support_get_infile(t_token *token, t_cmd **new)
+{
+	token = token->next->next;
+	while (token->next && token->next->next && token->next->type == WORD
+		&& token->next->next->type == PIPE)
+		token = token->next;
+	(*new)->infile = token->value;
+}
+
 void	get_infile(t_token **tmp, t_cmd **new)
 {
 	t_token	*token;
@@ -65,13 +68,7 @@ void	get_infile(t_token **tmp, t_cmd **new)
 		(*new)->infile = "/dev/stdin";
 	else if ((*tmp)->next && (*tmp)->next->type
 		== REDIR_IN && (*tmp)->next->next)
-	{
-		token = token->next->next;
-		while (token->next && token->next->next && token->next->type == WORD
-			&& token->next->next->type == PIPE)
-			token = token->next;
-		(*new)->infile = token->value;
-	}		
+		support_get_infile(token, new);
 	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN
 		&& !(*tmp)->prev->prev->prev)
 		(*new)->infile = (*tmp)->prev->value;

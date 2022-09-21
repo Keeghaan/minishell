@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:16:27 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:18:14 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:40:48 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,10 @@ void	no_cmd_func(t_shell *shell, t_token *tmp, t_cmd **cmd)
 		*cmd = make_new_cmd_null();
 	if (access(".here_doc", F_OK) == 0)
 		unlink(".here_doc");
+}
+
+void	get_global_return(t_token **token)
+{
+	free((*token)->value);
+	(*token)->value = ft_itoa(g_return);
 }

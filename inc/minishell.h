@@ -253,6 +253,7 @@ int		get_nb_tokens(t_shell *shell);
 //HERE_DOC
 int		get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a);
 void	expand_tmp(char **tmp, t_shell *shell, char *delimiter);
+void	get_global_return(t_token **token);
 
 //GNL
 char	*get_next_line(int fd, int a);
