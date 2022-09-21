@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 12:36:01 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:09:22 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	which_case(t_token **token, t_shell *shell)
 	file = 0;
 	t = *token;
 	symbol = 0;
-	while (t)
+	while (t && t->type != PIPE)
 	{
 		if (check_symbol(t->value))
 			symbol++;

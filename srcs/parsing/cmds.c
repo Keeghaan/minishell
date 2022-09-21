@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmds.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/21 12:40:36 by nboratko          #+#    #+#             */
+/*   Updated: 2022/09/21 16:17:07 by nboratko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell)
@@ -96,6 +108,8 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 	get_outfile(tmp, &new);
 	new->full_cmd[i] = NULL;
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
+	//printf("%s\n", new->full_cmd[0]);
+	//printf("%s\n", new->full_cmd[1]);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -112,6 +126,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
+	shell->cmd_found = 1;
 	new->empty = 0;
 	if ((*tmp)->next && (*tmp)->next->type == DREDIR_IN)
 		get_here_doc(tmp, &new, shell, 0);
@@ -126,4 +141,35 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 			break ;
 	}
 	return (make_new_cmd_bis(shell, tmp, new, count));
+}
+
+t_cmd	*make_new_cmd_null(void)
+{
+	t_cmd	*new;
+
+	new = malloc(sizeof(t_cmd));
+	if (!new)
+		return (NULL);
+	new->empty = 0;
+	new->infile = "/dev/stdin";
+	new->outfile = "/dev/stdout";
+	new->redir = 0;
+	new->empty = 0;
+	new->full_cmd = NULL;
+	//new->full_cmd[0] = NULL;
+	new->full_path = NULL;
+	new->next = NULL;
+	new->prev = NULL;
+	return (NULL);
+}
+
+void	add_null_cmd(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = *cmd;
+	while (tmp)
+		tmp = tmp->next;
+	tmp->next = make_new_cmd_null();
+	tmp->next->prev = tmp;
 }

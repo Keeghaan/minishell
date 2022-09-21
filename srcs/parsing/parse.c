@@ -6,13 +6,11 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 12:38:19 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:16:46 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-//returns NULL if it worked and the value of the token if error
 
 char	*check_tokens(t_token **t)
 {
@@ -27,10 +25,10 @@ char	*check_tokens(t_token **t)
 			return (tmp->value);
 		if (!tmp->next && tmp->type != WORD && tmp->type != HERE_DOC)
 			return ("newline");
-		if ((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
+		if (((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
 				|| tmp->type == DREDIR_IN || tmp->type == DREDIR_OUT
-				|| tmp->type == PIPE) && tmp->next && tmp->next->type
-			!= WORD && tmp->next->type != HERE_DOC)
+				/*|| tmp->type == PIPE*/) && tmp->next) && 
+				(tmp->next->type != WORD && tmp->next->type != HERE_DOC))
 			return (tmp->next->value);
 		i++;
 		tmp = tmp->next;
@@ -38,25 +36,47 @@ char	*check_tokens(t_token **t)
 	return (NULL);
 }
 
-void	get_cmds_ter(t_token *tmp, int i, t_shell *shell, t_cmd **cmd)
+void	get_cmds_ter(t_token **tmp, int i, t_shell *shell, t_cmd **cmd)
 {
-	if (i == 0 && tmp->next && (tmp->next->type == WORD
-			|| tmp->next->type == REDIR_IN
-			|| tmp->next->type == PIPE))
-		*cmd = make_new_cmd(&tmp, shell);
-	else if (tmp->prev && tmp->prev->type == WORD && tmp->prev->prev
-		&& tmp->prev->prev->type == REDIR_IN
-		&& tmp->prev->prev->prev && tmp->prev->prev->prev->type == WORD
-		&& tmp->next && tmp->next->type == PIPE)
+	if (i == 0 && (*tmp)->next && ((*tmp)->next->type == WORD
+			|| (*tmp)->next->type == REDIR_IN
+			|| (*tmp)->next->type == PIPE))
+			*cmd = make_new_cmd(tmp, shell);
+	else if ((*tmp)->prev && (*tmp)->prev->type == WORD && (*tmp)->prev->prev
+		&& (*tmp)->prev->prev->type == REDIR_IN
+		&& (*tmp)->prev->prev->prev && (*tmp)->prev->prev->prev->type == WORD
+		&& (*tmp)->next && (*tmp)->next->type == PIPE)
 	{
-		if (!tmp->next)
+		if (!(*tmp)->next)
 			return ;
-		tmp = tmp->next;
+		*tmp = (*tmp)->next;
 	}
-	else if (i == 0 && tmp->next && tmp->next->type == DREDIR_IN)
-		*cmd = make_new_cmd(&tmp, shell);
-	else if (i == 0 && tmp->next == NULL)
-		*cmd = make_new_cmd(&tmp, shell);
+	else if (i == 0 && (*tmp)->next && (*tmp)->next->type == DREDIR_IN)
+		*cmd = make_new_cmd(tmp, shell);
+	else if (i == 0 && (*tmp)->next == NULL)
+		*cmd = make_new_cmd(tmp, shell);
+}
+
+void	check_cmd_found(t_token *token, t_shell *shell)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	if (tmp->prev)
+	{
+		
+		tmp = tmp->prev;
+	}
+	while (tmp->type != PIPE)
+	{
+		if (tmp->prev)
+			tmp = tmp->prev;
+		else
+			break ;
+	}
+	if (tmp->type == PIPE)
+		tmp = tmp->next;
+	which_case(&tmp, shell);			
 }
 
 void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
@@ -64,6 +84,7 @@ void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 	int	i;
 
 	i = 0;
+	shell->cmd_found = 0;
 	while (tmp)
 	{
 		if (tmp->type == WORD && !no_redir(tmp))
@@ -78,10 +99,14 @@ void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 					*cmd = make_new_cmd(&tmp, shell);
 			}
 			else
-				get_cmds_ter(tmp, i, shell, cmd);
+				get_cmds_ter(&tmp, i, shell, cmd);
 		}
+		if ((tmp->type == PIPE || !tmp->next) && shell->cmd_found == 0)
+			check_cmd_found(tmp, shell);
 		if ((tmp && !tmp->next) || !tmp)
 			break ;
+		if (tmp->type == PIPE)
+			shell->cmd_found = 0;
 		tmp = tmp->next;
 		i++;
 	}

@@ -103,6 +103,7 @@ typedef struct s_shell
 	int		is_running;
 	int		ret;
 	int		unclosed_q;
+	int		cmd_found;
 }	t_shell;
 
 // EXPANDER
@@ -184,6 +185,8 @@ void	get_outfile(t_token **tmp, t_cmd **new);
 void	get_infile(t_token **tmp, t_cmd **new);
 void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell);
 int		is_builtin(t_token **tmp);
+t_cmd	*make_new_cmd_null(void);
+void	add_null_cmd(t_cmd **cmd);
 
 //PATH_UTILS
 char	**get_paths(t_shell *shell, char *cmd, t_envp **envp);

@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:28:11 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 18:52:23 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:04:29 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	shell_loop_ter(t_shell *shell, t_token **tok)
 {
 	int	cases;
 
-	if (shell->cmds)
+	if (shell->cmds && shell->cmd_found)
 	{
 		init_shell_struct(shell);
 		if (!shell->unclosed_q)
 			run_cmd(shell, shell->env);
 	}
-	else
+	else if (!shell->cmds && shell->cmd_found == 0)
 	{
 		cases = which_case(tok, shell);
 		if (cases == 1)
