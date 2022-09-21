@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:17:57 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 20:17:59 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:32:56 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,28 @@ void	get_outfile(t_token **tmp, t_cmd **new)
 		(*new)->outfile = (*tmp)->next->value;
 		(*new)->redir = 2;
 	}
+}
+
+char	*check_tokens(t_token **t)
+{
+	t_token	*tmp;
+	int		i;
+
+	tmp = *t;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->type == PIPE && i == 0)
+			return (tmp->value);
+		if (!tmp->next && tmp->type != WORD && tmp->type != HERE_DOC)
+			return ("newline");
+		if (((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
+					|| tmp->type == DREDIR_IN || tmp->type == DREDIR_OUT
+					/*|| tmp->type == PIPE*/) && tmp->next)
+			&& (tmp->next->type != WORD && tmp->next->type != HERE_DOC))
+			return (tmp->next->value);
+		i++;
+		tmp = tmp->next;
+	}	
+	return (NULL);
 }
