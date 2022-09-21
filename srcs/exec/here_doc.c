@@ -19,10 +19,7 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 		return (0);
 	}
 	if (!(*tmp) && g_return == 130)
-	{
-		free_all(shell);
-		return (130);
-	}
+		return (free_all(shell), 130);
 	if (ft_strlen(*tmp) == ft_strlen(heredoc))
 		cmp = ft_strncmp(heredoc, *tmp, ft_strlen(heredoc));
 	else
@@ -39,9 +36,9 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 
 static int	write_in_file(int *file, t_token **token, t_shell *shell, int a)
 {
-	int		check;
-	char	*tmp;
 	struct sigaction	sa;
+	char				*tmp;
+	int					check;
 
 	check = 1;
 	if (*file == -1)
@@ -53,19 +50,17 @@ static int	write_in_file(int *file, t_token **token, t_shell *shell, int a)
 	{
 		sigaction(SIGINT, &sa, NULL);
 		if (!a)
-			check = write_here_doc(&tmp, file, (*token)->next->next->value, shell);
+			check = write_here_doc(&tmp, file,
+					(*token)->next->next->value, shell);
 		else
-		{	
 			check = write_here_doc(&tmp, file, (*token)->next->value, shell);
-		}
 		if (check == 0)
 			break ;
 		if (check == 130)
 			return (130);
 	}
-	free(tmp);
 	close(*file);
-	return (0);
+	return (free(tmp), 0);
 }
 
 static int	parent_process(t_cmd **new, int a)
@@ -90,13 +85,13 @@ static int	parent_process(t_cmd **new, int a)
 
 int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a)
 {
-	int			file;
+	int		file;
 	pid_t	lol;
 
 	signal(SIGINT, SIG_IGN);
 	if (a)
 		(void)(*new);
-	file = 0;	
+	file = 0;
 	lol = fork();
 	file = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (lol == 0)
@@ -116,7 +111,6 @@ int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a)
 		return (parent_process(new, a));
 	return (1);
 }
-
 	/*
 	static int	i;
 	if (lol == 0)
@@ -137,4 +131,3 @@ int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a)
 			i = 0;
 			exit(0);
 	}*/
-
