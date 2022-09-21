@@ -11,7 +11,6 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 {
 	int	cmp;
 
-	printf("%s\n", heredoc);
 	*tmp = readline("> ");
 	if (!(*tmp) && g_return != 130)
 	{
@@ -25,7 +24,7 @@ static int	write_here_doc(char **tmp, int *file, char *heredoc, t_shell *shell)
 		return (130);
 	}
 	if (ft_strlen(*tmp) == ft_strlen(heredoc))
-		cmp = ft_strncmp(heredoc, *tmp, ft_strlen(heredoc + 1));
+		cmp = ft_strncmp(heredoc, *tmp, ft_strlen(heredoc));
 	else
 		cmp = 1;
 	if (!cmp)
@@ -69,7 +68,7 @@ static int	write_in_file(int *file, t_token **token, t_shell *shell, int a)
 	return (0);
 }
 
-void	parent_process(t_cmd **new, int a)
+static int	parent_process(t_cmd **new, int a)
 {
 	int	status;
 
@@ -83,7 +82,10 @@ void	parent_process(t_cmd **new, int a)
 		else if (WEXITSTATUS(status) == 0)
 			(*new)->infile = ".here_doc";
 	}
+	if (WEXITSTATUS(status) == 130)
+		return (130);
 	g_return = WEXITSTATUS(status);
+	return (0);
 }
 
 int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a)
@@ -111,7 +113,7 @@ int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a)
 		exit(0);
 	}
 	else
-		parent_process(new, a);
+		return (parent_process(new, a));
 	return (1);
 }
 

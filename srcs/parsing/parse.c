@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/20 17:22:51 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:38:19 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 		return (1);
 	return (0);
 }
-
-//will return 0 if all went well and 1 if an error occured
 
 int	parse(t_token **token, t_shell *shell)
 {
