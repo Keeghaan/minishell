@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 12:40:36 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 19:46:05 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:15:32 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,66 +21,6 @@ void	add_new_cmd(t_cmd **cmd, t_token **tmp, t_shell *shell)
 		tmp_cmd = tmp_cmd->next;
 	tmp_cmd->next = make_new_cmd(tmp, shell);
 	tmp_cmd->next->prev = tmp_cmd;
-}
-
-void	get_infile(t_token **tmp, t_cmd **new)
-{
-	t_token	*token;
-
-	token = *tmp;
-	if (!(*tmp)->prev && (*tmp)->next && (*tmp)->next->next
-		&& (*tmp)->next->next->type == PIPE && (*tmp)->next->type == WORD)
-		(*new)->infile = (*tmp)->next->value;
-	else	if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
-		&& (*tmp)->next && (*tmp)->next->type != REDIR_IN)
-		(*new)->infile = "/dev/stdin";
-	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL
-			|| (*tmp)->next->type == PIPE))
-		(*new)->infile = "/dev/stdin";
-	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
-		(*new)->infile = "/dev/stdin";
-	else if ((*tmp)->next && (*tmp)->next->type
-		== REDIR_IN && (*tmp)->next->next)
-	{
-		token = token->next->next;
-		while (token->next && token->next->next && token->next->type == WORD
-			&& token->next->next->type == PIPE)
-			token = token->next;
-		(*new)->infile = token->value;
-	}		
-	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN
-		&& !(*tmp)->prev->prev->prev)
-		(*new)->infile = (*tmp)->prev->value;
-	else
-		(*new)->infile = "/dev/stdin";
-}
-
-void	get_outfile(t_token **tmp, t_cmd **new)
-{	
-	if ((*tmp)->type == REDIR_OUT)
-		(*new)->outfile = (*tmp)->next->value;
-	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
-		(*new)->outfile = "/dev/stdout";
-	else if ((*tmp)->type == PIPE)
-		(*new)->outfile = "/dev/stdout";
-	else if ((*tmp)->type == DREDIR_IN)
-	{
-		if ((*tmp)->next->next && (*tmp)->next->next->type == PIPE)
-			(*new)->outfile = "/dev/stdout";
-		else if ((*tmp)->next->next && (*tmp)->next->next->next
-			&& (*tmp)->next->next->type == REDIR_OUT)
-			(*new)->outfile = (*tmp)->next->next->next->value;
-		else
-			(*new)->outfile = "/dev/stdout";
-	}
-	else
-		(*new)->outfile = "/dev/stdout";
-	(*new)->redir = 1;
-	if ((*tmp)->type == DREDIR_OUT)
-	{
-		(*new)->outfile = (*tmp)->next->value;
-		(*new)->redir = 2;
-	}
 }
 
 t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
@@ -108,8 +48,6 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 	get_outfile(tmp, &new);
 	new->full_cmd[i] = NULL;
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
-	//printf("%s\n", new->full_cmd[0]);
-	//printf("%s\n", new->full_cmd[1]);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -157,7 +95,6 @@ t_cmd	*make_new_cmd_null(void)
 	new->empty = 0;
 	new->full_cmd = malloc(sizeof(char *));
 	new->full_cmd[0] = ft_strdup("");
-	//new->full_cmd[0] = NULL;
 	new->full_path = NULL;
 	new->next = NULL;
 	new->prev = NULL;
@@ -171,7 +108,6 @@ void	add_null_cmd(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp->next)
 		tmp = tmp->next;
-	//printf("NULL CMD : %s\n", tmp->full_cmd[0]);
 	tmp->next = make_new_cmd_null();
 	tmp->next->prev = tmp;
 }
