@@ -238,6 +238,7 @@ void	handle_exit(t_shell *shell, char *buf);
 void	free_exit(t_shell *shell, char *buf, int msg);
 int		is_exit_valid(t_shell *shell, char *buf);
 int		is_exit_alone(char *buf);
+int		get_nb_tokens(t_shell *shell);
 
 //HERE_DOC
 int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a);

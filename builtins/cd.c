@@ -6,11 +6,26 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 17:33:19 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:53:24 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	check_pre_cd(t_shell *shell)
+{
+	if (shell->token->type == REDIR_IN && shell->token->next)
+	{
+		if (!check_file(shell->token->next->value, 0))
+			return (1);
+	}
+	else if (ft_strncmp(shell->cmds->full_cmd[0], "cd", 3) != 0)
+	{
+		if (!is_valid_cmd(shell->cmds->full_cmd[0], shell->env))
+		return (2);
+	}
+	return (0);
+}
 
 int	possibilities(t_shell *shell, char *action)
 {
@@ -19,6 +34,11 @@ int	possibilities(t_shell *shell, char *action)
 
 	if (!action)
 	{
+		if (get_nb_tokens(shell) > 1)
+		{
+			if (check_pre_cd(shell))
+				return (0);
+		}
 		user = expand_env_var("USER", &shell->envp, 0);
 		home = ft_strjoin("/mnt/nfs/homes/", user);
 		if (!home)
@@ -68,12 +88,14 @@ int	cd_cmd(t_shell *shell, char *action)
 	char	*pwd;
 	char	*oldpwd;
 
-	if (!check_file(action, 1))
+	if (action && !check_file(action, 1))
 		return (8);
 	oldpwd = ft_strdup(shell->cwd);
+	if (!oldpwd)
+		return (5);
 	move = possibilities(shell, action);
 	if (!move)
-		return (1);
+		return (free(oldpwd), 1);
 	if (move == 4)
 	{
 		if (chdir(shell->next_dir) != 0)
@@ -81,6 +103,8 @@ int	cd_cmd(t_shell *shell, char *action)
 	}
 	getcwd(shell->cwd, sizeof(shell->cwd));
 	pwd = ft_strdup(shell->cwd);
+	if (!pwd)
+		return (4);
 	change_pwd(&shell->envp, oldpwd, pwd);
 	return (0);
 }

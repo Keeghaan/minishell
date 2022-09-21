@@ -6,13 +6,13 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 17:23:33 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:53:43 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static int	get_nb_tokens(t_shell *shell)
+int	get_nb_tokens(t_shell *shell)
 {
 	t_token	*token;
 	int		i;
