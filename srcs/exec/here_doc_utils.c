@@ -33,4 +33,64 @@ void	expand_tmp(char **tmp, t_shell *shell, char *delimiter)
 			envp = envp->next;
 		}
 	}	
-}	
+}
+
+void	get_infile(t_token **tmp, t_cmd **new)
+{
+	t_token	*token;
+
+	token = *tmp;
+	if (!(*tmp)->prev && (*tmp)->next && (*tmp)->next->next
+		&& (*tmp)->next->next->type == PIPE && (*tmp)->next->type == WORD)
+		(*new)->infile = (*tmp)->next->value;
+	else if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
+		&& (*tmp)->next && (*tmp)->next->type != REDIR_IN)
+		(*new)->infile = "/dev/stdin";
+	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL
+			|| (*tmp)->next->type == PIPE))
+		(*new)->infile = "/dev/stdin";
+	else if ((*tmp)->prev && (*tmp)->prev->type == PIPE)
+		(*new)->infile = "/dev/stdin";
+	else if ((*tmp)->next && (*tmp)->next->type
+		== REDIR_IN && (*tmp)->next->next)
+	{
+		token = token->next->next;
+		while (token->next && token->next->next && token->next->type == WORD
+			&& token->next->next->type == PIPE)
+			token = token->next;
+		(*new)->infile = token->value;
+	}		
+	else if ((*tmp)->prev->prev && (*tmp)->prev->prev->type == REDIR_IN
+		&& !(*tmp)->prev->prev->prev)
+		(*new)->infile = (*tmp)->prev->value;
+	else
+		(*new)->infile = "/dev/stdin";
+}
+
+void	get_outfile(t_token **tmp, t_cmd **new)
+{	
+	if ((*tmp)->type == REDIR_OUT)
+		(*new)->outfile = (*tmp)->next->value;
+	else if ((*tmp)->prev == NULL && (*tmp)->next == NULL)
+		(*new)->outfile = "/dev/stdout";
+	else if ((*tmp)->type == PIPE)
+		(*new)->outfile = "/dev/stdout";
+	else if ((*tmp)->type == DREDIR_IN)
+	{
+		if ((*tmp)->next->next && (*tmp)->next->next->type == PIPE)
+			(*new)->outfile = "/dev/stdout";
+		else if ((*tmp)->next->next && (*tmp)->next->next->next
+			&& (*tmp)->next->next->type == REDIR_OUT)
+			(*new)->outfile = (*tmp)->next->next->next->value;
+		else
+			(*new)->outfile = "/dev/stdout";
+	}
+	else
+		(*new)->outfile = "/dev/stdout";
+	(*new)->redir = 1;
+	if ((*tmp)->type == DREDIR_OUT)
+	{
+		(*new)->outfile = (*tmp)->next->value;
+		(*new)->redir = 2;
+	}
+}
