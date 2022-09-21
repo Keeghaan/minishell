@@ -38,7 +38,7 @@ void	child_process_ter(t_shell *child, t_cmd *tmp, int index)
 	}
 }
 
-void	child_process(t_shell *child, int index, char **envp)
+void	child_process(t_shell *child, int index, char **envp, t_envp **env)
 {
 	t_cmd	*tmp;
 	int		j;
@@ -59,7 +59,7 @@ void	child_process(t_shell *child, int index, char **envp)
 	close(child->pipefd[0]);
 	child_process_ter(child, tmp, index);
 	close(child->pipefd[1]);
-	path_and_cmd(child, index, envp);
+	path_and_cmd(child, index, envp, env);
 }
 
 void	pipex_bis(t_shell *child)
@@ -80,11 +80,9 @@ void	pipex_bis(t_shell *child)
 	close(child->std_out);
 	if (access(".here_doc", F_OK) == 0)
 		unlink(".here_doc");
-	if (access(".here_doc2", F_OK) == 0)
-		unlink(".here_doc2");
 }
 
-void	pipex(t_shell *child, char **envp)
+void	pipex(t_shell *child, char **envp, t_envp **env)
 {
 	int	i;
 
@@ -108,6 +106,6 @@ void	pipex(t_shell *child, char **envp)
 		close(child->infile);
 	}
 	get_nbr_cmds(child);
-	pipex_quatro(child, envp);
+	pipex_quatro(child, envp, env);
 	pipex_bis(child);
 }

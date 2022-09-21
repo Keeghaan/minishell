@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:28:11 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 16:52:37 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:08:13 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@ int	is_a_dir(char *value)
 	return (0);
 }
 
-void	pipex_quatro(t_shell *child, char **envp)
+void	pipex_quatro(t_shell *child, char **envp, t_envp **env)
 {
 	int	i;
 
 	i = -1;
 	while (++i < child->n_cmds)
 	{
-		pipex_loop(child, i, envp);
+		pipex_loop(child, i, envp, env);
 		close(STDIN_FILENO);
 		close(child->pipefd[1]);
 	}
 }
 
-void	shell_loop_ter(t_shell *shell, t_token **tok)
+void	shell_loop_ter(t_shell *shell, t_token **tok, t_envp **env)
 {
 	int	cases;	
 	(void)tok;
@@ -56,7 +56,7 @@ void	shell_loop_ter(t_shell *shell, t_token **tok)
 	{
 		init_shell_struct(shell);
 		if (!shell->unclosed_q)
-			run_cmd(shell, shell->env);
+			run_cmd(shell, shell->env, env);
 	}
 	/*else if (!shell->cmds && shell->cmd_found == 0)
 	{

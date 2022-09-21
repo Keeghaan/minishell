@@ -37,7 +37,7 @@ static void	shell_loop_part_two(char *buf, t_shell *shell,
 	{
 		if (parse(token, shell) == -1)
 			return ;
-		shell_loop_ter(shell, token);
+		shell_loop_ter(shell, token, env);
 	/*	if (shell->next_dir)
 		{
 			free(shell->next_dir);

@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 16:42:44 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:07:39 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 	return (0);
 }
 
-void	run_cmd(t_shell *shell, char **envp)
+void	run_cmd(t_shell *shell, char **envp, t_envp **env)
 {	
 	int	cmd;
 
@@ -129,7 +129,7 @@ void	run_cmd(t_shell *shell, char **envp)
 		if (!(is_it_builtin(shell, shell->cmds, 0) == 2))
 		{
 			signalisation(1);
-			pipex(shell, envp);
+			pipex(shell, envp, env);
 		}
 	}
 }

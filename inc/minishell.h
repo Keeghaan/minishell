@@ -155,8 +155,8 @@ void	rewind_token(t_token **token, int back);
 void	rewind_cmd(t_cmd **cmd, int back);
 void	init_shell(t_shell *shell);
 int		is_a_dir(char *value);
-void	pipex_quatro(t_shell *child, char **envp);
-void	shell_loop_ter(t_shell *shell, t_token **tok);
+void	pipex_quatro(t_shell *child, char **envp, t_envp **env);
+void	shell_loop_ter(t_shell *shell, t_token **tok, t_envp **env);
 int		no_redir(t_token *t);
 int		check_file(char *token, int msg);
 
@@ -213,7 +213,7 @@ void	unset_envp(t_shell *shell, char *unset);
 void	fake_export(char *cmd, t_shell *shell);
 
 //EXEC
-void	run_cmd(t_shell *shell, char **envp);
+void	run_cmd(t_shell *shell, char **envp, t_envp **env);
 void	exec_cmd(t_shell *shell, char *path, char **envp);
 
 //EXEC UTILS
@@ -223,12 +223,12 @@ int		error_msg(t_shell *shell, t_cmd *cmd, char **envp, int msg);
 int		cmd_not_fnd(char *path, char **en);
 
 //PIPEX
-void	pipex(t_shell *child, char **envp);
+void	pipex(t_shell *child, char **envp, t_envp **env);
 void	get_nbr_cmds(t_shell *shell);
-void	path_and_cmd(t_shell *child, int index, char **envp);
-void	cmd_not_found(t_shell *child);
-void	pipex_loop(t_shell *child, int i, char **envp);
-void	child_process(t_shell *child, int index, char **envp);
+void	path_and_cmd(t_shell *child, int index, char **envp, t_envp **env);
+void	cmd_not_found(t_shell *child, t_envp **env);
+void	pipex_loop(t_shell *child, int i, char **envp, t_envp **env);
+void	child_process(t_shell *child, int index, char **envp, t_envp **env);
 int		double_cmd(t_token **tok, int msg);
 
 //void	execute(char **cmd, char *path, t_shell *child);
