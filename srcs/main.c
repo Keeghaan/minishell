@@ -38,11 +38,6 @@ static void	shell_loop_part_two(char *buf, t_shell *shell,
 		if (parse(token, shell) == -1)
 			return ;
 		shell_loop_ter(shell, token, env);
-	/*	if (shell->next_dir)
-		{
-			free(shell->next_dir);
-			shell->next_dir = NULL;
-		}*/
 	}
 }
 
@@ -82,7 +77,6 @@ void	run_shell(t_envp **env, t_shell *shell)
 	ft_memset(&token, 0, sizeof(token));
 	ft_memset(&shell->cmds, 0, sizeof(shell->cmds));
 	shell->is_running = 1;
-	shell->ret = 0;
 	while (shell->is_running)
 	{
 		signalisation(0);
@@ -107,6 +101,7 @@ int	main(int argc, char **argv, char **envp)
 	envp_to_lst(&env, envp);
 	init_shell(&shell);
 	shell.env = envp;
+	shell.ret = 0;
 	run_shell(&env, &shell);
 	if (env)
 		free_envp(&env);

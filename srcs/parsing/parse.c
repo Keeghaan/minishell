@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 16:55:18 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:28:21 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ void	check_cmd_found(t_token *token, t_shell *shell)
 		tmp = tmp->next;
 	cases = which_case(&tmp, shell);
 	if (cases == 1)
-		shell->ret = 1;
-	else
-		shell->ret = 0;
-			
+		shell->ret = 1;	
 }
 
 void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
@@ -140,6 +137,7 @@ int	parse(t_token **token, t_shell *shell)
 		shell->ret = 2;
 		return (-1);
 	}
+	shell->ret = 0;
 	if (get_cmds(token, &shell->cmds, shell))
 		return (1);
 	return (0);
