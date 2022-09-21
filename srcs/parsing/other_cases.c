@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 16:09:22 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:27:23 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ int	check_cmd(char *token, char **envp)
 	return (free_split(env), 0);
 }
 
-static int	check_file(char *token)
+int	check_file(char *token, int msg)
 {
 	int	fd;
 
 	fd = open(token, O_RDONLY);
 	if (fd > -1)
 		return (close(fd), 1);
-	if (!check_symbol(token))
+	if (!check_symbol(token) && msg)
 		printf("%s: %s: %s\n", SH, token, strerror(errno));
 	return (0);
 }
@@ -88,7 +88,7 @@ int	which_case(t_token **token, t_shell *shell)
 			symbol++;
 		if (t->type != HERE_DOC)
 		{
-			if (check_file(t->value))
+			if (check_file(t->value, 1))
 			file++;
 		}
 		if (t->type == WORD && (t->prev->type == REDIR_OUT ||

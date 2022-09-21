@@ -158,6 +158,7 @@ int		is_a_dir(char *value);
 void	pipex_quatro(t_shell *child, char **envp);
 void	shell_loop_ter(t_shell *shell, t_token **tok);
 int		no_redir(t_token *t);
+int		check_file(char *token, int msg);
 
 //SIGNALS
 void	signalisation(int child);

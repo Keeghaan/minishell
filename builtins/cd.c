@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/19 14:54:24 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:33:19 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	cd_cmd(t_shell *shell, char *action)
 	char	*pwd;
 	char	*oldpwd;
 
+	if (!check_file(action, 1))
+		return (8);
 	oldpwd = ft_strdup(shell->cwd);
 	move = possibilities(shell, action);
 	if (!move)
@@ -77,7 +79,7 @@ int	cd_cmd(t_shell *shell, char *action)
 		if (chdir(shell->next_dir) != 0)
 			return (free(oldpwd), 3);
 	}
-	get_cwd(shell);
+	getcwd(shell->cwd, sizeof(shell->cwd));
 	pwd = ft_strdup(shell->cwd);
 	change_pwd(&shell->envp, oldpwd, pwd);
 	return (0);
