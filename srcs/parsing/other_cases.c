@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 17:27:23 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:41:26 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ static void	create_file(t_token **t)
 	int	fd;
 
 	fd = -2;
-	if ((*t)->prev->type == REDIR_IN)
+	if ((*t)->prev->type == REDIR_OUT)
 		fd = open((*t)->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if ((*t)->prev->type == DREDIR_IN)
+	else if ((*t)->prev->type == DREDIR_OUT)
 		fd = open ((*t)->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		printf("minishell: %s: %s\n", (*t)->value, strerror(errno));
@@ -86,14 +86,14 @@ int	which_case(t_token **token, t_shell *shell)
 	{
 		if (check_symbol(t->value))
 			symbol++;
+		if (t->type == WORD && (t->prev->type == REDIR_OUT ||
+			t->prev->type == DREDIR_OUT))
+			create_file(&t);
 		if (t->type != HERE_DOC)
 		{
 			if (check_file(t->value, 1))
 			file++;
 		}
-		if (t->type == WORD && (t->prev->type == REDIR_OUT ||
-			t->prev->type == DREDIR_OUT))
-			create_file(&t);
 		if (t->type == DREDIR_IN)
 		{
 			if (get_here_doc(&t, NULL, shell, 1) == 130)
