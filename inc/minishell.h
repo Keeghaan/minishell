@@ -241,7 +241,7 @@ int		is_exit_alone(char *buf);
 int		get_nb_tokens(t_shell *shell);
 
 //HERE_DOC
-int	get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a);
+int		get_here_doc(t_token **token, t_cmd **new, t_shell *shell, int a);
 void	expand_tmp(char **tmp, t_shell *shell, char *delimiter);
 
 //GNL

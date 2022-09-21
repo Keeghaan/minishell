@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 17:53:24 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:32:38 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	check_pre_cd(t_shell *shell)
 {
+	if (get_nb_tokens(shell) == 1)
+		return (0);
 	if (shell->token->type == REDIR_IN && shell->token->next)
 	{
 		if (!check_file(shell->token->next->value, 0))
@@ -22,7 +24,7 @@ int	check_pre_cd(t_shell *shell)
 	else if (ft_strncmp(shell->cmds->full_cmd[0], "cd", 3) != 0)
 	{
 		if (!is_valid_cmd(shell->cmds->full_cmd[0], shell->env))
-		return (2);
+			return (2);
 	}
 	return (0);
 }
@@ -34,11 +36,8 @@ int	possibilities(t_shell *shell, char *action)
 
 	if (!action)
 	{
-		if (get_nb_tokens(shell) > 1)
-		{
-			if (check_pre_cd(shell))
-				return (0);
-		}
+		if (check_pre_cd(shell))
+			return (0);
 		user = expand_env_var("USER", &shell->envp, 0);
 		home = ft_strjoin("/mnt/nfs/homes/", user);
 		if (!home)

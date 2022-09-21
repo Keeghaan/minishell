@@ -28,6 +28,8 @@ static void	shell_loop_part_two(char *buf, t_shell *shell,
 		t_token **token, t_envp **env)
 {
 	shell_loop_part_two_bis(buf, shell, token, env);
+	if (is_exit_alone(buf))
+		free_exit(shell, buf, 1);
 	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5)
 		handle_exit(shell, buf);
 	else if (ft_strnstr(buf, "exit", ft_strlen(buf))
