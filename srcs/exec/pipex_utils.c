@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:20:52 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:06:53 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:16:20 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	get_nbr_cmds(t_shell *shell)
 
 void	cmd_not_found(t_shell *child, t_envp **env)
 {
+	child->ret = 127;
 	free(child->pid);
 	free_envp(env);
 	free_token(&child->token);

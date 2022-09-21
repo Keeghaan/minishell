@@ -65,10 +65,21 @@ void	child_process(t_shell *child, int index, char **envp, t_envp **env)
 void	pipex_bis(t_shell *child)
 {
 	int	i;
+	int	stat;
+	t_cmd	*t;
 
+	stat = 0;
 	i = -1;
+	t = child->cmds;
+	rewind_cmd(&t, 0);
 	while (++i < child->n_cmds)
-		waitpid(child->pid[i], NULL, 0);
+	{
+		waitpid(child->pid[i], &stat, 0);
+		if (stat && !is_valid_cmd(t->full_cmd[0], child->env))
+			child->ret = 127;
+		else
+			child->ret = 0;
+	}
 	free(child->pid);
 	if (child->pipefd[0] != -1)
 		close(child->pipefd[0]);
