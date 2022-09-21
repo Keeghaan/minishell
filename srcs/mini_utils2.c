@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:28:11 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 16:04:29 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:52:37 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ void	pipex_quatro(t_shell *child, char **envp)
 
 void	shell_loop_ter(t_shell *shell, t_token **tok)
 {
-	int	cases;
+	int	cases;	
+	(void)tok;
+	(void)cases;
 
 	if (shell->cmds && shell->cmd_found)
 	{
@@ -56,12 +58,12 @@ void	shell_loop_ter(t_shell *shell, t_token **tok)
 		if (!shell->unclosed_q)
 			run_cmd(shell, shell->env);
 	}
-	else if (!shell->cmds && shell->cmd_found == 0)
+	/*else if (!shell->cmds && shell->cmd_found == 0)
 	{
 		cases = which_case(tok, shell);
 		if (cases == 1)
 			shell->ret = 1;
 		else
 			shell->ret = 0;
-	}
+	}*/
 }

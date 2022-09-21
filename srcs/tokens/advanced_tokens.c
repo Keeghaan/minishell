@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 15:02:28 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/19 15:02:30 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:59:18 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	ft_iscrochet(char *s, int i)
 		{
 			if (s[i + 1] && i != 0 && s[i + 1] != s[i] && s[i - 1] != s[i])
 				return (1);
+			else if (s[i + 1] && s[i + 1] == s[i] && ft_strlen(s) > 2)
+				return (2);
 			else if (i == 0 && s[i + 1] && s[i + 1] != s[i])
 				return (1);
 			else if (!s[i + 1] && i != 0 && s[i - 1] != s[i])

@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 16:16:46 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:55:18 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	get_cmds_ter(t_token **tmp, int i, t_shell *shell, t_cmd **cmd)
 void	check_cmd_found(t_token *token, t_shell *shell)
 {
 	t_token	*tmp;
+	int	cases;
 
 	tmp = token;
 	if (tmp->prev)
@@ -76,7 +77,12 @@ void	check_cmd_found(t_token *token, t_shell *shell)
 	}
 	if (tmp->type == PIPE)
 		tmp = tmp->next;
-	which_case(&tmp, shell);			
+	cases = which_case(&tmp, shell);
+	if (cases == 1)
+		shell->ret = 1;
+	else
+		shell->ret = 0;
+			
 }
 
 void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
