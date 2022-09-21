@@ -182,6 +182,13 @@ int		file_or_command(t_token **t);
 int		get_cmds(t_token **t, t_cmd **cmd, t_shell *shell);
 int		which_case(t_token **token, t_shell *shell);
 int		check_cmd(char *token, char **envp);
+void	check_cmd_found(t_token *token, t_shell *shell);
+
+//PARSING UTILS
+void	no_cmd_func(t_shell *shell, t_token *tmp, t_cmd **cmd);
+void	get_cmds_ter(t_token **tmp, int i, t_shell *shell, t_cmd **cmd);
+void	get_cmds_bis_bis(t_token **tmp, t_cmd **cmd, t_shell *shell, int i);
+void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd);
 
 //CMDS
 t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell);
