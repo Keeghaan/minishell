@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 12:40:36 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 20:15:32 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:24:19 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 	int	i;
 
 	i = 0;
-	new->redir = 0;
 	if ((*tmp)->empty_cmd)
 		new->empty = 1;
 	new->full_cmd = (char **)malloc(sizeof(char *) * count);
@@ -65,6 +64,7 @@ t_cmd	*make_new_cmd(t_token **tmp, t_shell *shell)
 	if (!new)
 		return (NULL);
 	shell->cmd_found = 1;
+	new->redir = 0;
 	new->empty = 0;
 	if ((*tmp)->next && (*tmp)->next->type == DREDIR_IN)
 		get_here_doc(tmp, &new, shell, 0);
