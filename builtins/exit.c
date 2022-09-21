@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 18:01:55 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:23:33 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	is_exit_valid(t_shell *shell, char *buf)
 	no_valid = 0;
 	if (exit_alone(buf))
 		return (1);
+	else if (ft_strlen(shell->token->value) != 4)
+		return (0);
 	while (buf[++j])
 	{
 		if (!(buf[j] == 'e' || buf[j] == 'x' || buf[j] == 'i' || buf[j] == 't'
@@ -107,12 +109,13 @@ void	handle_exit(t_shell *shell, char *buf)
 	int		n;
 	int		is_numeric;
 
-
-	n = get_nb_tokens(shell);
-	if (n == 1 && exit_alone(buf))
+	if (exit_alone(buf))
 		free_exit(shell, buf, 1);
-	else if (n == 1 && !exit_alone(buf))
+	else if (ft_strlen(shell->token->value) != 4)
 		return ;
+	n = get_nb_tokens(shell);
+	if (n == 1)
+		free_exit(shell, buf, 1);
 	split = ft_split(buf, ' ');
 	is_numeric = is_digit(shell);
 	ft_putendl_fd("exit", 1);
@@ -126,8 +129,6 @@ void	handle_exit(t_shell *shell, char *buf)
 		free_split(split);
 		return ;
 	}
-	if (!exit_alone(buf))
-		return ;
 	free_split(split);
 	free_exit(shell, buf, 0);
 }
