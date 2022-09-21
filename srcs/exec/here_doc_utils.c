@@ -1,5 +1,11 @@
 #include "../../inc/minishell.h"
 
+void	get_global_return(t_token **token)
+{
+	free((*token)->value);
+	(*token)->value = ft_itoa(g_return);
+}
+
 void	expand_tmp(char **tmp, t_shell *shell, char *delimiter)
 {
 	t_envp	*envp;

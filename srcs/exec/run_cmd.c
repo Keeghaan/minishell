@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 19:26:58 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:04:20 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,11 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 
 void	run_cmd(t_shell *shell, char **envp, t_envp **env)
 {	
-	int	cmd;
-
-	cmd = 0;
 	shell->n_cmds = get_cmd_nbr(shell, envp);
 	while (shell->cmds)
 	{
 		if (ft_strlen(shell->cmds->full_cmd[0]) > 0)
-		{
-		is_it_builtin(shell, shell->cmds, 1);
-		if (is_valid_cmd(shell->cmds->full_cmd[0], envp))
-			cmd++;
-		}
+			is_it_builtin(shell, shell->cmds, 1);
 		if (shell->cmds->next == NULL)
 			break ;
 		shell->cmds = shell->cmds->next;

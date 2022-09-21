@@ -6,17 +6,11 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:42:41 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 19:36:15 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:12:49 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	get_global_return(t_token **token)
-{
-	free((*token)->value);
-	(*token)->value = ft_itoa(g_return);
-}
 
 void	free_split(char **av)
 {
@@ -42,30 +36,34 @@ void	free_exit(t_shell *shell, char *buf, int msg)
 	exit(0);
 }
 
+void	free_cmds_bis(t_cmd *tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp->full_cmd[i])
+	{
+		if (tmp->full_path && ft_strncmp(tmp->full_path,
+				tmp->full_cmd[i], ft_strlen(tmp->full_path)))
+			free(tmp->full_cmd[i]);
+		if (!tmp->full_path)
+			free(tmp->full_cmd[i]);
+		i++;
+	}
+}
+
 void	free_cmds(t_cmd **cmd)
 {
 	t_cmd	*tmp;
-	int		i;
 
 	tmp = *cmd;
 	while (tmp)
 	{
-		i = 0;
 		*cmd = (*cmd)->next;
-		if (tmp->full_cmd[i] && !ft_strlen(tmp->full_cmd[i]))
-			free(tmp->full_cmd[i]);	
+		if (tmp->full_cmd[0] && !ft_strlen(tmp->full_cmd[0]))
+			free(tmp->full_cmd[0]);
 		else
-		{
-			while (tmp->full_cmd[i])
-			{
-				if (tmp->full_path && ft_strncmp(tmp->full_path,
-					tmp->full_cmd[i], ft_strlen(tmp->full_path)))
-				free(tmp->full_cmd[i]);
-				if (!tmp->full_path)
-					free(tmp->full_cmd[i]);
-				i++;
-			}
-		}
+			free_cmds_bis(tmp);
 		if (tmp->full_path)
 			free(tmp->full_path);
 		free(tmp->full_cmd);
