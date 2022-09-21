@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:28:11 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 18:08:13 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:57:22 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,26 @@ void	pipex_quatro(t_shell *child, char **envp, t_envp **env)
 	}
 }
 
-void	shell_loop_ter(t_shell *shell, t_token **tok, t_envp **env)
+void	shell_loop_ter(t_shell *shell, t_envp **env)
 {
-	int	cases;	
-	(void)tok;
-	(void)cases;
-
 	if (shell->cmds && shell->cmd_found)
 	{
 		init_shell_struct(shell);
 		if (!shell->unclosed_q)
 			run_cmd(shell, shell->env, env);
 	}
-	/*else if (!shell->cmds && shell->cmd_found == 0)
+}
+
+void	which_cases_bis(t_token *t, int *symbol, int *file)
+{
+	if (check_symbol(t->value))
+		*symbol = 1;
+	if (t->type == WORD && (t->prev->type == REDIR_OUT
+			|| t->prev->type == DREDIR_OUT))
+		create_file(&t);
+	if (t->type != HERE_DOC)
 	{
-		cases = which_case(tok, shell);
-		if (cases == 1)
-			shell->ret = 1;
-		else
-			shell->ret = 0;
-	}*/
+		if (check_file(t->value, 1))
+		*file = 1;
+	}
 }

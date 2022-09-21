@@ -6,13 +6,13 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 17:41:26 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:00:39 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	check_symbol(char *token)
+int	check_symbol(char *token)
 {
 	if (*token == '|' || *token == '<' || *token == '>')
 		return (1);
@@ -58,7 +58,7 @@ int	check_file(char *token, int msg)
 	return (0);
 }
 
-static void	create_file(t_token **t)
+void	create_file(t_token **t)
 {
 	int	fd;
 
@@ -84,16 +84,7 @@ int	which_case(t_token **token, t_shell *shell)
 	symbol = 0;
 	while (t && t->type != PIPE)
 	{
-		if (check_symbol(t->value))
-			symbol++;
-		if (t->type == WORD && (t->prev->type == REDIR_OUT ||
-			t->prev->type == DREDIR_OUT))
-			create_file(&t);
-		if (t->type != HERE_DOC)
-		{
-			if (check_file(t->value, 1))
-			file++;
-		}
+		which_cases_bis(t, &symbol, &file);
 		if (t->type == DREDIR_IN)
 		{
 			if (get_here_doc(&t, NULL, shell, 1) == 130)

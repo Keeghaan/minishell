@@ -156,9 +156,12 @@ void	rewind_cmd(t_cmd **cmd, int back);
 void	init_shell(t_shell *shell);
 int		is_a_dir(char *value);
 void	pipex_quatro(t_shell *child, char **envp, t_envp **env);
-void	shell_loop_ter(t_shell *shell, t_token **tok, t_envp **env);
+void	shell_loop_ter(t_shell *shell, t_envp **env);
 int		no_redir(t_token *t);
 int		check_file(char *token, int msg);
+void	which_cases_bis(t_token *t, int *symbol, int *file);
+void	create_file(t_token **t);
+int		check_symbol(char *token);
 
 //SIGNALS
 void	signalisation(int child);

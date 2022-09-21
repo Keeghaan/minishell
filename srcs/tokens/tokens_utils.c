@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 15:02:22 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 14:19:54 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:50:17 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	get_token_type(t_token **token)
 	{
 		if (!ft_strncmp(tmp->value, "|", ft_strlen(tmp->value)))
 			tmp->type = PIPE;
-		else if (!ft_strncmp(tmp->value, "<", ft_strlen(tmp->value)))		
+		else if (!ft_strncmp(tmp->value, "<", ft_strlen(tmp->value)))
 			tmp->type = REDIR_IN;
 		else if (!ft_strncmp(tmp->value, ">", ft_strlen(tmp->value)))
 			tmp->type = REDIR_OUT;
