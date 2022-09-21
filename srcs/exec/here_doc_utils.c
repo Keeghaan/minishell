@@ -12,7 +12,7 @@ void	expand_tmp(char **tmp, t_shell *shell, char *delimiter)
 	envp = shell->envp;
 	if (token->quotes == 1)
 	{
-		str = *tmp;	
+		str = *tmp;
 		str = ft_substr(str, 1, ft_strlen(str));
 		free(*tmp);
 		*tmp = ft_strdup(str);
