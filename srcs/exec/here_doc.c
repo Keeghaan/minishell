@@ -78,7 +78,10 @@ static int	parent_process(t_cmd **new, int a)
 			(*new)->infile = ".here_doc";
 	}
 	if (WEXITSTATUS(status) == 130)
+	{
+		unlink(".here_doc");
 		return (130);
+	}
 	g_return = WEXITSTATUS(status);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 20:00:25 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:15:17 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 				add_null_cmd(cmd);
 			else
 				*cmd = make_new_cmd_null();
+			if (access(".here_doc", F_OK) == 0)
+				unlink(".here_doc");
 		}
 		if ((tmp && !tmp->next) || !tmp)
 			break ;
