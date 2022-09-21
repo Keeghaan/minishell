@@ -1,7 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/21 20:17:05 by nboratko          #+#    #+#             */
+/*   Updated: 2022/09/21 20:17:11 by nboratko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// Expander will give environment variables
-// $SOMETHING their corresponding values
+#include "minishell.h"
 
 char	*expand_env_var(char *val, t_envp **env, int i)
 {

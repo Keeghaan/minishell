@@ -79,10 +79,7 @@ void	pipex_bis(t_shell *child)
 	dup2(child->std_out, STDOUT_FILENO);
 	close(child->std_out);
 	if (access(".here_doc", F_OK) == 0)
-	{
-		printf("LOL\n");
 		unlink(".here_doc");
-	}
 }
 
 void	pipex(t_shell *child, char **envp, t_envp **env)
