@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 19:28:21 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:00:25 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,13 @@ void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 				get_cmds_ter(&tmp, i, shell, cmd);
 		}
 		if ((tmp->type == PIPE || !tmp->next) && shell->cmd_found == 0)
+		{
 			check_cmd_found(tmp, shell);
+			if (*cmd)
+				add_null_cmd(cmd);
+			else
+				*cmd = make_new_cmd_null();
+		}
 		if ((tmp && !tmp->next) || !tmp)
 			break ;
 		if (tmp->type == PIPE)

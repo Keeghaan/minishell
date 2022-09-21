@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:42:41 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/20 15:57:52 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:36:15 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,19 @@ void	free_cmds(t_cmd **cmd)
 	{
 		i = 0;
 		*cmd = (*cmd)->next;
-		while (tmp->full_cmd[i])
+		if (tmp->full_cmd[i] && !ft_strlen(tmp->full_cmd[i]))
+			free(tmp->full_cmd[i]);	
+		else
 		{
-			if (tmp->full_path && ft_strncmp(tmp->full_path,
+			while (tmp->full_cmd[i])
+			{
+				if (tmp->full_path && ft_strncmp(tmp->full_path,
 					tmp->full_cmd[i], ft_strlen(tmp->full_path)))
 				free(tmp->full_cmd[i]);
-			if (!tmp->full_path)
-				free(tmp->full_cmd[i]);
-			i++;
+				if (!tmp->full_path)
+					free(tmp->full_cmd[i]);
+				i++;
+			}
 		}
 		if (tmp->full_path)
 			free(tmp->full_path);

@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 12:40:36 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 16:17:07 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:46:05 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,14 +153,15 @@ t_cmd	*make_new_cmd_null(void)
 	new->empty = 0;
 	new->infile = "/dev/stdin";
 	new->outfile = "/dev/stdout";
-	new->redir = 0;
+	new->redir = 1;
 	new->empty = 0;
-	new->full_cmd = NULL;
+	new->full_cmd = malloc(sizeof(char *));
+	new->full_cmd[0] = ft_strdup("");
 	//new->full_cmd[0] = NULL;
 	new->full_path = NULL;
 	new->next = NULL;
 	new->prev = NULL;
-	return (NULL);
+	return (new);
 }
 
 void	add_null_cmd(t_cmd **cmd)
@@ -168,8 +169,9 @@ void	add_null_cmd(t_cmd **cmd)
 	t_cmd	*tmp;
 
 	tmp = *cmd;
-	while (tmp)
+	while (tmp->next)
 		tmp = tmp->next;
+	//printf("NULL CMD : %s\n", tmp->full_cmd[0]);
 	tmp->next = make_new_cmd_null();
 	tmp->next->prev = tmp;
 }
