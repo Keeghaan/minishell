@@ -6,40 +6,12 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:09:10 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:12:13 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-<<<<<<< HEAD
-=======
-char	*check_tokens(t_token **t)
-{
-	t_token	*tmp;
-	int		i;
-
-	tmp = *t;
-	i = 0;
-	while (tmp)
-	{
-		if (tmp->type == PIPE && i == 0)
-			return (tmp->value);
-		if (!tmp->next && tmp->type != WORD && tmp->type != HERE_DOC)
-			return ("newline");
-		if (((tmp->type == REDIR_IN || tmp->type == REDIR_OUT
-					|| tmp->type == DREDIR_IN
-					|| tmp->type == DREDIR_OUT)
-				&& tmp->next) && (tmp->next->type != WORD
-				&& tmp->next->type != HERE_DOC))
-			return (tmp->next->value);
-		i++;
-		tmp = tmp->next;
-	}	
-	return (NULL);
-}
-
->>>>>>> norminette
 void	get_cmds_ter(t_token **tmp, int i, t_shell *shell, t_cmd **cmd)
 {
 	if (i == 0 && (*tmp)->next && ((*tmp)->next->type == WORD
