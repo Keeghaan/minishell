@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:25:11 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:25:13 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:22:51 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,5 @@ void	handle_mister_here(int sig)
 		close(STDIN_FILENO);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	write(1, "\n", 1);
 }
