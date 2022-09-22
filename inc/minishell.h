@@ -104,6 +104,7 @@ typedef struct s_shell
 	int		ret;
 	int		unclosed_q;
 	int		cmd_found;
+	int		path;
 }	t_shell;
 
 // EXPANDER

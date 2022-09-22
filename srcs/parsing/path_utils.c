@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:23:03 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/22 18:30:57 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:25:15 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 	t_envp	*tmp;
 
 	tmp = *envp;
-	while (tmp && ft_strncmp(tmp->var, "PATH", 4))
+	while (tmp && ft_strncmp2(tmp->var, "PATH", 4))
 	{
 		if (!tmp->next)
 			break ;
@@ -38,8 +38,7 @@ char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 	}	
 	if (tmp == NULL || !ft_strncmp(tmp->var, "LD", 2) || !tmp->next)
 	{
-		shell->env[0] = "";
-		shell->env[1] = "";
+		shell->path = 0;
 		ft_printf("minishell: %s: %s\n", cmd, "No such file or directory");
 		return (NULL);
 	}
@@ -53,7 +52,7 @@ char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 
 static char *return_bin_cmd(char *cmd, t_shell *shell)
 {
-	shell->env[0] = "  ";
+	shell->path = 1;
 	return (cmd);
 }
 
