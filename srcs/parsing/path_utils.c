@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:23:03 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/22 18:26:07 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:30:57 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 	return (paths);
 }
 
+static char *return_bin_cmd(char *cmd, t_shell *shell)
+{
+	shell->env[0] = "  ";
+	return (cmd);
+}
+
 char	*get_full_path(t_shell *shell, char *cmd)
 {
 	char	**paths;
@@ -61,10 +67,7 @@ char	*get_full_path(t_shell *shell, char *cmd)
 	i = 0;
 	if (cmd && ft_strnstr(cmd, "/", ft_strlen(cmd))
 		&& access(cmd, X_OK | F_OK | R_OK) == 0)
-	{
-		shell->env[0] = "  ";
-		return (cmd);
-	}
+		return (return_bin_cmd(cmd, shell));
 	paths = get_paths(shell, cmd, &shell->envp);
 	if (!paths)
 		return (NULL);
