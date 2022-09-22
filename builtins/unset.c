@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:26:39 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:26:40 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:46:32 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ void	unset_envp(t_shell *shell, char *unset)
 {
 	t_envp	*tmp;
 	t_envp	*tmp2;
-	int		i;
 
 	tmp = shell->envp;
-	i = 0;
 	if (!ft_strncmp(tmp->var, unset, ft_strlen(tmp->var)))
 	{
 		tmp2 = tmp;

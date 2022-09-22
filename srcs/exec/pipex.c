@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:27:40 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/22 11:55:52 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:46:58 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,6 @@ void	pipex_bis(t_shell *child)
 
 void	pipex(t_shell *child, char **envp, t_envp **env)
 {
-	int	i;
-
-	i = -1;
 	if (!child->cmds->infile)
 		child->infile = -1;
 	else

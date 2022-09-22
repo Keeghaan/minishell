@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:26:52 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:26:53 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:46:42 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ char	*get_var(char *argv)
 char	*get_values(char *argv, t_shell *shell)
 {
 	int		i;
-	int		j;
 	char	*values;
 
 	i = 0;
-	j = 0;
 	while (argv[i] != '=')
 		i++;
 	i++;
