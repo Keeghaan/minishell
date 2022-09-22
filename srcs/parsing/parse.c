@@ -6,13 +6,13 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:42:59 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:19:50 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:20:57 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	check_cmd_found(t_token *token, t_shell *shell)
+int	check_cmd_found(t_token *token, t_shell *shell)
 {
 	t_token	*tmp;
 	int		cases;
@@ -32,6 +32,12 @@ void	check_cmd_found(t_token *token, t_shell *shell)
 	cases = which_case(&tmp, shell);
 	if (cases == 1)
 		shell->ret = 1;
+	if (cases == 130)
+	{
+		shell->ret = 130;
+		return (130);
+	}
+	return (0);
 }
 
 int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
@@ -39,7 +45,8 @@ int	get_cmds(t_token **t, t_cmd **cmd, t_shell *shell)
 	t_token	*tmp;
 
 	tmp = *t;
-	get_cmds_bis(tmp, shell, cmd);
+	if (get_cmds_bis(tmp, shell, cmd) == 130)
+		return (130);
 	if (*cmd)
 		return (1);
 	return (0);

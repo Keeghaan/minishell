@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:41:57 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 20:00:39 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:14:50 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	which_case(t_token **token, t_shell *shell)
 		if (t->type == DREDIR_IN)
 		{
 			if (get_here_doc(&t, NULL, shell, 1) == 130)
-				break ;
+				return (130);
 		}
 		if (!t->next)
 			break ;

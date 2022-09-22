@@ -6,13 +6,13 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:16:27 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:40:48 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:20:00 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
+int	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 {
 	int	i;
 
@@ -23,7 +23,10 @@ void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 		if (tmp->type == WORD && !no_redir(tmp))
 			get_cmds_bis_bis(&tmp, cmd, shell, i);
 		if ((tmp->type == PIPE || !tmp->next) && shell->cmd_found == 0)
-			no_cmd_func(shell, tmp, cmd);
+		{
+			if (no_cmd_func(shell, tmp, cmd) == 130)
+				return (130);
+		}
 		if ((tmp && !tmp->next) || !tmp)
 			break ;
 		if (tmp->type == PIPE)
@@ -31,6 +34,7 @@ void	get_cmds_bis(t_token *tmp, t_shell *shell, t_cmd **cmd)
 		tmp = tmp->next;
 		i++;
 	}
+	return (0);
 }
 
 void	get_cmds_bis_bis(t_token **tmp, t_cmd **cmd, t_shell *shell, int i)
@@ -69,15 +73,17 @@ void	get_cmds_ter(t_token **tmp, int i, t_shell *shell, t_cmd **cmd)
 		*cmd = make_new_cmd(tmp, shell);
 }
 
-void	no_cmd_func(t_shell *shell, t_token *tmp, t_cmd **cmd)
+int	no_cmd_func(t_shell *shell, t_token *tmp, t_cmd **cmd)
 {
-	check_cmd_found(tmp, shell);
+	if (check_cmd_found(tmp, shell) == 130)
+		return (130);
 	if (*cmd)
 		add_null_cmd(cmd);
 	else
 		*cmd = make_new_cmd_null();
 	if (access(".here_doc", F_OK) == 0)
 		unlink(".here_doc");
+	return (0);
 }
 
 void	get_global_return(t_token **token)

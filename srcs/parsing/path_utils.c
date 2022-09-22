@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:23:03 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/22 11:58:06 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:32:46 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ char	*get_full_path(t_shell *shell, char *cmd)
 	int		i;
 
 	i = 0;
+	if (cmd && ft_strnstr(cmd, "/", ft_strlen(cmd))
+		&& access(cmd, X_OK | F_OK | R_OK) == 0)
+		return (cmd);
 	paths = get_paths(shell, cmd, &shell->envp);
 	if (!paths)
 		return (NULL);
-	if (cmd && ft_strnstr(cmd, "/", ft_strlen(cmd))
-		&& access(cmd, X_OK | F_OK | R_OK) == 0)
-		return (free_split(paths), cmd);
 	while (paths[i++])
 	{
 		slash = ft_strjoin_original(paths[i], "/");
