@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:27:40 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/22 11:15:14 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:55:52 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,7 @@ void	child_process(t_shell *child, int index, char **envp, t_envp **env)
 
 void	pipex_bis(t_shell *child)
 {
-	int		i;
-	int		stat;
-	t_cmd	*t;
-
-	stat = 0;
-	i = -1;
-	t = child->cmds;
-	rewind_cmd(&t, 0);
-	while (++i < child->n_cmds)
-	{
-		waitpid(child->pid[i], &stat, 0);
-		if (stat && !is_valid_cmd(t->full_cmd[0], child->env))
-			child->ret = 127;
-	}
+	pipex_wait(child);
 	free(child->pid);
 	if (child->pipefd[0] != -1)
 		close(child->pipefd[0]);
