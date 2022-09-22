@@ -162,6 +162,7 @@ int		check_file(char *token, int msg);
 void	which_cases_bis(t_token *t, int *symbol, int *file);
 void	create_file(t_token **t);
 int		check_symbol(char *token);
+int		ft_strncmp2(const char *s1, const char *s2, size_t n);
 
 //SIGNALS
 void	signalisation(int child);

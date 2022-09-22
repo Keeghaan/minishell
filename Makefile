@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/09/22 12:43:45 by nboratko         ###   ########.fr        #
+#    Updated: 2022/09/22 18:48:49 by jcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,6 @@ re: fclean
 	@make all
 
 test:	$(NAME)
-	./$(NAME)
+	valgrind --leak-check=full ./$(NAME)
 
 .PHONY: all clean fclean re bonus test vtest
