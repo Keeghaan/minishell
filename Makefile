@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/09/22 11:54:13 by jcourtoi         ###   ########.fr        #
+#    Updated: 2022/09/22 12:43:45 by nboratko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,11 +70,5 @@ re: fclean
 
 test:	$(NAME)
 	./$(NAME)
-
-fdtest:	$(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_rl_error --track-fds=yes ./$(NAME)
-
-vtest:	$(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_rl_error ./$(NAME)
 
 .PHONY: all clean fclean re bonus test vtest
