@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:23:03 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:23:05 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:58:06 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ char	**get_paths(t_shell *shell, char *cmd, t_envp **envp)
 	}	
 	if (tmp == NULL || !ft_strncmp(tmp->var, "LD", 2) || !tmp->next)
 	{
-		free(shell->env[0]);
-		free(shell->env[1]);
-		shell->env[0] = ft_strdup("");
-		shell->env[1] = ft_strdup("");
+		shell->env[0] = "";
+		shell->env[1] = "";
 		ft_printf("minishell: %s: %s\n", cmd, "No such file or directory");
 		return (NULL);
 	}
