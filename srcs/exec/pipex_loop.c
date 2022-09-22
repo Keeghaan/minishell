@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:20:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 20:17:42 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:11:50 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ static void	pipex_loop_bis(t_shell *child, t_cmd *tmp)
 	{
 		dup2(child->std_in, 0);
 		child->infile = open(tmp->infile, O_RDONLY);
-		if (dup2(child->infile, STDIN_FILENO) == -1)
-			printf("%s: %s\n", SH, strerror(errno));
-		close(child->infile);
+		if (child->infile > -1)
+		{
+			if (dup2(child->infile, STDIN_FILENO) == -1)
+				printf("%s: %s\n", SH, strerror(errno));
+			close(child->infile);
+		}
 	}
 	else
 	{

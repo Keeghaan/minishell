@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:20:52 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:16:20 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:13:30 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	path_and_cmd(t_shell *child, int index, char **envp, t_envp **env)
 	}
 	cmd = tmp->full_cmd;
 	path = tmp->full_path;
-	if (cmd[0] && path)
+	if (cmd[0] && path && check_file(tmp->infile, 1))
 		execve(path, cmd, envp);
 	cmd_not_found(child, env);
 }

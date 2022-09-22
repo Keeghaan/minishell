@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:21:12 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/21 21:39:58 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:14:31 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ void	get_infile(t_token **tmp, t_cmd **new)
 	else if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
 		&& (*tmp)->next && (*tmp)->next->type != REDIR_IN)
 		(*new)->infile = "/dev/stdin";
+	else if (((*tmp)->prev == NULL || (*tmp)->prev->type == PIPE)
+		&& (*tmp)->next && (*tmp)->next->type == REDIR_IN)
+		(*new)->infile = (*tmp)->next->next->value;
 	else if ((*tmp)->prev == NULL && ((*tmp)->next == NULL
 			|| (*tmp)->next->type == PIPE))
 		(*new)->infile = "/dev/stdin";
