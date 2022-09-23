@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:25:21 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/23 11:42:12 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:14:21 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ static void	shell_loop_part_two(char *buf, t_shell *shell,
 {
 	shell_loop_part_two_bis(buf, shell, token, env);
 	if (is_exit_alone(buf))
-		free_exit(shell, buf, 1);
-	if (!ft_strncmp(buf, "exit", ft_strlen("exit")) && ft_strlen(buf) > 5)
+		free_exit(shell, buf, 1, 0);
+	if (!ft_strncmp2(buf, "exit", 4) && ft_strlen(buf) > 5)
 		handle_exit(shell, buf);
 	else if (ft_strnstr(buf, "exit", ft_strlen(buf))
 		&& is_exit_valid(shell, buf))
-		free_exit(shell, buf, 1);
+		free_exit(shell, buf, 1, 0);
 	else
 	{
 		if (parse(token, shell) == -1)

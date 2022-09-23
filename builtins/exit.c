@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 14:34:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 19:36:46 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:07:38 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	is_digit(t_shell *shell)
 			return (0);
 		i++;
 	}
-	return (1);
+	return (ft_atoi(token->value));
 }
 
 int	is_exit_alone(char *buf)
@@ -112,7 +112,7 @@ void	handle_exit(t_shell *shell, char *buf)
 		return ;
 	n = get_nb_tokens(shell);
 	if (n == 1)
-		free_exit(shell, buf, 1);
+		free_exit(shell, buf, 1, 0);
 	split = ft_split(buf, ' ');
 	is_numeric = is_digit(shell);
 	ft_putendl_fd("exit", 1);
@@ -127,5 +127,5 @@ void	handle_exit(t_shell *shell, char *buf)
 		return ;
 	}
 	free_split(split);
-	free_exit(shell, buf, 0);
+	free_exit(shell, buf, 0, is_numeric);
 }

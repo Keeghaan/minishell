@@ -248,7 +248,7 @@ int		double_cmd(t_token **tok, int msg);
 
 //EXIT
 void	handle_exit(t_shell *shell, char *buf);
-void	free_exit(t_shell *shell, char *buf, int msg);
+void	free_exit(t_shell *shell, char *buf, int msg, int ret);
 int		is_exit_valid(t_shell *shell, char *buf);
 int		is_exit_alone(char *buf);
 int		get_nb_tokens(t_shell *shell);

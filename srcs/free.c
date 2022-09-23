@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:42:41 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 20:12:49 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:19:08 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_split(char **av)
 	free(av);
 }
 
-void	free_exit(t_shell *shell, char *buf, int msg)
+void	free_exit(t_shell *shell, char *buf, int msg, int ret)
 {
 	free_token(&shell->token);
 	free_envp(&shell->envp);
@@ -33,7 +33,8 @@ void	free_exit(t_shell *shell, char *buf, int msg)
 		free(buf);
 	if (msg)
 		ft_putendl_fd("exit", 1);
-	exit(0);
+	printf("%d\n", ret);
+	exit(ret);
 }
 
 void	free_cmds_bis(t_cmd *tmp)
