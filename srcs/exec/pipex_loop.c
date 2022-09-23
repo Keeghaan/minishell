@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:20:33 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/22 11:11:50 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:00:59 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ static void	pipex_loop_bis(t_shell *child, t_cmd *tmp)
 
 static void	pipex_loop_ter(t_shell *child, int i, char **envp, t_envp **env)
 {
+//	envp = env_to_char(env);
+//	if (!envp)
+//		return ;
 	if (i == 0)
 	{
 		if (child->infile != -1)
