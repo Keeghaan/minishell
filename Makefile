@@ -6,7 +6,7 @@
 #    By: nboratko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 15:13:15 by nboratko          #+#    #+#              #
-#    Updated: 2022/09/22 18:48:49 by jcourtoi         ###   ########.fr        #
+#    Updated: 2022/09/23 14:10:11 by jcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ SRCS = srcs/main.c srcs/envp_utils.c srcs/mini_utils.c srcs/tokens/tokens.c\
 	srcs/exec/run_cmd.c srcs/exec/exec_utils.c srcs/mini_utils2.c\
 	builtins/exit.c builtins/export.c builtins/cd.c builtins/get_cwd.c \
 	srcs/exec/error_msg.c srcs/exec/here_doc.c srcs/init.c builtins/env.c\
-	srcs/parsing/other_cases.c builtins/unset.c srcs/free.c \
+	srcs/parsing/other_cases.c builtins/unset.c srcs/free.c builtins/pwd.c\
 	builtins/fake_export.c srcs/exec/pipex_loop.c srcs/tokens/tokens_utils2.c\
 	srcs/get_next_line.c srcs/exec/here_doc_utils.c srcs/parsing/parse_utils.c\
-	srcs/exec/pipex_wait.c
+	srcs/exec/pipex_wait.c builtins/echo.c
 
 _RED=	$'\033[1;31m
 _GREEN=	$'\033[1;32m

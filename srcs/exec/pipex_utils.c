@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:20:52 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/23 11:56:55 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:14:56 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	path_and_cmd(t_shell *child, int index, char **envp, t_envp **env)
 	path = tmp->full_path;
 	if (ft_strlen(cmd[0]) > 0)
 		is_it_builtin(child, child->cmds, 1);
-	if (cmd[0] && path && check_file(tmp->infile, 1) && ft_strncmp("env", cmd[0], ft_strlen(cmd[0]) != 0))
+	if (cmd[0] && path && check_file(tmp->infile, 1) && !is_it_builtin(child, tmp, 0))
 		execve(path, cmd, envp);
 	cmd_not_found(child, env);
 }

@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/23 13:00:43 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:01:35 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 		return (2);
 	}
 	if (!ft_strncmp(cmd->full_cmd[0], "pwd", ft_strlen(cmd->full_cmd[0])))
-		return (3);
+		return (print_pwd(active), 3);
 	if (!ft_strncmp(cmd->full_cmd[0], "echo", ft_strlen(cmd->full_cmd[0])))
-		return (3);
+		return (echo_cmd(cmd->full_cmd, active), 3);
 	return (0);
 }
 
