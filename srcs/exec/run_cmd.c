@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/22 18:25:56 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/23 11:57:15 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 
 void	run_cmd(t_shell *shell, char **envp, t_envp **env)
 {	
+	envp = env_to_char(env);
+	if (!envp)
+		return ;
 	shell->n_cmds = get_cmd_nbr(shell, envp);
 	while (shell->cmds)
 	{
@@ -116,16 +119,13 @@ void	run_cmd(t_shell *shell, char **envp, t_envp **env)
 			break ;
 		shell->cmds = shell->cmds->next;
 	}
-	rewind_cmd(&shell->cmds, 1);	
+	rewind_cmd(&shell->cmds, 1);
 	if (ft_strlen(shell->env[0]) > 1)
 	{
 		if (!double_cmd(&shell->token, 0) && !shell->unclosed_q
 			&& !is_it_builtin(shell, shell->cmds, 0))
 			error_msg(shell, shell->cmds, envp, 1);
-		if (!(is_it_builtin(shell, shell->cmds, 0) == 2))
-		{
-			signalisation(1);
-			pipex(shell, envp, env);
-		}
+		signalisation(1);
+		pipex(shell, envp, env);
 	}
 }
