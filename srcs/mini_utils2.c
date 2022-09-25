@@ -60,7 +60,7 @@ void	which_cases_bis(t_token *t, int *symbol, int *file)
 {
 	if (check_symbol(t->value))
 		*symbol = 1;
-	if (t->type == WORD && (t->prev->type == REDIR_OUT
+	if (t->type == WORD && t->prev && (t->prev->type == REDIR_OUT
 			|| t->prev->type == DREDIR_OUT))
 		create_file(&t);
 	if (t->type != HERE_DOC)

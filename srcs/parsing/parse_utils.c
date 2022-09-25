@@ -48,6 +48,13 @@ void	get_cmds_bis_bis(t_token **tmp, t_cmd **cmd, t_shell *shell, int i)
 		else
 			*cmd = make_new_cmd(tmp, shell);
 	}
+	else if ((*tmp)->type == WORD && (*tmp)->next && (*tmp)->next->type == REDIR_OUT)
+	{
+		if (*cmd)
+				add_new_cmd(cmd, tmp, shell);
+			else
+				*cmd = make_new_cmd(tmp, shell);
+	}
 	else
 		get_cmds_ter(tmp, i, shell, cmd);
 }

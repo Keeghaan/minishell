@@ -21,6 +21,10 @@ void	print_envp(t_envp *envp, t_cmd *cmd)
 	tmp = envp;
 	while (tmp)
 	{
+		//write(STDOUT_FILENO, tmp->var, ft_strlen(tmp->var));
+		//write(STDOUT_FILENO, "=", 1);
+		//write(STDOUT_FILENO, tmp->values, ft_strlen(tmp->values));
+		//write(STDOUT_FILENO, "\n", 1);
 		printf("%s", tmp->var);
 		printf("=");
 		printf("%s\n", tmp->values);
