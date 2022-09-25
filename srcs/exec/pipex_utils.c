@@ -6,7 +6,7 @@
 /*   By: nboratko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:20:52 by nboratko          #+#    #+#             */
-/*   Updated: 2022/09/23 15:19:48 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/25 17:09:26 by nboratko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	cmd_not_found(t_shell *child, t_envp **env)
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(child->pipefd[0]);
-	close(child->outfile);
+//	close(child->outfile);
 	exit(EXIT_FAILURE);
 }
 
