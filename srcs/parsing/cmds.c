@@ -49,7 +49,7 @@ t_cmd	*make_new_cmd_bis(t_shell *shell, t_token **tmp, t_cmd *new, int count)
 	new->full_path = get_full_path(shell, new->full_cmd[0]);
 	new->next = NULL;
 	new->prev = NULL;
-	printf("%s\n", new->full_cmd[0]);
+	//printf("%s\n", new->full_cmd[0]);
 	return (new);
 }
 

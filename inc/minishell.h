@@ -92,6 +92,7 @@ typedef struct s_shell
 	int		n_cmds;
 	int		pipefd[2];
 	int		pipe;
+	int		path;
 	char	*prev_dir;
 	char	*next_dir;
 	char	cwd[250];
@@ -104,7 +105,6 @@ typedef struct s_shell
 	int		ret;
 	int		unclosed_q;
 	int		cmd_found;
-	int		path;
 }	t_shell;
 
 // EXPANDER
