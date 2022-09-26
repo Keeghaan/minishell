@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 13:45:38 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/21 19:32:38 by jcourtoi         ###   ########.fr       */
+/*   Updated: 2022/09/26 10:23:33 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	cd_cmd(t_shell *shell, char *action)
 	pwd = ft_strdup(shell->cwd);
 	if (!pwd)
 		return (4);
+	printf("cd %s\n", shell->cwd);
 	change_pwd(&shell->envp, oldpwd, pwd);
 	return (0);
 }

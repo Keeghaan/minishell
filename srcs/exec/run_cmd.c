@@ -6,7 +6,7 @@
 /*   By: jcourtoi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 14:28:32 by jcourtoi          #+#    #+#             */
-/*   Updated: 2022/09/26 09:56:09 by nboratko         ###   ########.fr       */
+/*   Updated: 2022/09/26 10:27:32 by jcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	is_it_builtin(t_shell *shell, t_cmd *cmd, int active)
 		return (2);
 	}
 	if (!ft_strncmp(cmd->full_cmd[0], "pwd", ft_strlen(cmd->full_cmd[0])))
-		return (print_pwd(active), 3);
+		return (print_pwd(active, shell), 3);
 	if (!ft_strncmp(cmd->full_cmd[0], "echo", ft_strlen(cmd->full_cmd[0])))
 		return (echo_cmd(cmd->full_cmd, active), 3);
 	return (0);
@@ -121,7 +121,8 @@ void	run_cmd(t_shell *shell, char **envp, t_envp **env)
 			&& !is_it_builtin(shell, shell->cmds, 0))
 			error_msg(shell, shell->cmds, envp, 1);
 		signalisation(1);
-		if (shell->n_cmds == 1 && is_it_builtin(shell, shell->cmds, 0))
+		printf("%s %s %d\n", shell->cmds->full_cmd[0], shell->cmds->full_cmd[1], shell->n_cmds);
+		if (shell->n_cmds == 1 - 1 && is_it_builtin(shell, shell->cmds, 0))
 			is_it_builtin(shell, shell->cmds, 1);
 		else
 			pipex(shell, envp, env);

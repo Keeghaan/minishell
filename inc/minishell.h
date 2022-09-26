@@ -209,7 +209,7 @@ char	**env_to_char(t_envp **envp);
 
 //BUILTINS
 int		cd_cmd(t_shell *shell, char *action);
-void	print_pwd(int active);
+void	print_pwd(int active, t_shell *shell);
 void	echo_cmd(char **cmd, int active);
 
 //export
